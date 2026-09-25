@@ -37,11 +37,6 @@ require 'conexao.php';
           <label for="telefone">Telefone</label>
         </div> 
 
-         <div class="grupo">
-          <input type="telefone" id="telefone" required placeholder=" " />
-          <label for="telefone">Telefone</label>
-        </div> 
-
         <div class="grupo">
           <input type="e-mail" id="e-mail" required placeholder=" " />
           <label for="e-mail"> e-mail</label>
