@@ -1,0 +1,175 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background: #fff;
+}
+
+/* ---------- LAYOUT ---------- */
+
+.principal {
+  width: 100%;
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  gap: 100px;
+
+  padding: 40px 60px;
+}
+
+/* ---------- ESQUERDA ---------- */
+
+.container {
+  width: 500px;
+}
+
+.logo {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.logo img {
+  width: 400px;
+}
+
+.container h2 {
+  text-align: center;
+  font-size: 56px;
+  margin-bottom: 40px;
+}
+
+.grupo {
+  position: relative;
+  margin-bottom: 35px;
+}
+
+.grupo p {
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.grupo input {
+  width: 100%;
+  height: 60px;
+
+  border: 2px solid #720101;
+  border-radius: 25px;
+
+  padding: 0 15px;
+
+  font-size: 22px;
+
+  outline: none;
+}
+
+.grupo label {
+  position: absolute;
+
+  left: 15px;
+  top: 58px;
+
+  color: #9ca3af;
+
+  transition: 0.3s;
+
+  pointer-events: none;
+}
+
+.grupo input:focus ~ label,
+.grupo input:not(:placeholder-shown) ~ label {
+  top: 36px;
+
+  background: white;
+
+  padding: 0 6px;
+
+  color: #720101;
+
+  font-size: 14px;
+}
+
+.botao-login {
+  width: 100%;
+  height: 60px;
+
+  background: #720101;
+
+  color: white;
+
+  border: none;
+
+  border-radius: 30px;
+
+  font-size: 28px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.botao-login:hover {
+  background: #5b0000;
+}
+
+/* ---------- DIREITA ---------- */
+
+.resultados {
+  width: 500px;
+}
+
+.resultados h3 {
+  font-size: 34px;
+
+  margin-bottom: 25px;
+}
+
+/* ---------- BLOCOS ---------- */
+
+.bloco {
+  background: #720101;
+
+  color: white;
+
+  border-radius: 25px;
+
+  padding: 25px;
+
+  margin-bottom: 30px;
+
+  min-height: 150px;
+}
+
+.data {
+  text-align: center;
+
+  font-size: 32px;
+
+  margin-bottom: 25px;
+}
+
+.info {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: flex-start;
+}
+
+.horario {
+  font-size: 24px;
+
+  line-height: 38px;
+}
+
+.valor {
+  font-size: 24px;
+}

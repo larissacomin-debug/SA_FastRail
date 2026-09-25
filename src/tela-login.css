@@ -1,0 +1,127 @@
+* {
+    margin: 0;
+    border: 0;
+    box-sizing: border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: white;
+}
+
+.logo{
+    margin-left: -70px;
+}
+
+.container {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    display: block;
+    width: 100%;
+    max-width: 400px;
+}
+
+.container h2{
+    text-align: center;
+    margin-bottom: 30px;
+    color: black;
+    font-size: 28px;
+}
+
+.grupo {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.grupo input {
+    width: 100%;
+    padding: 12px 10px;
+    border: 2px solid #720101;
+    border-radius: 20px;
+    outline: none;
+    font-size: 16px;
+    transition: 0.3s;
+    color: black;
+}
+
+.grupo label {
+    position: absolute;
+    left: 10px;
+    top: 70%;
+    transform: translateY(-100%);
+    color: #9ca3af;
+    pointer-events: none;
+    transition: 0.3s;
+}
+
+
+.grupo input:focus,
+.grupo input:not(:placeholder-shown) {
+    border-color: #720101;
+}
+
+.grupo input:focus ~ label,
+.grupo input:not(:placeholder-shown) ~ label {
+    top: 0;
+    font-size: 12px;
+    padding: 0 5px;
+    background: #ffffff;
+    color: #720101;
+}
+
+.esqueceu-senha {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    margin-bottom: 25px;
+    color: #4b5563;
+}
+
+.esqueceu-senha a {
+    color: #720101;
+    text-decoration: none;
+}
+
+.esqueceu-senha a:hover {
+    text-decoration: underline;
+}
+
+.botao-login {
+    width: 100%;
+    padding: 12px;
+    background: #720101;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.botao-login:hover {
+    background: #640000;
+}
+
+.cadastrar {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #4b5563;
+}
+
+.cadastrar a {
+    color: #720101;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.cadastrar a:hover {
+    text-decoration: underline;
+}

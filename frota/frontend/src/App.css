@@ -1,0 +1,61 @@
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  text-align: left;
+}
+
+h1 {
+  color: #164194;
+}
+
+h2 {
+  color: #164194;
+  font-size: 18px;
+  margin-top: 25px;
+}
+
+form {
+  margin-bottom: 15px;
+}
+
+input,
+select {
+  padding: 6px;
+  margin-right: 6px;
+  border: 1px solid #999;
+}
+
+button {
+  padding: 6px 12px;
+  margin-right: 6px;
+  background: #164194;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+th,
+td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background: #164194;
+  color: #fff;
+}
+
+.aviso {
+  background: #eef2fa;
+  border-left: 4px solid #164194;
+  padding: 10px;
+}

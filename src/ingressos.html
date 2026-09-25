@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ingressos</title>
+
+    <link rel="stylesheet" href="ingressos.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+    />
+  </head>
+
+  <body>
+    <div class="principal">
+        
+      <div class="container">
+        <div class="logo">
+          <img src="/assets/Logo.png" alt="Logo FastRail" width="400" />
+        </div>
+
+        <h2>Ingressos</h2>
+
+        <form>
+          <div class="grupo">
+            <p>Informe seu ponto de partida:</p>
+
+            <input type="text" id="origem" placeholder=" " />
+
+            <label for="origem">Insira seu ponto de partida</label>
+          </div>
+
+          <div class="grupo">
+            <p>Informe seu destino:</p>
+
+            <input type="text" id="destino" placeholder=" " />
+
+            <label for="destino">Insira seu destino</label>
+          </div>
+
+          <button
+            type="button"
+            class="botao-login"
+            onclick="window.location.href = 'tela-login.html'"
+          >
+            Conferir
+          </button>
+        </form>
+      </div>
+
+      <div class="resultados">
+        <h3>Resultados:</h3>
+
+        <div class="bloco">
+          <div class="data">
+            <strong>Data: 20/05/2026</strong>
+          </div>
+
+          <div class="info">
+            <div class="horario">
+              <strong>
+                Partida: 12:00 <br />
+                Chegada: 19:00
+              </strong>
+            </div>
+
+            <div class="valor">
+              <strong>Valor: R$ 40,00</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="bloco">
+          <div class="data">
+            <strong>Data: 20/05/2026</strong>
+          </div>
+
+          <div class="info">
+            <div class="horario">
+              <strong>
+                Partida: 12:00 <br />
+                Chegada: 19:00
+              </strong>
+            </div>
+
+            <div class="valor">
+              <strong>Valor: R$ 40,00</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="bloco">
+          <div class="data">
+            <strong>Data: 20/05/2026</strong>
+          </div>
+
+          <div class="info">
+            <div class="horario">
+              <strong>
+                Partida: 12:00 <br />
+                Chegada: 19:00
+              </strong>
+            </div>
+
+            <div class="valor">
+              <strong>Valor: R$ 40,00</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="ingressos.js"></script>
+  </body>
+</html>
