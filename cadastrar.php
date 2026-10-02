@@ -1,5 +1,5 @@
 <?php
-require 'conexao_cadastrar.php';
+require 'conexao.php';
 
 $mensagem = "";
 // Variáveis para manter o texto preenchido nos campos caso haja erro

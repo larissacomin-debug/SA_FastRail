@@ -1,6 +1,6 @@
 <?php 
     require 'proteger.php'; 
-    require 'conexao_cadastrar.php'; 
+    require 'conexao.php'; 
 ?> 
 
 <!DOCTYPE html>

@@ -2,7 +2,7 @@
 
 session_start();
 
-require 'conexao_cadastrar.php';
+require 'conexao.php';
 
 $mensagem = "";
 

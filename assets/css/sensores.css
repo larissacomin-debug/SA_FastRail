@@ -1,0 +1,408 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #ffffff;
+    min-height: 100vh;
+}
+
+
+/* TELA */
+
+.tela {
+    width: 100%;
+    min-height: 100vh;
+    background: #f5f5f5;
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* CABEÇALHO */
+
+.topo {
+    width: 100%;
+    padding: 30px 5% 25px;
+    background: #f5f5f5;
+}
+
+.cabecalho {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.btn-voltar {
+    border: none;
+    background: none;
+
+    font-size: 32px;
+    font-weight: bold;
+
+    color: #3b0000;
+
+    cursor: pointer;
+}
+
+.cabecalho h1 {
+    font-size: 28px;
+    color: #3b0000;
+}
+
+.qtd {
+    margin-left: auto;
+
+    border: 1.5px solid red;
+    border-radius: 25px;
+
+    padding: 10px 18px;
+
+    background: white;
+
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.subtitulo {
+    margin-top: 18px;
+
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.filtros {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    margin-top: 20px;
+}
+
+.filtro {
+    padding: 10px 18px;
+
+    border: 1.5px solid red;
+    border-radius: 25px;
+
+    background: white;
+
+    font-size: 15px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.filtro:hover {
+    background: #fff0f0;
+}
+
+
+/* ÁREA PRINCIPAL */
+
+.area {
+    width: 100%;
+
+    background: #d9d9d9;
+
+    padding: 30px 5%;
+
+    flex: 1;
+}
+
+.conteudo {
+    width: 100%;
+    max-width: 1500px;
+    margin: auto;
+}
+
+
+/* TÍTULOS DAS SEÇÕES */
+
+.secao {
+    margin-bottom: 14px;
+
+    color: #555;
+
+    font-size: 18px;
+    font-weight: bold;
+}
+
+
+/* CARDS */
+
+.cards {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 22px;
+
+    margin-bottom: 28px;
+}
+
+.card {
+    background: #a30000;
+
+    border-radius: 20px;
+
+    padding: 22px;
+
+    color: white;
+
+    min-height: 170px;
+
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.12);
+}
+
+
+/* TOPO DO CARD */
+
+.card-topo {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: flex-start;
+
+    gap: 20px;
+}
+
+.sensor {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.tipo {
+    margin-top: 5px;
+
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.status {
+    background: #dfa5a5;
+
+    padding: 10px 16px;
+
+    border-radius: 25px;
+
+    font-size: 14px;
+    font-weight: bold;
+
+    white-space: nowrap;
+}
+
+
+/* INFORMAÇÕES */
+
+.info {
+    display: flex;
+
+    gap: 45px;
+
+    margin-top: 18px;
+
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.leitura {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    margin-top: 22px;
+
+    font-size: 16px;
+}
+
+.valor {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+
+/* BARRA */
+
+.barra {
+    width: 100%;
+    height: 7px;
+
+    background: black;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    margin-top: 10px;
+}
+
+.preenchimento {
+    height: 100%;
+    width: 85%;
+
+    background: red;
+}
+
+.amarelo {
+    width: 70%;
+
+    background: #b4c700;
+}
+
+
+/* BOTÕES */
+
+.botoes {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 18px;
+
+    padding: 28px 5%;
+
+    background: #f5f5f5;
+}
+
+.botao {
+    width: 230px;
+    height: 48px;
+
+    border: none;
+    border-radius: 30px;
+
+    background: #8b0000;
+
+    color: white;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.botao:hover {
+    background: #a30000;
+}
+
+
+/* RODAPÉ */
+
+.rodape {
+    padding-bottom: 12px;
+
+    background: #f5f5f5;
+
+    text-align: center;
+
+    font-size: 22px;
+}
+
+
+/* TABLET */
+
+@media (max-width: 900px) {
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    .card {
+        min-height: 165px;
+    }
+
+}
+
+
+/* CELULAR */
+
+@media (max-width: 600px) {
+
+    .topo {
+        padding: 20px;
+    }
+
+    .area {
+        padding: 20px;
+    }
+
+    .cabecalho h1 {
+        font-size: 23px;
+    }
+
+    .btn-voltar {
+        font-size: 28px;
+    }
+
+    .qtd {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+
+    .subtitulo {
+        font-size: 16px;
+    }
+
+    .filtro {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+
+    .secao {
+        font-size: 16px;
+    }
+
+    .card {
+        padding: 18px;
+        min-height: 170px;
+    }
+
+    .card-topo {
+        flex-direction: column;
+    }
+
+    .sensor {
+        font-size: 17px;
+    }
+
+    .tipo {
+        font-size: 15px;
+    }
+
+    .status {
+        font-size: 13px;
+    }
+
+    .info {
+        gap: 20px;
+        flex-wrap: wrap;
+        font-size: 14px;
+    }
+
+    .leitura {
+        font-size: 14px;
+    }
+
+    .valor {
+        font-size: 16px;
+    }
+
+    .botoes {
+        flex-direction: column;
+        padding: 25px 20px;
+    }
+
+    .botao {
+        width: 100%;
+        max-width: 320px;
+    }
+
+}
