@@ -1,3 +1,8 @@
+<?php 
+    require 'proteger.php'; 
+    require 'conexao_cadastrar.php'; 
+?> 
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -240,7 +245,7 @@
   <section class="page">
 
     <div class="header">
-      <button class="back-arrow" type="button" onclick="window.location.href = 'tela-login.html'"><</button>
+      <button class="back-arrow" type="button" onclick="window.location.href = 'index.php'"><</button>
       <h1>Dashboard Geral</h1>
     </div>
 
@@ -316,30 +321,30 @@
     </div>
 
     <div class="bottom-nav">
-      <div class="nav-item">
+      <a href="trens.php" class="nav-item">
         <svg viewBox="0 0 24 24"><path d="M3 17h13v-6H3v6zm13-6 3 3h2v3h-2m-13 0H3M7 17a2 2 0 100 4 2 2 0 000-4zm9 0a2 2 0 100 4 2 2 0 000-4z"/></svg>
         Trens
-      </div>
-      <div class="nav-item">
+</a>
+      <a href="sensores.php" class="nav-item">
         <svg viewBox="0 0 24 24"><path d="M12 22a2 2 0 002-2H10a2 2 0 002 2zM18 16v-5a6 6 0 10-12 0v5l-2 2h16l-2-2z"/></svg>
         Sensores
-      </div>
-      <div class="nav-item">
+</a>
+      <a href="tela-relatorios.php" class="nav-item">
         <svg viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6"/></svg>
         Relatórios
-      </div>
-      <div class="nav-item">
+</a>
+      <a href="tela-funcionarios.php" class="nav-item">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 21v-2a7 7 0 0114 0v2"/></svg>
         Funcionários
-      </div>
-      <div class="nav-item">
+</a>
+      <a href="tela-rotas.php" class="nav-item">
         <i class="bi bi-bus-front-fill"></i>
         <span>Rotas</span>
-      </div>
-      <div class="nav-item">
+</a>
+      <a href="tela-notificacoes.php" class="nav-item">
         <i class="bi bi-bell"></i>
         <span>Notificações</span>
-      </div>
+      </a>
     </div>
 
   </section>

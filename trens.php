@@ -1,8 +1,7 @@
-<?php
-
-require 'conexao.php';
-
-?>
+<?php 
+    require 'proteger.php'; 
+    require 'conexao.php'; 
+?> 
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -98,7 +97,7 @@ select{
 <div class="tela">
 
     <div class="topo">
-        <div class="voltar">‹</div>
+        <a href="dashboard.php" class="voltar">‹</a>
         <div class="titulo">Gerenciamento de Trens</div>
     </div>
 
@@ -152,4 +151,3 @@ select{
             <option>Parado</option>
         </select>
     </div>
-

@@ -1,8 +1,7 @@
-<?php
-
-require 'conexao.php';
-
-?>
+<?php 
+    require 'proteger.php'; 
+    require 'conexao_cadastrar.php'; 
+?> 
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -210,7 +209,7 @@ body{
     <div class="topo">
 
         <div class="cabecalho">
-            <button class="btn_voltar" onclick="window.location.href = 'dashboard.html'"><</button>
+            <button class="btn_voltar" onclick="window.location.href = 'dashboard.php'"><</button>
             <span class="titulo">Sensores</span>
             <span class="qtd">8 sensores</span>
         </div>
@@ -312,8 +311,8 @@ body{
     </div>
 
     <div class="botoes">
-        <button class="botao"> Adicionar Sensor</button>
-        <button class="botao"> Remover Sensor</button>
+        <button class="botao" onclick="window.location.href='adicionar_sensores.php'">Adicionar Sensor</button>
+        <button class="botao" onclick="window.location.href='remover_sensores.php'">Remover Sensor</button>
     </div>
 
     <div class="rodape">⋮⋮</div>

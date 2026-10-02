@@ -1,0 +1,159 @@
+/* Configurações gerais */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: white;
+}
+
+/* Área principal */
+.tela {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 25px;
+}
+
+/* Cabeçalho */
+.cabecalho {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.voltar {
+    font-size: 60px;
+    font-weight: 300;
+    line-height: 40px;
+    color: black;
+}
+
+h1 {
+    margin: 0;
+    color: #650000;
+    font-size: 46px;
+}
+
+/* Foto */
+.foto-perfil {
+    width: 120px;
+    height: 90px;
+    background-color: #700000;
+    border-radius: 5px;
+    margin: 20px auto 5px auto;
+}
+
+/* Títulos das seções */
+.titulo {
+    width: 100%;
+    background-color: #700000;
+    color: white;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+/* Informações da conta */
+.conta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+
+    border: 1px solid #ff7b7b;
+    border-radius: 10px;
+    padding: 5px 20px;
+    margin-top: 2px;
+}
+
+.informacao p {
+    font-size: 12px;
+    margin: 8px 0;
+}
+
+/* Título dos ingressos */
+.ingressos-titulo {
+    margin-top: 10px;
+}
+
+/* Ingressos */
+.ingresso {
+    width: 100%;
+    min-height: 55px;
+
+    background-color: #d9d9d9;
+    border-radius: 10px;
+
+    margin-top: 5px;
+    padding: 6px 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ingresso strong {
+    font-size: 13px;
+}
+
+.ingresso p {
+    margin: 2px 0 0 8px;
+    font-size: 12px;
+}
+
+/* Botão cancelar */
+.cancelar {
+    border: none;
+    background: none;
+    color: red;
+    font-size: 11px;
+    cursor: pointer;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cancelar span {
+    font-size: 22px;
+}
+
+/* Responsividade para celular */
+@media (max-width: 600px) {
+
+    .tela {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 34px;
+    }
+
+    .voltar {
+        font-size: 48px;
+    }
+
+    .conta {
+        grid-template-columns: 1fr;
+        gap: 0;
+        padding: 8px 15px;
+    }
+
+    .informacao p {
+        font-size: 12px;
+    }
+
+    .ingresso {
+        padding: 6px 12px;
+    }
+
+    .ingresso strong {
+        font-size: 12px;
+    }
+}

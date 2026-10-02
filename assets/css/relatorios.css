@@ -1,0 +1,210 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: white;
+}
+
+/* Tela principal */
+
+.tela {
+    width: 100%;
+    max-width: 750px;
+    margin: 0 auto;
+    padding: 15px 30px;
+}
+
+/* Cabeçalho */
+
+.cabecalho {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.voltar {
+    font-size: 55px;
+    color: black;
+    line-height: 40px;
+}
+
+h1 {
+    margin: 0;
+    color: #650000;
+    font-size: 46px;
+}
+
+/* Filtros */
+
+.filtros {
+    margin: 20px 30px 0 30px;
+}
+
+.filtros label {
+    display: block;
+    color: #650000;
+    font-size: 18px;
+    margin-bottom: 6px;
+}
+
+.filtros input,
+.filtros select {
+    width: 100%;
+    height: 30px;
+
+    background-color: #dedede;
+
+    border: 1px solid red;
+    border-radius: 10px;
+
+    padding: 0 15px;
+
+    font-size: 13px;
+    color: #4d0000;
+
+    margin-bottom: 12px;
+}
+
+.filtros select {
+    cursor: pointer;
+}
+
+/* Botão gerar */
+
+.gerar {
+    display: block;
+
+    width: 185px;
+    height: 30px;
+
+    margin: 0 auto 20px auto;
+
+    border: none;
+    border-radius: 20px;
+
+    background-color: #ad0000;
+    color: white;
+
+    font-size: 20px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+/* Tabela */
+
+.tabela-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 3px;
+
+    background-color: #d9d9d9;
+}
+
+/* Cabeçalho da tabela */
+
+th {
+    background-color: #700000;
+    color: white;
+
+    font-size: 15px;
+    font-weight: normal;
+
+    padding: 5px;
+}
+
+/* Células */
+
+td {
+    background-color: white;
+
+    color: #4d0000;
+
+    text-align: center;
+
+    font-size: 13px;
+
+    padding: 3px;
+}
+
+/* Área dos botões */
+
+.opcoes {
+    display: flex;
+    justify-content: space-around;
+
+    margin-top: 5px;
+}
+
+.opcao {
+    border: none;
+    background-color: white;
+
+    color: #650000;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    cursor: pointer;
+
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.icone {
+    font-size: 30px;
+    color: #650000;
+    margin-bottom: 2px;
+}
+
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 600px) {
+
+    .tela {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 34px;
+    }
+
+    .voltar {
+        font-size: 45px;
+    }
+
+    .filtros {
+        margin: 15px 5px 0 5px;
+    }
+
+    .filtros label {
+        font-size: 16px;
+    }
+
+    .gerar {
+        width: 160px;
+    }
+
+    th {
+        font-size: 12px;
+    }
+
+    td {
+        font-size: 11px;
+    }
+
+    .opcoes {
+        margin-top: 10px;
+    }
+}

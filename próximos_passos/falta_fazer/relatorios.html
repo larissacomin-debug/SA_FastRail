@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Relatórios</title>
+
+    <link rel="stylesheet" href="assets/css/relatorios.css">
+</head>
+
+<body>
+
+    <div class="tela">
+
+        <!-- Cabeçalho -->
+        <div class="cabecalho">
+            <span class="voltar">‹</span>
+            <h1>Relatórios</h1>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filtros">
+
+            <label for="carga">
+                Informe a carga que o trem transportará:
+            </label>
+
+            <input
+                type="text"
+                id="carga"
+                placeholder="Informe a carga"
+            >
+
+
+            <label for="tipoRelatorio">
+                Selecione o tipo de relatório:
+            </label>
+
+            <select id="tipoRelatorio">
+                <option value="">Selecione</option>
+                <option value="sensor">Por sensor</option>
+                <option value="trem">Por trem</option>
+                <option value="manutencao">Por manutenção</option>
+            </select>
+
+        </div>
+
+        <!-- Botão gerar -->
+        <button class="gerar">
+            Gerar
+        </button>
+
+        <!-- Tabela -->
+        <div class="tabela-container">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tipo de sensor</th>
+                        <th>Última manutenção</th>
+                        <th>Data de importação</th>
+                    </tr>
+                </thead>
+
+                <tbody id="tabelaRelatorios">
+
+                    <!--
+                    Os dados serão adicionados aqui
+                    posteriormente através do banco de dados.
+                    -->
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <!-- Opções -->
+        <div class="opcoes">
+
+            <button class="opcao">
+                <span class="icone">⇩</span>
+                <span>Salvar em PDF</span>
+            </button>
+
+            <button class="opcao">
+                <span class="icone">▣</span>
+                <span>Imprimir</span>
+            </button>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
+

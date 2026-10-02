@@ -1,3 +1,8 @@
+<?php 
+    require 'proteger.php'; 
+    require 'conexao.php'; 
+?> 
+
 <!doctype html>
 <html lang="en">
   <head>

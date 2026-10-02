@@ -1,8 +1,9 @@
 <?php
-require 'conexao.php';
+require 'conexao_cadastrar.php';
 
 $mensagem = "";
 // Variáveis para manter o texto preenchido nos campos caso haja erro
+$nomePessoa = $_POST['nomePessoa'] ?? '';
 $cpf = $_POST['cpf'] ?? '';
 $telefone = $_POST['telefone'] ?? '';
 $email = $_POST['email'] ?? '';
@@ -19,21 +20,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } elseif (strlen($telefone) < 14) {
         $mensagem = "O Telefone deve incluir o DDD (00) 00000-0000.";
     } else {
-        // 1. Gera o HASH seguro da senha
+      
         $senha_hash = password_hash($password, PASSWORD_DEFAULT);
 
-        // 2. Prepara a query SQL com placeholders (?) para evitar SQL Injection
-        // Nota: Certifique-se de que o nome da tabela (usuarios) e das colunas sejam iguais aos do seu Banco de Dados.
-        $sql = "INSERT INTO usuarios (cpf, telefone, email, data_nascimento, senha) VALUES (?, ?, ?, ?, ?)";
-        $stmt = $pdo->prepare($sql);
+        $sql = "INSERT INTO pessoa (nomePessoa, cpf, telefone, email, data_nascimento, senha) VALUES (?, ?, ?, ?, ?, ?)";
+        $stmt = $conexao->prepare($sql);
+        $stmt->bind_param("ssssss", $nomePessoa, $cpf, $telefone, $email, $data_nascimento, $senha_hash);
 
-        // 3. Executa a inserção passando os dados na ordem das interrogações
-        if ($stmt->execute([$cpf, $telefone, $email, $data_nascimento, $senha_hash])) {
-            // Se tudo deu certo, redireciona para a tela de login
-            header("Location: tela-login.php");
-            exit();
+
+        if ($stmt->execute()) {
+            $stmt->close();
+            header("Location: index.php");
+            exit;
         } else {
             $mensagem = "Erro ao cadastrar no banco de dados. Tente novamente.";
+            $stmt->close();
         }
     }
 }
@@ -62,6 +63,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <?php endif; ?>
 
       <form action="" method="POST" id="formCadastro" novalidate>
+
+        <!-- Nome -->
+        <div class="grupo">
+          <input 
+            type="text" 
+            id="nomePessoa" 
+            name="nomePessoa" 
+            placeholder=" "
+            value="<?php echo htmlspecialchars($nomePessoa); ?>"
+          />
+          <label for="nomePessoa">Nome</label>
+        </div>
 
         <!-- CPF -->
         <div class="grupo">
