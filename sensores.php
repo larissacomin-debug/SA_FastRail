@@ -1,20 +1,30 @@
 <?php
 require 'proteger.php';
-require 'conexao.php';
+require 'conexao.php'; // Utiliza a variável $conexao
+
+// Captura o filtro por tipo/modelo
+$tipo = $_GET['tipo'] ?? '';
+
+// Consulta no banco de dados usando MySQLi
+if ($tipo !== '') {
+    $tipo_escapado = $conexao->real_escape_string($tipo);
+    $sql = "SELECT * FROM sensor WHERE modelo = '$tipo_escapado' ORDER BY idSensor DESC";
+} else {
+    $sql = "SELECT * FROM sensor ORDER BY idSensor DESC";
+}
+
+$resultado = $conexao->query($sql);
+$sensores = ($resultado) ? $resultado->fetch_all(MYSQLI_ASSOC) : [];
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Sensores</title>
-
-    <link rel="stylesheet" href="assets/css/sensores.css">
-
+    <title>Sensores - FerroRama</title>
+    <link rel="stylesheet" href="assets/css/sensores.css?v=1.0">
 </head>
 
 <body>
@@ -23,248 +33,74 @@ require 'conexao.php';
 
         <!-- CABEÇALHO -->
         <header class="topo">
-
             <div class="cabecalho">
-
-                <button class="btn-voltar"
-                    onclick="window.location.href='dashboard.php'">
-                    &lt;
-                </button>
-
+                <button class="btn-voltar" onclick="window.location.href='dashboard.php'">&larr;</button>
                 <h1>Sensores</h1>
-
-                <span class="qtd">
-                    8 sensores
-                </span>
-
+                <span class="qtd"><?= count($sensores) ?> sensores</span>
             </div>
 
-            <p class="subtitulo">
-                FerroRama - monitoramento em tempo real
-            </p>
+            <p class="subtitulo">FerroRama - monitoramento em tempo real</p>
 
-            <div class="filtros">
-
-                <button class="filtro">Temperatura</button>
-                <button class="filtro">Velocidade</button>
-                <button class="filtro">Pressão</button>
-                <button class="filtro">Vibração</button>
-
-            </div>
-
+            <!-- FILTROS -->
+            <nav class="filtros">
+                <a href="sensores.php" class="filtro <?= $tipo === '' ? 'ativo' : '' ?>">Todos</a>
+                <a href="sensores.php?tipo=Temperatura" class="filtro <?= $tipo === 'Temperatura' ? 'ativo' : '' ?>">Temperatura</a>
+                <a href="sensores.php?tipo=Velocidade" class="filtro <?= $tipo === 'Velocidade' ? 'ativo' : '' ?>">Velocidade</a>
+                <a href="sensores.php?tipo=Pressão" class="filtro <?= $tipo === 'Pressão' ? 'ativo' : '' ?>">Pressão</a>
+                <a href="sensores.php?tipo=Vibração" class="filtro <?= $tipo === 'Vibração' ? 'ativo' : '' ?>">Vibração</a>
+            </nav>
         </header>
-
 
         <!-- ÁREA DOS SENSORES -->
         <main class="area">
-
             <div class="conteudo">
-
-                <!-- ALERTAS -->
                 <section>
-
-                    <h2 class="secao">
-                        ALERTAS
-                    </h2>
+                    <h2 class="secao">SENSORES CADASTRADOS</h2>
 
                     <div class="cards">
-
-                        <!-- SENSOR 007 -->
-                        <div class="card">
-
-                            <div class="card-topo">
-
-                                <div>
-                                    <div class="sensor">
-                                        SEN-007
+                        <?php foreach ($sensores as $sensor): ?>
+                            <div class="card">
+                                <div class="card-topo">
+                                    <div>
+                                        <div class="sensor">SEN-<?= sprintf('%03d', $sensor['idSensor']) ?></div>
+                                        <div class="tipo"><?= htmlspecialchars($sensor['modelo']) ?></div>
                                     </div>
-
-                                    <div class="tipo">
-                                        Temperatura
-                                    </div>
+                                    <span class="status status-ativo">Ativo</span>
                                 </div>
 
-                                <div class="status">
-                                    Fora do intervalo
+                                <div class="info">
+                                    <span>Trem-<?= sprintf('%02d', $sensor['idTrem']) ?></span>
+                                    <span><?= htmlspecialchars($sensor['posicao']) ?></span>
                                 </div>
 
-                            </div>
-
-                            <div class="info">
-
-                                <span>
-                                    Trem-03
-                                </span>
-
-                                <span>
-                                    Vagão traseiro
-                                </span>
-
-                            </div>
-
-                            <div class="leitura">
-
-                                <strong>
-                                    Última leitura
-                                </strong>
-
-                                <span class="valor">
-                                    87,4 C
-                                </span>
-
-                            </div>
-
-                            <div class="barra">
-                                <div class="preenchimento"></div>
-                            </div>
-
-                        </div>
-
-
-                        <!-- SENSOR 012 -->
-                        <div class="card">
-
-                            <div class="card-topo">
-
-                                <div>
-
-                                    <div class="sensor">
-                                        SEN-012
-                                    </div>
-
-                                    <div class="tipo">
-                                        Pressão
-                                    </div>
-
+                                <div class="leitura">
+                                    <strong>Última leitura</strong>
+                                    <span class="valor"><?= htmlspecialchars($sensor['registros']) ?></span>
                                 </div>
 
-                                <div class="status">
-                                    Fora do intervalo
+                                <div class="barra">
+                                    <div class="preenchimento"></div>
                                 </div>
-
                             </div>
+                        <?php endforeach; ?>
 
-                            <div class="info">
-
-                                <span>
-                                    Trem-01
-                                </span>
-
-                                <span>
-                                    Sistema freios
-                                </span>
-
+                        <?php if (empty($sensores)): ?>
+                            <div class="sem-dados">
+                                <p>Nenhum sensor encontrado para este filtro.</p>
                             </div>
-
-                            <div class="leitura">
-
-                                <strong>
-                                    Última leitura
-                                </strong>
-
-                                <span class="valor">
-                                    1,2 bar
-                                </span>
-
-                            </div>
-
-                            <div class="barra">
-                                <div class="preenchimento"></div>
-                            </div>
-
-                        </div>
-
+                        <?php endif; ?>
                     </div>
-
                 </section>
-
-
-                <!-- NORMAIS -->
-                <section>
-
-                    <h2 class="secao">
-                        NORMAIS
-                    </h2>
-
-                    <div class="cards">
-
-                        <!-- SENSOR 001 -->
-                        <div class="card">
-
-                            <div class="card-topo">
-
-                                <div>
-
-                                    <div class="sensor">
-                                        SEN-001
-                                    </div>
-
-                                    <div class="tipo">
-                                        Temperatura
-                                    </div>
-
-                                </div>
-
-                                <div class="status">
-                                    Normal
-                                </div>
-
-                            </div>
-
-                            <div class="info">
-
-                                <span>
-                                    Trem-02
-                                </span>
-
-                                <span>
-                                    Motor principal
-                                </span>
-
-                            </div>
-
-                            <div class="leitura">
-
-                                <strong>
-                                    Última leitura
-                                </strong>
-
-                                <span class="valor">
-                                    52,1 C
-                                </span>
-
-                            </div>
-
-                            <div class="barra">
-                                <div class="preenchimento amarelo"></div>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </section>
-
             </div>
-
         </main>
 
+        <!-- BOTÕES DE AÇÃO -->
+        <footer class="botoes">
+            <button class="botao btn-principal" onclick="window.location.href='adicionar_sensor.php'">+ Adicionar Sensor</button>
+            <button class="botao btn-perigo" onclick="window.location.href='remover_sensor.php'">- Remover Sensor</button>
+        </footer>
 
-       <div class="botoes">
-
-    <button class="botao"
-        onclick="window.location.href='adicionar_sensor.php'">
-        Adicionar Sensor
-    </button>
-
-    <button class="botao"
-        onclick="window.location.href='remover_sensores.php'">
-        Remover Sensor
-    </button>
-
-</div>
     </div>
 
 </body>
-
 </html>

@@ -16,7 +16,7 @@ require 'conexao.php';
 
     <title>Remover Sensor</title>
 
-    <link rel="stylesheet" href="assets/css/remover_sensor.css">
+    <link rel="stylesheet" href="assets/css/remover_sensor.css?v=1.0">
 
 </head>
 

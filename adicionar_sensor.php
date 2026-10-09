@@ -3,6 +3,29 @@
 require 'proteger.php';
 require 'conexao.php';
 
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $id_sensor = trim($_POST['id_sensor'] ?? '');
+    $modelo = trim($_POST['modelo'] ?? '');
+    $localizacao = trim($_POST['localizacao'] ?? '');
+    $posicao = trim($_POST['posicao'] ?? '');
+
+    if (empty($id_sensor) || empty($modelo) || empty($localizacao) || empty($posicao)) {
+        echo "<script>alert('Todos os campos são obrigatórios.');</script>";
+    } else {
+        $stmt = $conexao->prepare("INSERT INTO sensor (idSensor, modelo, localizacao, posicao) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("ssss", $id_sensor, $modelo, $localizacao, $posicao);
+
+        if ($stmt->execute()) {
+            echo "<script>alert('Sensor adicionado com sucesso!'); window.location.href='sensores.php';</script>";
+            exit;
+        } else {
+            echo "<script>alert('Erro ao adicionar sensor. Tente novamente.');</script>";
+        }
+
+        $stmt->close();
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -16,7 +39,7 @@ require 'conexao.php';
 
     <title>Adicionar Sensor</title>
 
-    <link rel="stylesheet" href="assets/css/remover_sensor.css">
+    <link rel="stylesheet" href="assets/css/adicionar_sensor.css?v=1.0">
 
 </head>
 
@@ -47,7 +70,7 @@ require 'conexao.php';
 
 
             <!-- FORMULÁRIO -->
-            <form class="formulario" method="POST" action="adicionar_sensor.php">
+            <form class="formulario" method="POST" action="">
 
                 <div class="campo">
 
