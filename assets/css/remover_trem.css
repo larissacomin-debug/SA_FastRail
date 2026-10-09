@@ -1,0 +1,262 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: white;
+    color: white;
+}
+
+.container {
+    width: 100%;
+    min-height: 100vh;
+    padding: 30px 2.3%;
+}
+
+.cabecalho {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 65px;
+}
+
+.voltar {
+    text-decoration: none;
+    color: #111;
+    font-size: 42px;
+    line-height: 1;
+}
+
+.cabecalho h1 {
+    color: #5b0000;
+    font-size: 36px;
+}
+
+.aviso {
+    width: 55%;
+    max-width: 425px;
+    margin: 0 auto 30px;
+    padding: 4px 15px;
+    border: 2px solid #ff0000;
+    border-radius: 12px;
+    color: #111;
+    text-align: center;
+    font-size: 18px;
+    line-height: 1.2;
+}
+
+.area-remocao {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    align-items: start;
+}
+
+.informacoes-trem {
+    background: #800000;
+    min-height: 350px;
+    padding: 12px 16px;
+}
+
+.topo-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.topo-info div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.topo-info span:first-child,
+.informacao span {
+    font-size: 14px;
+}
+
+.topo-info strong {
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.status {
+    background: #eee;
+    color: #222;
+    border-radius: 15px;
+    padding: 3px 18px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.status span {
+    width: 7px;
+    height: 7px;
+    background: #d00000;
+    border-radius: 50%;
+}
+
+.informacao {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 18px;
+    gap: 2px;
+}
+
+.informacao strong {
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.campo {
+    background: #800000;
+    padding: 11px 14px 15px;
+}
+
+.campo label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.campo textarea,
+.campo input {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: #ddd;
+    color: #222;
+    padding: 7px;
+    font-size: 14px;
+}
+
+.campo textarea {
+    height: 45px;
+    resize: vertical;
+}
+
+.acoes {
+    display: flex;
+    justify-content: flex-end;
+    gap: 32px;
+    margin-top: 15px;
+}
+
+.btn-cancelar,
+.btn-remover {
+    width: 140px;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btn-cancelar {
+    background: #b40000;
+    color: white;
+}
+
+.btn-remover {
+    background: #b40000;
+    color: white;
+}
+
+.btn-cancelar:hover,
+.btn-remover:hover {
+    background: #900000;
+}
+
+@media (max-width: 800px) {
+    .container {
+        padding: 25px 5%;
+    }
+
+    .cabecalho {
+        margin-bottom: 45px;
+    }
+
+    .cabecalho h1 {
+        font-size: 30px;
+    }
+
+    .aviso {
+        width: 100%;
+        max-width: 425px;
+        font-size: 16px;
+    }
+
+    .area-remocao {
+        grid-template-columns: 1fr;
+    }
+
+    .informacoes-trem {
+        min-height: auto;
+    }
+
+    .acoes {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 500px) {
+    .container {
+        padding: 20px 4%;
+    }
+
+    .cabecalho {
+        margin-bottom: 35px;
+    }
+
+    .voltar {
+        font-size: 36px;
+    }
+
+    .cabecalho h1 {
+        font-size: 25px;
+    }
+
+    .aviso {
+        margin-bottom: 20px;
+        font-size: 15px;
+        padding: 8px 10px;
+    }
+
+    .topo-info {
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .status {
+        padding: 3px 12px;
+    }
+
+    .acoes {
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 5px;
+    }
+
+    .btn-cancelar,
+    .btn-remover {
+        width: 100%;
+    }
+}

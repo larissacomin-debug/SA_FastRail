@@ -81,6 +81,10 @@ $sensores = ($resultado) ? $resultado->fetch_all(MYSQLI_ASSOC) : [];
                                 <div class="barra">
                                     <div class="preenchimento"></div>
                                 </div>
+                                <div>
+                                    <button class="btn-editar" onclick="window.location.href='editar_sensor.php?id=<?= $sensor['idSensor'] ?>'">Editar</button>
+                                    <button class="btn-remover" onclick="if (confirm('Você deseja excluir o sensor?')) { window.location.href='remover_sensor.php?id=<?= $sensor['idSensor'] ?>'; }">Remover</button>
+                                </div>
                             </div>
                         <?php endforeach; ?>
 
@@ -97,7 +101,6 @@ $sensores = ($resultado) ? $resultado->fetch_all(MYSQLI_ASSOC) : [];
         <!-- BOTÕES DE AÇÃO -->
         <footer class="botoes">
             <button class="botao btn-principal" onclick="window.location.href='adicionar_sensor.php'">+ Adicionar Sensor</button>
-            <button class="botao btn-perigo" onclick="window.location.href='remover_sensor.php'">- Remover Sensor</button>
         </footer>
 
     </div>
