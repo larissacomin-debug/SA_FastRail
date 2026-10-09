@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="logo">
 
       <img
-        src="/assets/Logo.png"
+        src="/assets/img/Logo.png"
         alt="Minha logo"
         width="400px">
 

@@ -1,0 +1,227 @@
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+    }
+
+    body {
+      min-height: 100dvh;
+      background: #ffffff;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      color: #1a1a1a;
+    }
+
+    .page {
+      width: 100%;
+      min-height: 100dvh;
+      padding: 28px clamp(16px, 4vw, 48px) 32px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .back-arrow {
+      font-size: clamp(1.6rem, 3.5vw, 2.1rem);
+      font-weight: 300;
+      color: #1a1a1a;
+    }
+
+    .header h1 {
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      font-weight: 800;
+      color: #3a0a0a;
+      letter-spacing: -0.01em;
+    }
+
+    .columns {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      flex: 1;
+    }
+
+    .col {
+      flex: 1;
+      min-width: 280px;
+    }
+
+    h2.section-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      color: #1a1a1a;
+    }
+
+    h2.section-title.destaque {
+      display: inline-block;
+      color: #5a0f0f;
+      border-bottom: 2px solid #3b82f6;
+      padding-bottom: 4px;
+    }
+
+    .frota-grid {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 32px;
+    }
+
+    .frota-card {
+      background: #6b0f1a;
+      color: #ffffff;
+      border-radius: 12px;
+      flex: 1;
+      padding: 30px 8px;
+      text-align: center;
+    
+    }
+
+    .frota-card .num {
+      font-size: 1.8rem;
+      font-weight: 800;
+      display: block;
+    }
+
+    .frota-card .label {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .indicadores-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+
+    @media (max-width: 420px) {
+      .indicadores-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .indicador-card {
+      background: #e6e6e6;
+      border-radius: 8px;
+      padding: 25px 16px;
+      text-align: center;
+    }
+
+    .indicador-card .val {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #c0392b;
+    }
+
+    .indicador-card .val .unit {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-left: 4px;
+    }
+
+    .indicador-card .label {
+      font-size: 1.2rem;
+      color: #333;
+      margin-top: 2px;
+    }
+
+    .alerta-box {
+      background: #e9a3a3;
+      border-radius: 8px;
+      padding: 16px 18px;
+      margin-bottom: 32px;
+      
+    }
+
+    .alerta-box .title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #6b0f1a;
+      text-align: center;
+      margin-bottom: 4px;
+    }
+
+    .alerta-box .subtitle {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #6b0f1a;
+      text-align: center;
+    }
+
+    .sensores-box {
+      background: #e6e6e6;
+      border-radius: 8px;
+      padding: 18px 20px;
+      text-align: center;
+      font-size: 7rem;
+    }
+
+    .sensores-box .title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .sensor-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.2rem;
+      padding: 6px 0;
+    }
+
+    .sensor-row .name { color: #1a1a1a; }
+    .sensor-row .value { color: #c0392b; font-weight: 600; }
+
+    .bottom-nav {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 40px;
+      padding: 14px 12px;
+      background: #f7dcdc;
+      border-radius: 12px;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: #8c2a2a;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 140ms ease;
+    }
+
+    .nav-item:hover {
+      background: #f0c5c5;
+    }
+
+    .nav-item svg {
+      width: 36px;
+      height: 36px;
+      stroke: #8c2a2a;
+      fill: none;
+      stroke-width: 1.6;
+    }
+
+    .nav-item i {
+      font-size: 34px;
+      color: #8c2a2a;
+      line-height: 1;
+    }
