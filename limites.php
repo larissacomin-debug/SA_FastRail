@@ -1,28 +1,42 @@
 <?php
 
-$limiteVelocidade  = 80.00;
+$limiteVelocidade = 80.00;
 $limiteTemperatura = 105.00;
-$limiteConsumo     = 75.00;
-$limiteVibracao    = 7.00;
+$limitePressao = 120.00;
+$limiteVibracao = 7.00;
 
-function classificarLeitura($leitura, $limiteVelocidade, $limiteTemperatura, $limiteConsumo, $limiteVibracao)
+function classificarLeitura($modelo, $valor)
 {
+    global $limiteVelocidade;
+    global $limiteTemperatura;
+    global $limitePressao;
+    global $limiteVibracao;
+
     $falhas = [];
 
-    if ($leitura['velocidade_kmh'] > $limiteVelocidade) {
-        $falhas[] = 'Velocidade acima do limite';
-    }
+    $modelo = strtolower(trim($modelo));
+    $valor = (float) $valor;
 
-    if ($leitura['temperatura_motor_c'] > $limiteTemperatura) {
-        $falhas[] = 'Temperatura do motor acima do limite';
-    }
+    if ($modelo === 'temperatura') {
 
-    if ($leitura['consumo_litros_hora'] > $limiteConsumo) {
-        $falhas[] = 'Consumo acima do limite';
-    }
+        if ($valor > $limiteTemperatura) {
+            $falhas[] = 'Temperatura acima do limite';
+        }
+    } elseif ($modelo === 'velocidade') {
 
-    if ($leitura['vibracao_mm_s'] > $limiteVibracao) {
-        $falhas[] = 'Vibracao acima do limite';
+        if ($valor > $limiteVelocidade) {
+            $falhas[] = 'Velocidade acima do limite';
+        }
+    } elseif ($modelo === 'pressão' || $modelo === 'pressao') {
+
+        if ($valor > $limitePressao) {
+            $falhas[] = 'Pressão acima do limite';
+        }
+    } elseif ($modelo === 'vibração' || $modelo === 'vibracao') {
+
+        if ($valor > $limiteVibracao) {
+            $falhas[] = 'Vibração acima do limite';
+        }
     }
 
     return $falhas;

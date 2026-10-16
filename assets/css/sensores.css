@@ -7,202 +7,171 @@
 
 body {
     min-height: 100vh;
-    background-color: #ffffff;
+    background: #ffffff;
     color: #222222;
-    display: flex;
-    justify-content: center;
-    padding: 20px;
 }
 
 .tela {
     width: 100%;
-    max-width: 900px;
-    min-height: calc(100vh - 40px);
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
+    max-width: 1200px;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 25px 30px 35px;
 }
 
 .topo {
-    background-color: #ffffff;
-    padding: 10px 0 0;
+    margin-bottom: 25px;
 }
 
 .cabecalho {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
+    gap: 10px;
 }
 
 .btn-voltar {
-    width: 30px;
-    height: 30px;
+    width: 38px;
+    height: 38px;
     border: none;
     background: transparent;
-    color: #222222;
+    color: #7A1118;
     font-size: 28px;
-    line-height: 1;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0;
-}
-
-.btn-voltar:hover {
-    color: #800000;
 }
 
 .cabecalho h1 {
-    font-size: 28px;
-    font-weight: 700;
-    color: #700000;
     flex: 1;
+    color: #7A1118;
+    font-size: 32px;
 }
 
 .qtd {
-    background-color: #eeeeee;
-    border: 1px solid #d40000;
-    color: #222222;
-    font-size: 12px;
-    font-weight: 600;
-    padding: 3px 14px;
+    padding: 6px 14px;
+    border: 1px solid #7A1118;
     border-radius: 20px;
+    background: #ffffff;
+    color: #7A1118;
+    font-size: 12px;
+    font-weight: bold;
     white-space: nowrap;
 }
 
 .subtitulo {
-    color: #222222;
-    font-size: 16px;
-    font-weight: 600;
-    margin-left: 4px;
-    margin-bottom: 10px;
+    margin: 5px 0 18px 48px;
+    color: #666666;
+    font-size: 14px;
 }
 
 .filtros {
     display: flex;
-    justify-content: center;
-    gap: 8px;
     flex-wrap: wrap;
+    gap: 9px;
 }
 
 .filtro {
-    text-decoration: none;
-    color: #222222;
-    background-color: #eeeeee;
-    border: 1px solid #d40000;
-    min-width: 100px;
-    padding: 3px 14px;
+    min-width: 110px;
+    padding: 8px 15px;
+    border: 1px solid #7A1118;
     border-radius: 20px;
+    background: #ffffff;
+    color: #7A1118;
     text-align: center;
-    font-size: 11px;
-    font-weight: 600;
-    transition: 0.2s;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: bold;
 }
 
 .filtro:hover {
-    background-color: #d40000;
-    color: #ffffff;
+    background: #f8eeee;
 }
 
 .filtro.ativo {
-    background-color: #eeeeee;
-    color: #222222;
+    background: #7A1118;
+    color: #ffffff;
 }
 
 .area {
-    flex: 1;
-    background-color: #dddddd;
-    border-radius: 12px;
-    padding: 10px 8px;
+    width: 100%;
+    padding: 20px;
+    border-radius: 16px;
+    background: #ffffff;
 }
 
 .secao {
-    font-size: 13px;
+    margin-bottom: 15px;
     color: #555555;
-    font-weight: 700;
-    margin: 0 10px 6px;
+    font-size: 14px;
 }
 
 .cards {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px 22px;
+    gap: 18px;
 }
 
 .card {
-    background-color: #a90000;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 14px;
-    min-height: 94px;
+    min-height: 210px;
+    padding: 18px;
+    border: 1px solid #7A1118;
+    border-radius: 12px;
+    background: #f2f2f2;
+    color: #333333;
     display: flex;
     flex-direction: column;
-    gap: 5px;
-    box-shadow: none;
-    transition: 0.2s;
-    color: #ffffff;
-}
-
-.card:hover {
-    transform: translateY(-2px);
-    background-color: #960000;
+    gap: 12px;
 }
 
 .card-topo {
     display: flex;
-    justify-content: space-between;
     align-items: flex-start;
-    gap: 10px;
+    justify-content: space-between;
+    gap: 12px;
 }
 
 .sensor {
-    color: #ffffff;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0;
-    text-transform: uppercase;
+    color: #7A1118;
+    font-size: 15px;
+    font-weight: bold;
 }
 
 .tipo {
-    color: #ffffff;
-    font-size: 11px;
-    font-weight: 600;
-    margin-top: 2px;
+    margin-top: 4px;
+    color: #555555;
+    font-size: 13px;
+    font-weight: bold;
 }
 
 .status {
-    font-size: 10px;
-    font-weight: 500;
-    padding: 7px 12px;
-    border-radius: 7px;
-    background-color: #d58b8b;
-    color: #ffffff;
+    padding: 5px 12px;
+    border: 1px solid #7A1118;
+    border-radius: 15px;
+    background: #ffffff;
+    color: #7A1118;
+    font-size: 11px;
+    font-weight: bold;
     white-space: nowrap;
-}
-
-.status-ativo {
-    background-color: #d58b8b;
-    color: #ffffff;
 }
 
 .info {
     display: flex;
     justify-content: space-between;
-    gap: 10px;
-    background-color: transparent;
-    padding: 0;
-    border-radius: 0;
-    color: #ffffff;
-    font-size: 9px;
-    font-weight: 600;
+    gap: 15px;
+    color: #444444;
+    font-size: 12px;
 }
 
 .info span {
+    min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
+}
+
+.info i {
+    margin-right: 4px;
+    color: #7A1118;
 }
 
 .leitura {
@@ -210,149 +179,173 @@ body {
     justify-content: space-between;
     align-items: center;
     gap: 10px;
-    margin-top: auto;
+    color: #333333;
 }
 
 .leitura strong {
-    color: #ffffff;
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: none;
+    font-size: 12px;
 }
 
-.leitura .valor {
-    color: #ffffff;
-    font-size: 10px;
-    font-weight: 700;
+.valor {
+    color: #7A1118;
+    font-size: 14px;
+    font-weight: bold;
 }
 
 .barra {
     width: 100%;
     height: 4px;
-    background-color: #111111;
-    border-radius: 5px;
     overflow: hidden;
+    border-radius: 5px;
+    background: #dddddd;
 }
 
 .preenchimento {
     width: 65%;
     height: 100%;
-    background: #00a900;
     border-radius: 5px;
+    background: #7A1118;
+}
+
+.acoes-card {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: auto;
+}
+
+.btn-editar,
+.btn-remover {
+    padding: 8px 13px;
+    border-radius: 7px;
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-editar {
+    border: 1px solid #7A1118;
+    background: #ffffff;
+    color: #7A1118;
+}
+
+.btn-editar:hover {
+    background: #f8eeee;
+}
+
+.btn-remover {
+    border: 1px solid #7A1118;
+    background: #ffffff;
+    color: #7A1118;
+}
+
+.btn-remover:hover {
+    background: #f8eeee;
 }
 
 .sem-dados {
     grid-column: 1 / -1;
-    min-height: 100px;
-    background-color: #ffffff;
-    border-radius: 8px;
+    min-height: 220px;
+    padding: 25px;
+    border: 1px dashed #7A1118;
+    border-radius: 12px;
+    background: #ffffff;
+    color: #666666;
+    text-align: center;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    text-align: center;
-    padding: 20px;
-    color: #666666;
+}
+
+.sem-dados i {
+    margin-bottom: 10px;
+    color: #7A1118;
+    font-size: 35px;
+}
+
+.sem-dados p {
+    margin-bottom: 15px;
     font-size: 14px;
 }
 
+.sem-dados a {
+    padding: 9px 16px;
+    border: 1px solid #7A1118;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #7A1118;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: bold;
+}
+
 .botoes {
+    width: 100%;
+    margin-top: 20px;
     display: flex;
     justify-content: center;
-    gap: 34px;
-    width: 100%;
-    margin-top: -8px;
-}
-
-.botao {
-    width: 150px;
-    border: none;
-    border-radius: 7px;
-    padding: 7px 10px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.botao:active {
-    transform: scale(0.97);
 }
 
 .btn-principal {
-    background-color: #a90000;
+    padding: 11px 22px;
+    border: 1px solid #7A1118;
+    border-radius: 8px;
+    background: #7A1118;
     color: #ffffff;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 .btn-principal:hover {
-    background-color: #800000;
+    background: #5f0d13;
 }
 
-.btn-perigo {
-    background-color: #a90000;
-    color: #ffffff;
+.btn-principal i {
+    margin-right: 5px;
 }
 
-.btn-perigo:hover {
-    background-color: #800000;
-}
-
-@media (max-width: 700px) {
-    body {
-        padding: 14px;
-    }
-
+@media (max-width: 800px) {
     .tela {
-        min-height: calc(100vh - 28px);
+        padding: 20px;
     }
 
     .cards {
         grid-template-columns: 1fr;
-        gap: 10px;
     }
 
     .area {
-        padding: 10px;
-    }
-
-    .botoes {
-        gap: 12px;
-    }
-
-    .botao {
-        width: 170px;
+        padding: 15px;
     }
 }
 
-@media (max-width: 500px) {
-    body {
-        padding: 10px;
-    }
-
+@media (max-width: 600px) {
     .tela {
-        min-height: calc(100vh - 20px);
-    }
-
-    .topo {
-        padding-top: 5px;
+        padding: 15px;
     }
 
     .cabecalho h1 {
-        font-size: 24px;
+        font-size: 26px;
     }
 
     .qtd {
+        padding: 5px 9px;
         font-size: 10px;
-        padding: 3px 9px;
     }
 
     .subtitulo {
-        font-size: 14px;
+        margin-left: 46px;
+        font-size: 13px;
     }
 
     .filtros {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 6px;
+        gap: 7px;
     }
 
     .filtro {
@@ -360,25 +353,40 @@ body {
         min-width: 0;
     }
 
+    .area {
+        padding: 12px;
+    }
+
     .card {
-        min-height: 100px;
+        min-height: 215px;
+        padding: 15px;
     }
 
-    .botoes {
+    .info {
         flex-direction: column;
-        align-items: center;
-        gap: 8px;
+        align-items: flex-start;
+        gap: 6px;
     }
 
-    .botao {
+    .acoes-card {
         width: 100%;
-        max-width: 250px;
+    }
+
+    .btn-editar,
+    .btn-remover {
+        flex: 1;
+        justify-content: center;
+    }
+
+    .btn-principal {
+        width: 100%;
+        max-width: 300px;
     }
 }
 
-@media (max-width: 350px) {
+@media (max-width: 380px) {
     .cabecalho h1 {
-        font-size: 21px;
+        font-size: 23px;
     }
 
     .qtd {
@@ -389,8 +397,11 @@ body {
         grid-template-columns: 1fr;
     }
 
-    .info {
+    .card-topo {
         flex-direction: column;
-        gap: 3px;
+    }
+
+    .status {
+        align-self: flex-start;
     }
 }

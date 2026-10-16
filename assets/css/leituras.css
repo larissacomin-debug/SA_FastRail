@@ -1,0 +1,393 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: white;
+    color: #333;
+}
+
+.tela {
+    width: 100%;
+    min-height: 100vh;
+    padding: 30px 4%;
+}
+
+.topo {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto 30px;
+}
+
+.cabecalho {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 8px;
+}
+
+.btn-voltar {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
+    color: #7A1118;
+    font-size: 34px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cabecalho h1 {
+    color: #7A1118;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.subtitulo {
+    color: #777;
+    font-size: 15px;
+    margin-left: 55px;
+}
+
+.conteudo {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.filtros {
+    background: #f5f5f5;
+    border: 2px solid #7A1118;
+    border-radius: 18px;
+    padding: 22px;
+    margin-bottom: 25px;
+    display: grid;
+    grid-template-columns: minmax(250px, 1fr) auto;
+    gap: 18px;
+    align-items: end;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.campo label {
+    color: #333;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.campo select {
+    width: 100%;
+    height: 44px;
+    padding: 0 13px;
+    border: 1px solid #7A1118;
+    border-radius: 9px;
+    background: white;
+    outline: none;
+    font-size: 14px;
+    color: #333;
+}
+
+.campo select:focus {
+    border: 2px solid #7A1118;
+}
+
+.campo.checkbox {
+    min-height: 44px;
+    display: flex;
+    justify-content: center;
+}
+
+.campo.checkbox label {
+    height: 44px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 0 15px;
+    border: 1px solid #7A1118;
+    border-radius: 9px;
+    background: white;
+    color: #555;
+    font-size: 13px;
+    font-weight: normal;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.campo.checkbox input {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    accent-color: #7A1118;
+}
+
+.acoes {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.btn-principal,
+.btn-secundario {
+    min-height: 42px;
+    padding: 10px 20px;
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-principal {
+    background: #7A1118;
+    color: white;
+    border: 1px solid #7A1118;
+}
+
+.btn-principal:hover {
+    background: #991B1B;
+}
+
+.btn-secundario {
+    background: white;
+    color: #7A1118;
+    border: 1px solid #7A1118;
+}
+
+.btn-secundario:hover {
+    background: #f2eaea;
+}
+
+.tabela-area {
+    width: 100%;
+}
+
+.tabela-container {
+    width: 100%;
+    overflow-x: auto;
+    background: white;
+    border: 1px solid #7A1118;
+    border-radius: 15px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 850px;
+}
+
+thead {
+    background: #7A1118;
+    color: white;
+}
+
+th {
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #eee;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+tbody tr:hover {
+    background: #faf4f4;
+}
+
+.acima {
+    color: #b4232f;
+    font-weight: bold;
+}
+
+.etiqueta {
+    display: inline-block;
+    padding: 6px 11px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.etiqueta-ativo {
+    background: #e1f4e5;
+    color: #217a32;
+}
+
+.etiqueta-manutencao {
+    background: #f8dddd;
+    color: #8B1E2D;
+}
+
+.vazio {
+    width: 100%;
+    background: #f5f5f5;
+    border: 1px solid #7A1118;
+    border-radius: 15px;
+    padding: 45px 20px;
+    text-align: center;
+}
+
+.vazio p {
+    color: #777;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.vazio a {
+    display: inline-block;
+    padding: 10px 18px;
+    border-radius: 9px;
+    background: #7A1118;
+    color: white;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.vazio a:hover {
+    background: #991B1B;
+}
+
+.aviso {
+    border-radius: 12px;
+    padding: 13px 16px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.aviso.sucesso {
+    background: #e1f4e5;
+    border: 1px solid #8bc596;
+    color: #217a32;
+}
+
+.aviso.erro {
+    background: #f8dddd;
+    border: 1px solid #b85c64;
+    color: #7A1118;
+}
+
+.aviso.erro p {
+    margin-bottom: 5px;
+}
+
+.aviso.erro p:last-child {
+    margin-bottom: 0;
+}
+
+@media (max-width: 800px) {
+    .tela {
+        padding: 25px 3%;
+    }
+
+    .cabecalho h1 {
+        font-size: 27px;
+    }
+
+    .subtitulo {
+        margin-left: 55px;
+        font-size: 14px;
+    }
+
+    .filtros {
+        grid-template-columns: 1fr;
+        padding: 18px;
+    }
+
+    .campo.checkbox {
+        justify-content: flex-start;
+    }
+
+    .campo.checkbox label {
+        width: 100%;
+        white-space: normal;
+    }
+
+    .acoes {
+        grid-column: auto;
+        justify-content: stretch;
+    }
+
+    .btn-principal,
+    .btn-secundario {
+        flex: 1;
+    }
+
+    .tabela-container {
+        border-radius: 12px;
+    }
+}
+
+@media (max-width: 500px) {
+    .tela {
+        padding: 20px 3%;
+    }
+
+    .cabecalho {
+        gap: 8px;
+    }
+
+    .btn-voltar {
+        width: 35px;
+        height: 35px;
+        font-size: 29px;
+    }
+
+    .cabecalho h1 {
+        font-size: 23px;
+    }
+
+    .subtitulo {
+        margin-left: 43px;
+        font-size: 13px;
+    }
+
+    .filtros {
+        padding: 15px;
+        border-radius: 14px;
+    }
+
+    .acoes {
+        flex-direction: column;
+    }
+
+    .btn-principal,
+    .btn-secundario {
+        width: 100%;
+        flex: none;
+    }
+
+    th {
+        padding: 12px;
+        font-size: 12px;
+    }
+
+    td {
+        padding: 12px;
+        font-size: 12px;
+    }
+}

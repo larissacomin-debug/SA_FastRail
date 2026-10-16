@@ -1,138 +1,293 @@
 <?php
 
-session_start();
-
+require 'proteger.php';
 require 'conexao.php';
 
-$quantidadeGerada = 0;
+$mensagem = '';
+$erros = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $tremId     = (int) $_POST['trem_id'];
-    $quantidade = (int) $_POST['quantidade'];
-    $erros      = [];
 
-    if ($tremId <= 0) {
-        $erros[] = 'Selecione o trem.';
+    $idSensor = (int) ($_POST['idSensor'] ?? 0);
+    $quantidade = (int) ($_POST['quantidade'] ?? 0);
+
+    if ($idSensor <= 0) {
+        $erros[] = 'Selecione um sensor.';
     }
 
     if ($quantidade < 1 || $quantidade > 200) {
         $erros[] = 'Informe uma quantidade entre 1 e 200.';
     }
 
-    if (count($erros) === 0) {
-        $sql = 'INSERT INTO leitura_sensor
-                    (fk_id_trem, data_hora, velocidade_kmh, temperatura_motor_c, consumo_litros_hora, vibracao_mm_s)
-                VALUES (?, ?, ?, ?, ?, ?)';
+    if (empty($erros)) {
 
-        $comando = $conexao->prepare($sql);
+        $sqlSensor = "
+            SELECT idSensor, modelo
+            FROM Sensor
+            WHERE idSensor = ?
+        ";
 
-        $momento = time() - ($quantidade * 300);
+        $stmtSensor = $conexao->prepare($sqlSensor);
 
-        for ($i = 0; $i < $quantidade; $i++) {
-            $momento = $momento + 300;
+        $stmtSensor->bind_param(
+            "i",
+            $idSensor
+        );
 
-            $dataHora    = date('Y-m-d H:i:s', $momento);
-            $velocidade  = rand(0, 9000) / 100;
-            $temperatura = rand(6000, 11500) / 100;
-            $consumo     = rand(2000, 9000) / 100;
-            $vibracao    = rand(50, 900) / 100;
+        $stmtSensor->execute();
 
-            $comando->bind_param(
-                'isdddd',
-                $tremId,
-                $dataHora,
-                $velocidade,
-                $temperatura,
-                $consumo,
-                $vibracao
-            );
+        $resultadoSensor = $stmtSensor->get_result();
 
-            $comando->execute();
+        $sensor = $resultadoSensor->fetch_assoc();
+
+        $stmtSensor->close();
+
+        if (!$sensor) {
+
+            $erros[] = 'Sensor não encontrado.';
+        } else {
+
+            $modelo = $sensor['modelo'];
+
+            $sql = "
+                INSERT INTO dados_sensor
+                (idSensor, data_hora, valor_coletado)
+                VALUES (?, ?, ?)
+            ";
+
+            $stmt = $conexao->prepare($sql);
+
+            $momento = time() - (($quantidade - 1) * 300);
+
+            for ($i = 0; $i < $quantidade; $i++) {
+
+                $momento += 300;
+
+                $dataHora = date(
+                    'Y-m-d H:i:s',
+                    $momento
+                );
+
+                switch (strtolower($modelo)) {
+
+                    case 'temperatura':
+                        $valor = rand(6000, 10500) / 100;
+                        break;
+
+                    case 'velocidade':
+                        $valor = rand(0, 8000) / 100;
+                        break;
+
+                    case 'pressão':
+                    case 'pressao':
+                        $valor = rand(9000, 12000) / 100;
+                        break;
+
+                    case 'vibração':
+                    case 'vibracao':
+                        $valor = rand(50, 700) / 100;
+                        break;
+
+                    default:
+                        $valor = rand(0, 10000) / 100;
+                        break;
+                }
+
+                $stmt->bind_param(
+                    "isd",
+                    $idSensor,
+                    $dataHora,
+                    $valor
+                );
+
+                $stmt->execute();
+            }
+
+            $stmt->close();
+
+            $mensagem =
+                $quantidade .
+                ' leituras geradas com sucesso para o sensor SEN-' .
+                sprintf('%03d', $idSensor) .
+                '.';
         }
-
-        $comando->close();
-
-        $_SESSION['mensagem'] = $quantidade . ' leituras geradas com sucesso.';
-
-        header('Location: leituras.php?id_trem=' . $tremId);
-        exit;
     }
 }
 
-$mensagem = $_SESSION['mensagem'] ?? '';
-unset($_SESSION['mensagem']);
-
-$trens = $conexao->query('SELECT id_trem, prefixo_trem, modelo_trem FROM trens ORDER BY prefixo_trem');
+$sensores = $conexao->query("
+    SELECT
+        idSensor,
+        modelo,
+        posicao,
+        idTrem
+    FROM Sensor
+    ORDER BY idSensor DESC
+");
 
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulador de sensores</title>
-    <link rel="stylesheet" href="style.css">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Simulador - FerroRama</title>
+
+    <link
+        rel="stylesheet"
+        href="assets/css/simulador.css">
+
 </head>
 
 <body>
 
-    <header>
-        <span class="marca">Frota Ferroviária</span>
-        <nav>
-            <a href="index.php">Trens</a>
-            <a href="painel.php">Painel</a>
-            <a href="leituras.php">Leituras</a>
-            <a href="simulador.php">Simulador</a>
-        </nav>
-    </header>
+    <div class="tela">
 
-    <main>
-        <h1>Simulador de sensores IoT</h1>
-        <p class="apoio">
-            Gera leituras a cada cinco minutos, terminando no horário atual.
-            Substitui os sensores físicos enquanto eles não existem.
-        </p>
+        <header class="topo">
 
-        <?php if ($mensagem !== ''): ?>
-            <p class="aviso"><?= htmlspecialchars($mensagem) ?></p>
-        <?php endif; ?>
+            <div class="cabecalho">
 
-        <?php if (isset($erros) && count($erros) > 0): ?>
-            <div class="aviso aviso-erro">
-                <ul>
+                <button
+                    class="btn-voltar"
+                    onclick="window.location.href='dashboard.php'">
+                    &larr;
+                </button>
+
+                <h1>Simulador</h1>
+
+            </div>
+
+            <p class="subtitulo">
+                Geração de valores fictícios para os sensores
+            </p>
+
+        </header>
+
+        <main class="conteudo">
+
+            <?php if ($mensagem !== ''): ?>
+
+                <div class="aviso sucesso">
+                    <?= htmlspecialchars($mensagem) ?>
+                </div>
+
+            <?php endif; ?>
+
+            <?php if (!empty($erros)): ?>
+
+                <div class="aviso erro">
+
                     <?php foreach ($erros as $erro): ?>
-                        <li><?= htmlspecialchars($erro) ?></li>
+
+                        <p>
+                            <?= htmlspecialchars($erro) ?>
+                        </p>
+
                     <?php endforeach; ?>
-                </ul>
-            </div>
-        <?php endif; ?>
 
-        <form method="post" class="formulario">
-            <div class="linha">
-                <div class="campo">
-                    <label for="trem_id">Trem</label>
-                    <select id="trem_id" name="trem_id">
-                        <option value="">Selecione</option>
-                        <?php while ($trem = $trens->fetch_assoc()): ?>
-                            <option value="<?= (int) $trem['id_trem'] ?>">
-                                <?= htmlspecialchars($trem['prefixo_trem']) ?> - <?= htmlspecialchars($trem['modelo_trem']) ?>
+                </div>
+
+            <?php endif; ?>
+
+            <section class="card-form">
+
+                <h2>
+                    Gerar leituras
+                </h2>
+
+                <p>
+                    Selecione um sensor e informe quantos valores deseja gerar.
+                </p>
+
+                <form method="POST">
+
+                    <div class="campo">
+
+                        <label for="idSensor">
+                            Sensor
+                        </label>
+
+                        <select
+                            name="idSensor"
+                            id="idSensor"
+                            required>
+
+                            <option value="">
+                                Selecione um sensor
                             </option>
-                        <?php endwhile; ?>
-                    </select>
-                </div>
 
-                <div class="campo">
-                    <label for="quantidade">Quantidade de leituras</label>
-                    <input type="number" id="quantidade" name="quantidade" min="1" max="200" value="50">
-                </div>
-            </div>
+                            <?php while ($sensor = $sensores->fetch_assoc()): ?>
 
-            <div class="acoes">
-                <button type="submit" class="botao botao-primario">Gerar leituras</button>
-            </div>
-        </form>
-    </main>
+                                <option
+                                    value="<?= (int) $sensor['idSensor'] ?>">
+
+                                    SEN-<?= sprintf(
+                                            '%03d',
+                                            $sensor['idSensor']
+                                        ) ?>
+
+                                    -
+
+                                    <?= htmlspecialchars(
+                                        $sensor['modelo']
+                                    ) ?>
+
+                                    -
+
+                                    Trem
+                                    <?= sprintf(
+                                        '%02d',
+                                        $sensor['idTrem']
+                                    ) ?>
+
+                                </option>
+
+                            <?php endwhile; ?>
+
+                        </select>
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="quantidade">
+                            Quantidade de leituras
+                        </label>
+
+                        <input
+                            type="number"
+                            name="quantidade"
+                            id="quantidade"
+                            min="1"
+                            max="200"
+                            value="50"
+                            required>
+
+                    </div>
+
+                    <div class="acoes">
+
+                        <button
+                            type="submit"
+                            class="btn-principal">
+                            Gerar leituras
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+        </main>
+
+    </div>
 
 </body>
 

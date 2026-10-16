@@ -1,162 +1,333 @@
 <?php
 
-session_start();
-
+require 'proteger.php';
 require 'conexao.php';
 require 'limites.php';
 
-$tremId     = (int) ($_GET['id_trem'] ?? 0);
+$idSensor = (int) ($_GET['idSensor'] ?? 0);
 $somenteFalha = isset($_GET['somente_falha']);
 
-$mensagem = $_SESSION['mensagem'] ?? '';
-unset($_SESSION['mensagem']);
+if ($idSensor > 0) {
 
-$trens = $conexao->query('SELECT id_trem, prefixo_trem, modelo_trem FROM trens ORDER BY prefixo_trem');
-
-if ($tremId > 0) {
-    $sql = 'SELECT l.*, t.prefixo_trem, t.modelo_trem
-              FROM leitura_sensor l
-              INNER JOIN trens t ON t.id_trem = l.fk_id_trem
-             WHERE l.fk_id_trem = ?
-          ORDER BY l.data_hora DESC
-             LIMIT 200';
+    $sql = "SELECT
+                d.*,
+                s.modelo,
+                s.posicao,
+                s.idTrem,
+                t.modelo AS modelo_trem
+            FROM dados_sensor d
+            INNER JOIN Sensor s
+                ON s.idSensor = d.idSensor
+            INNER JOIN Trens t
+                ON t.idTrem = s.idTrem
+            WHERE d.idSensor = ?
+            ORDER BY d.data_hora DESC
+            LIMIT 200";
 
     $comando = $conexao->prepare($sql);
-    $comando->bind_param('i', $tremId);
+
+    $comando->bind_param(
+        "i",
+        $idSensor
+    );
+
     $comando->execute();
+
     $leituras = $comando->get_result();
 } else {
-    $sql = 'SELECT l.*, t.prefixo_trem, t.modelo_trem
-              FROM leitura_sensor l
-              INNER JOIN trens t ON t.id_trem = l.fk_id_trem
-          ORDER BY l.data_hora DESC
-             LIMIT 200';
+
+    $sql = "SELECT
+                d.*,
+                s.modelo,
+                s.posicao,
+                s.idTrem,
+                t.modelo AS modelo_trem
+            FROM dados_sensor d
+            INNER JOIN Sensor s
+                ON s.idSensor = d.idSensor
+            INNER JOIN Trens t
+                ON t.idTrem = s.idTrem
+            ORDER BY d.data_hora DESC
+            LIMIT 200";
 
     $leituras = $conexao->query($sql);
 }
 
+$sensores = $conexao->query("
+    SELECT
+        idSensor,
+        modelo,
+        posicao,
+        idTrem
+    FROM Sensor
+    ORDER BY idSensor DESC
+");
+
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
     <title>Leituras dos sensores</title>
-    <link rel="stylesheet" href="style.css">
+
+    <link
+        rel="stylesheet"
+        href="assets/css/leituras.css">
+
 </head>
 
 <body>
 
-    <header>
-        <span class="marca">Frota Ferroviária</span>
-        <nav>
-            <a href="index.php">Trens</a>
-            <a href="painel.php">Painel</a>
-            <a href="leituras.php">Leituras</a>
-            <a href="simulador.php">Simulador</a>
-        </nav>
-    </header>
+    <div class="tela">
 
-    <main>
-        <div class="titulo">
-            <h1>Leituras dos sensores</h1>
-            <a href="exportar_csv.php?id_trem=<?= $tremId ?>" class="botao botao-secundario">Exportar CSV</a>
-        </div>
+        <header class="topo">
 
-        <?php if ($mensagem !== ''): ?>
-            <p class="aviso"><?= htmlspecialchars($mensagem) ?></p>
-        <?php endif; ?>
+            <div class="cabecalho">
 
-        <form method="get" class="formulario">
-            <div class="linha">
-                <div class="campo">
-                    <label for="id_trem">Filtrar por trem</label>
-                    <select id="id_trem" name="id_trem">
-                        <option value="0">Todos os trens</option>
-                        <?php while ($trem = $trens->fetch_assoc()): ?>
-                            <option value="<?= (int) $trem['id_trem'] ?>" <?= $tremId === (int) $trem['id_trem'] ? 'selected' : '' ?>>
-                                <?= htmlspecialchars($trem['prefixo_trem']) ?> - <?= htmlspecialchars($trem['modelo_trem']) ?>
+                <button
+                    class="btn-voltar"
+                    onclick="window.location.href='dashboard.php'">
+                    &larr;
+                </button>
+
+                <h1>Leituras dos sensores</h1>
+
+            </div>
+
+            <p class="subtitulo">
+                Histórico dos valores coletados pelos sensores
+            </p>
+
+        </header>
+
+        <main class="conteudo">
+
+            <section class="filtros">
+
+                <form method="GET">
+
+                    <div class="campo">
+
+                        <label for="idSensor">
+                            Filtrar por sensor
+                        </label>
+
+                        <select
+                            id="idSensor"
+                            name="idSensor">
+
+                            <option value="0">
+                                Todos os sensores
                             </option>
-                        <?php endwhile; ?>
-                    </select>
-                </div>
 
-                <div class="campo">
-                    <label for="somente_falha">Exibicao</label>
-                    <label class="opcao">
-                        <input type="checkbox" id="somente_falha" name="somente_falha" <?= $somenteFalha ? 'checked' : '' ?>>
-                        Mostrar somente leituras com falha
-                    </label>
-                </div>
-            </div>
+                            <?php while ($sensor = $sensores->fetch_assoc()): ?>
 
-            <div class="acoes">
-                <button type="submit" class="botao botao-primario">Filtrar</button>
-                <a href="leituras.php" class="botao botao-secundario">Limpar</a>
-            </div>
-        </form>
+                                <option
+                                    value="<?= (int) $sensor['idSensor'] ?>"
+                                    <?= $idSensor === (int) $sensor['idSensor'] ? 'selected' : '' ?>>
 
-        <br>
+                                    SEN-<?= sprintf('%03d', $sensor['idSensor']) ?>
+                                    -
+                                    <?= htmlspecialchars($sensor['modelo']) ?>
 
-        <?php if ($leituras->num_rows === 0): ?>
-            <p class="vazio">Nenhuma leitura registrada. Use o simulador para gerar leituras.</p>
-        <?php else: ?>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Data e hora</th>
-                        <th>Trem</th>
-                        <th>Velocidade</th>
-                        <th>Temperatura</th>
-                        <th>Consumo</th>
-                        <th>Vibração</th>
-                        <th>Situação</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($leitura = $leituras->fetch_assoc()): ?>
-                        <?php
-                        $falhas = classificarLeitura(
-                            $leitura,
-                            $limiteVelocidade,
-                            $limiteTemperatura,
-                            $limiteConsumo,
-                            $limiteVibracao
-                        );
+                                </option>
 
-                        if ($somenteFalha && count($falhas) === 0) {
-                            continue;
-                        }
-                        ?>
-                        <tr>
-                            <td><?= date('d/m/Y H:i', strtotime($leitura['data_hora'])) ?></td>
-                            <td><?= htmlspecialchars($leitura['prefixo_trem']) ?></td>
-                            <td class="<?= $leitura['velocidade_kmh'] > $limiteVelocidade ? 'acima' : '' ?>">
-                                <?= number_format((float) $leitura['velocidade_kmh'], 2, ',', '.') ?> km/h
-                            </td>
-                            <td class="<?= $leitura['temperatura_motor_c'] > $limiteTemperatura ? 'acima' : '' ?>">
-                                <?= number_format((float) $leitura['temperatura_motor_c'], 2, ',', '.') ?> C
-                            </td>
-                            <td class="<?= $leitura['consumo_litros_hora'] > $limiteConsumo ? 'acima' : '' ?>">
-                                <?= number_format((float) $leitura['consumo_litros_hora'], 2, ',', '.') ?> L/h
-                            </td>
-                            <td class="<?= $leitura['vibracao_mm_s'] > $limiteVibracao ? 'acima' : '' ?>">
-                                <?= number_format((float) $leitura['vibracao_mm_s'], 2, ',', '.') ?> mm/s
-                            </td>
-                            <td>
-                                <?php if (count($falhas) === 0): ?>
-                                    <span class="etiqueta etiqueta-ativo">Normal</span>
-                                <?php else: ?>
-                                    <span class="etiqueta etiqueta-manutencao"><?= count($falhas) ?> alerta(s)</span>
-                                <?php endif; ?>
-                            </td>
-                        </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
-        <?php endif; ?>
-    </main>
+                            <?php endwhile; ?>
+
+                        </select>
+
+                    </div>
+
+                    <div class="campo checkbox">
+
+                        <label>
+
+                            <input
+                                type="checkbox"
+                                name="somente_falha"
+                                <?= $somenteFalha ? 'checked' : '' ?>>
+
+                            Mostrar somente leituras com falha
+
+                        </label>
+
+                    </div>
+
+                    <div class="acoes">
+
+                        <button
+                            type="submit"
+                            class="btn-principal">
+                            Filtrar
+                        </button>
+
+                        <a
+                            href="leituras.php"
+                            class="btn-secundario">
+                            Limpar
+                        </a>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+            <section class="tabela-area">
+
+                <?php if (!$leituras || $leituras->num_rows === 0): ?>
+
+                    <div class="vazio">
+
+                        <p>
+                            Nenhuma leitura registrada.
+                        </p>
+
+                        <a href="simulador.php">
+                            Gerar leituras
+                        </a>
+
+                    </div>
+
+                <?php else: ?>
+
+                    <div class="tabela-container">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>Data e hora</th>
+                                    <th>Sensor</th>
+                                    <th>Tipo</th>
+                                    <th>Trem</th>
+                                    <th>Valor</th>
+                                    <th>Situação</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                <?php while ($leitura = $leituras->fetch_assoc()): ?>
+
+                                    <?php
+
+                                    $falhas = classificarLeitura(
+                                        $leitura['modelo'],
+                                        $leitura['valor_coletado']
+                                    );
+
+                                    if ($somenteFalha && count($falhas) === 0) {
+                                        continue;
+                                    }
+
+                                    $modelo = strtolower(
+                                        trim($leitura['modelo'])
+                                    );
+
+                                    $unidade = '';
+
+                                    if ($modelo === 'temperatura') {
+                                        $unidade = '°C';
+                                    } elseif ($modelo === 'velocidade') {
+                                        $unidade = 'km/h';
+                                    } elseif ($modelo === 'pressão' || $modelo === 'pressao') {
+                                        $unidade = 'bar';
+                                    } elseif ($modelo === 'vibração' || $modelo === 'vibracao') {
+                                        $unidade = 'mm/s';
+                                    }
+
+                                    ?>
+
+                                    <tr>
+
+                                        <td>
+                                            <?= date(
+                                                'd/m/Y H:i',
+                                                strtotime($leitura['data_hora'])
+                                            ) ?>
+                                        </td>
+
+                                        <td>
+                                            SEN-<?= sprintf(
+                                                    '%03d',
+                                                    $leitura['idSensor']
+                                                ) ?>
+                                        </td>
+
+                                        <td>
+                                            <?= htmlspecialchars(
+                                                $leitura['modelo']
+                                            ) ?>
+                                        </td>
+
+                                        <td>
+                                            Trem-<?= sprintf(
+                                                        '%02d',
+                                                        $leitura['idTrem']
+                                                    ) ?>
+                                        </td>
+
+                                        <td class="<?= count($falhas) > 0 ? 'acima' : '' ?>">
+
+                                            <?= number_format(
+                                                (float) $leitura['valor_coletado'],
+                                                2,
+                                                ',',
+                                                '.'
+                                            ) ?>
+
+                                            <?= $unidade ?>
+
+                                        </td>
+
+                                        <td>
+
+                                            <?php if (count($falhas) === 0): ?>
+
+                                                <span class="etiqueta etiqueta-ativo">
+                                                    Normal
+                                                </span>
+
+                                            <?php else: ?>
+
+                                                <span class="etiqueta etiqueta-manutencao">
+                                                    <?= count($falhas) ?> alerta(s)
+                                                </span>
+
+                                            <?php endif; ?>
+
+                                        </td>
+
+                                    </tr>
+
+                                <?php endwhile; ?>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                <?php endif; ?>
+
+            </section>
+
+        </main>
+
+    </div>
 
 </body>
 
