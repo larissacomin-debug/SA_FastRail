@@ -1,112 +1,203 @@
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
 }
 
 body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-color: #f4f4f9;
+    min-height: 100vh;
+    background: #ffffff;
+    color: #222222;
+}
+
+.tela {
+    width: 100%;
+    min-height: 100vh;
+    padding: 30px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .container {
-  background: #ffffff;
-  padding: 30px 40px;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 450px;
+    width: 100%;
+    max-width: 460px;
+    padding: 30px;
 }
 
 .logo {
-  text-align: center;
-  margin-bottom: 20px;
+    width: 100%;
+    margin-bottom: 15px;
+    text-align: center;
 }
 
 .logo img {
-  max-width: 100%;
-  height: auto;
+    width: 300px;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.cabecalho {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.cabecalho h1 {
+    margin-bottom: 6px;
+    color: #7A1118;
+    font-size: 27px;
+}
+
+.cabecalho p {
+    color: #666666;
+    font-size: 13px;
 }
 
 .alerta {
-  background-color: #f8d7da;
-  color: #721c24;
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 15px;
-  text-align: center;
-  font-size: 14px;
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 11px;
+    border: 1px solid #7A1118;
+    border-radius: 8px;
+    background: #f8eeee;
+    color: #7A1118;
+    text-align: center;
+    font-size: 13px;
 }
 
-/* Grupo dos Inputs e Labels Fluctuantes */
 .grupo {
-  position: relative;
-  margin-bottom: 20px;
+    position: relative;
+    width: 100%;
+    margin-bottom: 18px;
 }
 
 .grupo input {
-  width: 100%;
-  padding: 12px 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  outline: none;
-  font-size: 16px;
-  background: transparent;
-  transition: border-color 0.3s;
+    width: 100%;
+    height: 47px;
+    padding: 0 13px;
+    border: 2px solid #7A1118;
+    border-radius: 24px;
+    outline: none;
+    background: #ffffff;
+    color: #222222;
+    font-size: 14px;
 }
 
 .grupo input:focus {
-  border-color: #007bff;
+    background: #f1f5fd;
+    border-color: #7A1118;
 }
 
 .grupo label {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: #ffffff;
-  padding: 0 4px;
-  color: #999;
-  font-size: 14px;
-  pointer-events: none;
-  transition: 0.2s ease all;
+    position: absolute;
+    left: 13px;
+    top: 14px;
+    padding: 0 4px;
+    background: #ffffff;
+    color: #777777;
+    font-size: 14px;
+    pointer-events: none;
+    transition: 0.2s;
 }
 
-/* Movimenta o Label para cima ao focar ou preencher */
-.grupo input:focus ~ label,
-.grupo input:not(:placeholder-shown) ~ label {
-  top: 0;
-  font-size: 12px;
-  color: #007bff;
+.grupo input:focus + label,
+.grupo input:not(:placeholder-shown) + label {
+    top: -7px;
+    color: #7A1118;
+    font-size: 11px;
 }
 
-/* Estilização dos Botões */
+.grupo.data label {
+    top: -7px;
+    color: #7A1118;
+    font-size: 11px;
+}
+
+.grupo.data input {
+    padding-top: 3px;
+}
+
 .botao-login {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 5px;
-  background-color: #007bff;
-  color: #ffffff;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s;
+    width: 100%;
+    height: 44px;
+    margin-top: 0;
+    border: 1px solid #7A1118;
+    border-radius: 24px;
+    background: #8f0000;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 .botao-login:hover {
-  background-color: #0056b3;
+    background: #700000;
 }
 
 .botao-secundario {
-  margin-top: 10px;
-  background-color: #6c757d;
+    margin-top: 2px;
 }
 
-.botao-secundario:hover {
-  background-color: #5a6268;
+@media (max-width: 600px) {
+    .tela {
+        padding: 20px 15px;
+    }
+
+    .container {
+        max-width: 430px;
+        padding: 20px 10px;
+    }
+
+    .logo {
+        margin-bottom: 10px;
+    }
+
+    .logo img {
+        width: 250px;
+    }
+
+    .cabecalho h1 {
+        font-size: 24px;
+    }
+
+    .cabecalho p {
+        font-size: 12px;
+    }
+
+    .grupo {
+        margin-bottom: 15px;
+    }
+
+    .grupo input {
+        height: 45px;
+    }
+}
+
+@media (max-width: 380px) {
+    .tela {
+        padding: 15px 10px;
+    }
+
+    .container {
+        padding: 15px 5px;
+    }
+
+    .logo img {
+        width: 220px;
+    }
+
+    .cabecalho h1 {
+        font-size: 22px;
+    }
+
+    .grupo input {
+        height: 43px;
+    }
+
+    .botao-login {
+        height: 43px;
+    }
 }

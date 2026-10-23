@@ -232,7 +232,7 @@ $sensores = $conexao->query("
                                             $sensor['idSensor']
                                         ) ?>
 
-                                    -
+
 
                                     <?= htmlspecialchars(
                                         $sensor['modelo']

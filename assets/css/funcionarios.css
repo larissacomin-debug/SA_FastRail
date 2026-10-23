@@ -1,0 +1,785 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+html {
+    width: 100%;
+    min-height: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    width: 100%;
+    min-height: 100vh;
+    background: #ffffff;
+    color: #222222;
+    overflow-x: hidden;
+}
+
+button,
+input {
+    font-family: Arial, sans-serif;
+}
+
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.tela {
+    width: 100%;
+    max-width: 1250px;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: clamp(15px, 3vw, 35px);
+}
+
+.cabecalho {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: clamp(6px, 1vw, 12px);
+    margin-bottom: clamp(18px, 3vw, 28px);
+}
+
+.btn-voltar {
+    width: clamp(34px, 4vw, 42px);
+    height: clamp(34px, 4vw, 42px);
+    flex-shrink: 0;
+    border: none;
+    background: transparent;
+    color: #111111;
+    font-size: clamp(25px, 3vw, 32px);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cabecalho > div {
+    min-width: 0;
+}
+
+.cabecalho h1 {
+    color: #7A1118;
+    font-size: clamp(26px, 4vw, 36px);
+    line-height: 1.1;
+    word-break: break-word;
+}
+
+.cabecalho p {
+    margin-top: 5px;
+    color: #666666;
+    font-size: clamp(11px, 1.5vw, 14px);
+    line-height: 1.4;
+}
+
+.mensagem {
+    width: 100%;
+    margin-bottom: 18px;
+    padding: 11px 15px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.mensagem.sucesso {
+    border: 1px solid #7A1118;
+    background: #f3e5e6;
+    color: #7A1118;
+}
+
+.mensagem.erro {
+    border: 1px solid #7A1118;
+    background: #f8dede;
+    color: #7A1118;
+}
+
+.barra-superior {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.busca {
+    width: 100%;
+    min-width: 0;
+}
+
+.busca label {
+    display: block;
+    margin-bottom: 7px;
+    color: #444444;
+    font-size: 13px;
+    line-height: 1.3;
+}
+
+.campo-busca {
+    position: relative;
+    width: 100%;
+}
+
+.campo-busca input {
+    width: 100%;
+    height: 44px;
+    padding: 0 48px 0 15px;
+    border: 1px solid #7A1118;
+    border-radius: 22px;
+    outline: none;
+    background: #f2f2f2;
+    color: #333333;
+    font-size: 13px;
+}
+
+.campo-busca input:focus {
+    background: #ffffff;
+    box-shadow: 0 0 0 2px #f0d4d6;
+}
+
+.campo-busca button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 45px;
+    height: 44px;
+    border: none;
+    background: transparent;
+    color: #111111;
+    font-size: 19px;
+    cursor: pointer;
+}
+
+.btn-adicionar {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 215px;
+    height: 44px;
+    padding: 0 20px;
+    border: 1.3px solid #7A1118;
+    border-radius: 22px;
+    background: #7A1118;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.btn-adicionar:hover {
+    background: #5f0d13;
+}
+
+.btn-adicionar i {
+    margin-right: 5px;
+}
+
+.conteudo {
+    width: 100%;
+}
+
+.titulo-lista {
+    width: 100%;
+    margin-bottom: 13px;
+}
+
+.titulo-lista h2 {
+    color: #444444;
+    font-size: clamp(14px, 2vw, 17px);
+    line-height: 1.3;
+}
+
+.titulo-lista span {
+    display: block;
+    margin-top: 4px;
+    color: #777777;
+    font-size: 12px;
+}
+
+.lista-funcionarios {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.funcionario {
+    width: 100%;
+    min-width: 0;
+    min-height: 145px;
+    padding: clamp(14px, 2vw, 20px);
+    border: 1px solid #7A1118;
+    border-radius: 12px;
+    background: #f2f2f2;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: clamp(12px, 2vw, 20px);
+}
+
+.icone-funcionario {
+    width: clamp(55px, 7vw, 70px);
+    height: clamp(55px, 7vw, 70px);
+    flex-shrink: 0;
+    border: 2px solid #7A1118;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #7A1118;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(30px, 4vw, 39px);
+}
+
+.dados {
+    min-width: 0;
+    width: 100%;
+}
+
+.nome-status {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px 12px;
+    margin-bottom: 13px;
+}
+
+.nome-status h3 {
+    min-width: 0;
+    color: #333333;
+    font-size: clamp(14px, 2vw, 17px);
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+}
+
+.status {
+    flex-shrink: 0;
+    padding: 4px 12px;
+    border: 1px solid #7A1118;
+    border-radius: 15px;
+    background: #ffffff;
+    color: #7A1118;
+    font-size: 10px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.status span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-right: 5px;
+    border-radius: 50%;
+    background: #d40000;
+}
+
+.informacoes {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px 25px;
+    color: #555555;
+    font-size: clamp(10px, 1.5vw, 12px);
+    line-height: 1.4;
+}
+
+.informacoes div {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.informacoes strong {
+    color: #333333;
+}
+
+.acoes {
+    width: clamp(100px, 12vw, 120px);
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.acoes form {
+    width: 100%;
+}
+
+.btn-editar,
+.btn-remover {
+    width: 100%;
+    min-height: 36px;
+    padding: 7px 10px;
+    border-radius: 7px;
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    text-decoration: none;
+}
+
+.btn-editar {
+    border: 1px solid #7A1118;
+    background: #ffffff;
+    color: #7A1118;
+}
+
+.btn-editar:hover {
+    background: #f8eeee;
+}
+
+.btn-remover {
+    border: 1px solid #7A1118;
+    background: #7A1118;
+    color: #ffffff;
+}
+
+.btn-remover:hover {
+    background: #5f0d13;
+}
+
+.sem-dados {
+    width: 100%;
+    min-height: 250px;
+    padding: 30px 20px;
+    border: 1px dashed #7A1118;
+    border-radius: 12px;
+    background: #f2f2f2;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.sem-dados i {
+    margin-bottom: 10px;
+    color: #7A1118;
+    font-size: 40px;
+}
+
+.sem-dados h3 {
+    margin-bottom: 5px;
+    color: #444444;
+    font-size: 16px;
+}
+
+.sem-dados p {
+    margin-bottom: 15px;
+    color: #777777;
+    font-size: 13px;
+}
+
+.sem-dados button {
+    min-height: 38px;
+    padding: 8px 18px;
+    border: 1px solid #7A1118;
+    border-radius: 20px;
+    background: #7A1118;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
+    padding: clamp(10px, 3vw, 25px);
+    background: rgba(0, 0, 0, 0.45);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.modal.ativo {
+    display: flex;
+}
+
+.modal-conteudo {
+    position: relative;
+    width: 100%;
+    max-width: 700px;
+    max-height: calc(100vh - 30px);
+    padding: clamp(18px, 3vw, 28px);
+    border: 1px solid #7A1118;
+    border-radius: 15px;
+    background: #ffffff;
+    overflow-y: auto;
+}
+
+.fechar {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: #7A1118;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.fechar:hover {
+    background: #f8eeee;
+}
+
+.modal-titulo {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 22px;
+    padding-right: 35px;
+}
+
+.modal-titulo > i {
+    flex-shrink: 0;
+    color: #7A1118;
+    font-size: 30px;
+}
+
+.modal-titulo > div {
+    min-width: 0;
+}
+
+.modal-titulo h2 {
+    color: #7A1118;
+    font-size: clamp(19px, 3vw, 23px);
+    line-height: 1.2;
+}
+
+.modal-titulo p {
+    margin-top: 4px;
+    color: #666666;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.formulario {
+    width: 100%;
+}
+
+.campo {
+    width: 100%;
+    margin-bottom: 17px;
+}
+
+.campo label {
+    display: block;
+    margin-bottom: 7px;
+    color: #444444;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 1.3;
+}
+
+.campo input {
+    width: 100%;
+    height: 43px;
+    padding: 0 13px;
+    border: 1px solid #7A1118;
+    border-radius: 8px;
+    outline: none;
+    background: #f2f2f2;
+    color: #333333;
+    font-size: 13px;
+}
+
+.campo input:focus {
+    background: #ffffff;
+    box-shadow: 0 0 0 2px #f0d4d6;
+}
+
+.duas-colunas {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+}
+
+.botoes-form {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.btn-cancelar,
+.btn-salvar {
+    min-height: 42px;
+    padding: 0 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-cancelar {
+    border: 1px solid #7A1118;
+    background: #ffffff;
+    color: #7A1118;
+}
+
+.btn-cancelar:hover {
+    background: #f8eeee;
+}
+
+.btn-salvar {
+    border: 1px solid #7A1118;
+    background: #7A1118;
+    color: #ffffff;
+}
+
+.btn-salvar:hover {
+    background: #5f0d13;
+}
+
+@media (max-width: 900px) {
+
+    .funcionario {
+        grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    .acoes {
+        width: 100%;
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .acoes form {
+        width: 100%;
+    }
+
+}
+
+@media (max-width: 700px) {
+
+    .tela {
+        padding: 18px 15px 30px;
+    }
+
+    .barra-superior {
+        grid-template-columns: 1fr;
+        gap: 13px;
+    }
+
+    .btn-adicionar {
+        width: 100%;
+    }
+
+    .funcionario {
+        grid-template-columns: 1fr;
+        gap: 13px;
+        padding: 15px;
+    }
+
+    .icone-funcionario {
+        width: 58px;
+        height: 58px;
+    }
+
+    .informacoes {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+
+    .acoes {
+        width: 100%;
+        grid-column: auto;
+    }
+
+}
+
+@media (max-width: 550px) {
+
+    .cabecalho {
+        align-items: flex-start;
+    }
+
+    .cabecalho h1 {
+        font-size: 27px;
+    }
+
+    .cabecalho p {
+        font-size: 11px;
+    }
+
+    .titulo-lista h2 {
+        font-size: 15px;
+    }
+
+    .funcionario {
+        border-radius: 10px;
+    }
+
+    .nome-status {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 7px;
+    }
+
+    .acoes {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .btn-editar,
+    .btn-remover {
+        min-height: 40px;
+    }
+
+    .modal {
+        padding: 8px;
+        align-items: flex-start;
+    }
+
+    .modal-conteudo {
+        max-height: calc(100vh - 16px);
+        margin-top: 8px;
+        padding: 20px 15px;
+        border-radius: 12px;
+    }
+
+    .duas-colunas {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .botoes-form {
+        flex-direction: column-reverse;
+        gap: 8px;
+    }
+
+    .btn-cancelar,
+    .btn-salvar {
+        width: 100%;
+        min-height: 44px;
+    }
+
+}
+
+@media (max-width: 400px) {
+
+    .tela {
+        padding: 15px 10px 25px;
+    }
+
+    .cabecalho {
+        gap: 4px;
+    }
+
+    .btn-voltar {
+        width: 32px;
+        height: 32px;
+        font-size: 24px;
+    }
+
+    .cabecalho h1 {
+        font-size: 24px;
+    }
+
+    .cabecalho p {
+        font-size: 10px;
+    }
+
+    .barra-superior {
+        margin-bottom: 20px;
+    }
+
+    .campo-busca input {
+        height: 42px;
+    }
+
+    .btn-adicionar {
+        min-width: 0;
+        height: 42px;
+        font-size: 12px;
+    }
+
+    .funcionario {
+        padding: 13px;
+    }
+
+    .nome-status h3 {
+        font-size: 14px;
+    }
+
+    .informacoes {
+        font-size: 10px;
+    }
+
+    .acoes {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-titulo {
+        align-items: flex-start;
+    }
+
+    .modal-titulo > i {
+        font-size: 25px;
+    }
+
+    .modal-titulo h2 {
+        font-size: 18px;
+    }
+
+    .modal-titulo p {
+        font-size: 11px;
+    }
+
+    .campo label {
+        font-size: 12px;
+    }
+
+    .campo input {
+        height: 42px;
+        font-size: 12px;
+    }
+
+}
+
+@media (max-width: 320px) {
+
+    .cabecalho h1 {
+        font-size: 21px;
+    }
+
+    .cabecalho p {
+        display: none;
+    }
+
+    .funcionario {
+        padding: 11px;
+    }
+
+    .status {
+        font-size: 9px;
+    }
+
+    .btn-editar,
+    .btn-remover {
+        font-size: 10px;
+    }
+
+}

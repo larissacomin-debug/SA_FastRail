@@ -463,8 +463,8 @@ if (!empty($leiturasRecentes)) {
 
             </a>
 
-            <a href="tela-relatorios.php" class="nav-item">
-
+           <a href="relatorios.php" class="nav-item">
+            
                 <svg viewBox="0 0 24 24">
 
                     <path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z" />
@@ -477,33 +477,18 @@ if (!empty($leiturasRecentes)) {
 
             </a>
 
-            <a href="tela-funcionarios.php" class="nav-item">
-
-                <svg viewBox="0 0 24 24">
-
-                    <circle cx="12" cy="8" r="4" />
-
-                    <path d="M5 21v-2a7 7 0 0114 0v2" />
-
-                </svg>
-
-                <span>Funcionários</span>
-
-            </a>
-
+           <a href="funcionarios.php" class="nav-item">
+    <svg viewBox="0 0 24 24">
+        <circle cx="12" cy="8" r="4" />
+        <path d="M5 21v-2a7 7 0 0114 0v2" />
+    </svg>
+    <span>Funcionários</span>
+</a>
             <a href="rotas.php" class="nav-item">
 
                 <i class="bi bi-bus-front-fill"></i>
 
                 <span>Rotas</span>
-
-            </a>
-
-            <a href="tela-notificacoes.php" class="nav-item">
-
-                <i class="bi bi-bell"></i>
-
-                <span>Notificações</span>
 
             </a>
 
