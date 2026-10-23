@@ -13,7 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($modelo === '' || $idTrem <= 0) {
 
         echo "<script>alert('Modelo e trem são obrigatórios.');</script>";
-
     } else {
 
         if ($posicao === '') {
@@ -34,7 +33,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!$stmt) {
 
             echo "<script>alert('Erro ao preparar o cadastro do sensor.');</script>";
-
         } else {
 
             $stmt->bind_param(
@@ -112,7 +110,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </script>";
 
                     exit;
-
                 } else {
 
                     echo "<script>
@@ -122,7 +119,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     exit;
                 }
-
             } else {
 
                 echo "<script>alert('Erro ao adicionar sensor. Tente novamente.');</script>";
