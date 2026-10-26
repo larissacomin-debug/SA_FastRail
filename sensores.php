@@ -28,7 +28,7 @@ $sql = "SELECT
             ON tr.idTrilho = s.idTrilho";
 
 if ($tipo !== '') {
-    $sql .= " WHERE s.modelo = ?";
+    $sql .= " WHERE s.registros = ?";
 }
 
 $sql .= " ORDER BY s.idSensor DESC";
@@ -55,18 +55,16 @@ function obterUnidade($modelo)
     $modelo = strtolower(trim($modelo));
 
     switch ($modelo) {
-        case 'temperatura':
+        case 'temp-100':
             return '°C';
 
-        case 'velocidade':
+        case 'vel-200':
             return 'km/h';
 
-        case 'pressão':
-        case 'pressao':
+        case 'press-400':
             return 'bar';
 
-        case 'vibração':
-        case 'vibracao':
+        case 'vib-300':
             return 'mm/s';
 
         default:
@@ -185,7 +183,7 @@ function obterUnidade($modelo)
                                 </div>
 
                                 <div class="tipo">
-                                    <?= htmlspecialchars($sensor['modelo']) ?>
+                                    <?= htmlspecialchars($sensor['registros']) ?>
                                 </div>
 
                             </div>

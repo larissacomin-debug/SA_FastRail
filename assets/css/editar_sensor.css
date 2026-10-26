@@ -1,0 +1,256 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: #ffffff;
+    color: #3b0000;
+}
+
+.tela {
+    width: 100%;
+    min-height: 100vh;
+    padding: 45px 5%;
+    background: #ffffff;
+}
+
+.cabecalho {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-voltar {
+    border: none;
+    background: none;
+    color: #7A1118;
+    font-size: 38px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+}
+
+.cabecalho h1 {
+    color: #7A1118;
+    font-size: 36px;
+}
+
+.conteudo {
+    width: 100%;
+    max-width: 650px;
+    margin: 35px auto 0;
+}
+
+.mensagem {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 18px;
+    border: 2px solid #7A1118;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #333333;
+    text-align: center;
+    font-size: 16px;
+    line-height: 21px;
+}
+
+.formulario {
+    width: 100%;
+    padding: 28px 30px;
+    background: #7A1118;
+    border-radius: 12px;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.campo:last-of-type {
+    margin-bottom: 0;
+}
+
+.campo label {
+    margin-bottom: 8px;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.campo input,
+.campo select {
+    width: 100%;
+    min-height: 48px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    background: #eeeeee;
+    color: #333333;
+    font-size: 16px;
+    outline: none;
+}
+
+.campo input:focus,
+.campo select:focus {
+    background: #ffffff;
+    border: 2px solid #ffcccc;
+}
+
+.campo select {
+    cursor: pointer;
+}
+
+.botoes {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    margin-top: 25px;
+}
+
+.btn {
+    height: 48px;
+    border: none;
+    border-radius: 11px;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.cancelar {
+    width: 190px;
+    background: #a30000;
+}
+
+.salvar {
+    width: 220px;
+    background: #a30000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn:hover {
+    background: #5f0d13;
+}
+
+.btn i {
+    font-size: 18px;
+}
+
+@media (max-width: 900px) {
+
+    .tela {
+        padding: 35px 5%;
+    }
+
+    .cabecalho h1 {
+        font-size: 32px;
+    }
+
+    .conteudo {
+        max-width: 600px;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .tela {
+        padding: 25px 18px;
+    }
+
+    .cabecalho {
+        gap: 7px;
+    }
+
+    .btn-voltar {
+        font-size: 32px;
+    }
+
+    .cabecalho h1 {
+        font-size: 27px;
+    }
+
+    .conteudo {
+        margin-top: 28px;
+    }
+
+    .mensagem {
+        font-size: 15px;
+        line-height: 19px;
+        padding: 9px 12px;
+    }
+
+    .formulario {
+        padding: 22px 18px;
+        border-radius: 10px;
+    }
+
+    .campo {
+        margin-bottom: 17px;
+    }
+
+    .campo label {
+        font-size: 16px;
+        margin-bottom: 7px;
+    }
+
+    .campo input,
+    .campo select {
+        min-height: 45px;
+        font-size: 16px;
+    }
+
+    .botoes {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .cancelar,
+    .salvar {
+        width: 100%;
+        max-width: none;
+    }
+}
+
+@media (max-width: 380px) {
+
+    .tela {
+        padding: 20px 12px;
+    }
+
+    .btn-voltar {
+        font-size: 29px;
+    }
+
+    .cabecalho h1 {
+        font-size: 24px;
+    }
+
+    .formulario {
+        padding: 20px 15px;
+    }
+
+    .campo label {
+        font-size: 15px;
+    }
+
+    .campo input,
+    .campo select {
+        min-height: 43px;
+    }
+
+    .btn {
+        height: 45px;
+        font-size: 15px;
+    }
+}
