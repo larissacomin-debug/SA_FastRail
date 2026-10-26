@@ -460,6 +460,7 @@ if (!empty($leiturasRecentes)) {
                 <i class="bi bi-clipboard-data"></i>
 
                 <span>Leituras</span>
+                    </svg>
 
             </a>
 
@@ -489,6 +490,8 @@ if (!empty($leiturasRecentes)) {
                 <i class="bi bi-bus-front-fill"></i>
 
                 <span>Rotas</span>
+
+                    </svg>
 
             </a>
 
