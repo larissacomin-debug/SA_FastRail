@@ -1,4 +1,4 @@
-##FastRail
+# FastRail
 
 #1. Identificação do projeto
 Projeto: FastRail
@@ -6,7 +6,7 @@ Nome do projeto: SA-Ferrorama
 Tipo: Sistema de monitoramento ferroviário
 Equipe: Arthur N., Larissa, Matheus P. e Vinicius.
 
-#2. Tecnologias utilizadas
+# 2. Tecnologias utilizadas
 - HTML
 - CSS
 - JavaScript
@@ -17,7 +17,7 @@ Equipe: Arthur N., Larissa, Matheus P. e Vinicius.
 - XAMPP para executar o servidor local
 - Git/GitHub para controle de versão
 
-#3. Como instalar e executar
+# 3. Como instalar e executar
 3.1 Instalar o ambiente
 Para executar o projeto localmente, é necessário ter um ambiente com PHP, Apache e MySQL. Durante o desenvolvimento foi utilizado o XAMPP.
 1. Instale o XAMPP.
@@ -39,12 +39,12 @@ O arquivo "conexao.php" deve estar configurado de acordo com o MySQL da máquina
 3.4 Abrir o sistema
 Depois de iniciar o Apache e MySQL abra: http://localhost/SA_FastRail
 
-#4. Usuários de Teste
+# 4. Usuários de Teste
 No banco que foi enviado não existem usuários de teste fixos cadastrados. 
 Por isso antes da avaliação devem ser criados os usuários de teste em "cadastre-se".
 
 
-5. Telas do Sistema
+# 5. Telas do Sistema
 
 O sistema foi dividido em várias telas, cada uma com uma função específica. 
 A equipe também dividiu o desenvolvimento das telas entre os integrantes.
@@ -77,7 +77,7 @@ A equipe também dividiu o desenvolvimento das telas entre os integrantes.
 
 14. Editar Rota — Arthur: permite alterar as informações de uma rota já cadastrada.
 
-#6. Decisões tomadas durante o projeto
+# 6. Decisões tomadas durante o projeto
 Durante o desenvolvimento, tomamos algumas decisões para deixar o sistema mais organizado, fácil de usar e de manter.
 
 1. Uso do PHP
@@ -134,14 +134,14 @@ Criamos filtros para facilitar a procura de informações, principalmente nas le
 18. Organização das rotas
 As rotas possuem telas próprias para cadastro e edição, deixando essa parte do sistema mais organizada.
 
-#8. Registro do uso de inteligência artificial
+# 8. Registro do uso de inteligência artificial
 Durante o projeto, foi feito uso assistido de inteligência artificial (IA) para ajudar a equipe em algumas etapas do desenvolvimento.
 
 A IA foi utilizada para entender erros, sugerir melhorias no código e auxiliar na organização de algumas telas.
 
 Todo o conteúdo sugerido pela IA foi conferido e adaptado pela equipe antes de ser usado no projeto.
 
-#9. Estrutura principal do projeto
+# 9. Estrutura principal do projeto
 Alguns dos principais arquivos utilizados são:
 
 SA_FastRail/
