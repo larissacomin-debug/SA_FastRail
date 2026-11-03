@@ -2,13 +2,13 @@
 
 ## 1. Identificação do projeto
 
-Projeto: FastRail
+**Projeto**: FastRail
 
-Nome do projeto: SA-Ferrorama
+**Nome do projeto:** SA-Ferrorama
 
-Tipo: Sistema de monitoramento ferroviário
+**Tipo:** Sistema de monitoramento ferroviário
 
-Equipe: Arthur N., Larissa, Matheus P. e Vinicius.
+**Equipe:** Arthur N., Larissa, Matheus P. e Vinicius.
 
 ## 2. Tecnologias utilizadas
 
