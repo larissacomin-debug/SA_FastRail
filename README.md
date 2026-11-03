@@ -1,6 +1,6 @@
 # FastRail
 
-##1. Identificação do projeto
+## 1. Identificação do projeto
 
 Projeto: FastRail
 
@@ -24,7 +24,7 @@ Equipe: Arthur N., Larissa, Matheus P. e Vinicius.
 
 ## 3. Como instalar e executar
 
-###3.1 Instalar o ambiente
+### 3.1 Instalar o ambiente
 
 Para executar o projeto localmente, é necessário ter um ambiente com PHP, Apache e MySQL. Durante o desenvolvimento foi utilizado o XAMPP.
 1. Instale o XAMPP.
@@ -33,18 +33,18 @@ Para executar o projeto localmente, é necessário ter um ambiente com PHP, Apac
 4. Inicie o MySQL.
 5. Coloque a pasta SA_FastRail dentro da pasta htdocs (Arquivos - Disco local(C:) - xampp - htdocs).
 
-###3.2 Criar/Importar o banco
+### 3.2 Criar/Importar o banco
 1. Abrir o navegador
 2. Acesse o phpMyAdmin
 3. Crie um banco chamado "banco_sa_ferrorama"
 4. Entre no banco criado, clique na opção importar e selecione o arquivo "banco_sa_ferrorama.sql"
 5. Execute a importação.
 
-###3.3 Execute a importação
+### 3.3 Execute a importação
 
 O arquivo "conexao.php" deve estar configurado de acordo com o MySQL da máquina.
 
-###3.4 Abrir o sistema
+### 3.4 Abrir o sistema
 
 Depois de iniciar o Apache e MySQL abra: http://localhost/SA_FastRail
 
@@ -182,6 +182,6 @@ SA_FastRail/
     ├── img/
     └── ...
 
-##10. Objetivo final
+## 10. Objetivo final
 
 O objetivo do FastRail é facilitar o acompanhamento de trens, sensores, leituras e rotas em um só sistema, deixando as informações mais organizadas e fáceis de consultar.
