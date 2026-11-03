@@ -159,27 +159,49 @@ Alguns dos principais arquivos utilizados são:
 
 SA_FastRail/
 ├── index.php
+
 ├── cadastrar.php
+
 ├── dashboard.php
+
 ├── funcionarios.php
+
 ├── trens.php
+
 ├── sensores.php
+
 ├── adicionar_sensor.php
+
 ├── remover_sensor.php
+
 ├── rotas.php
+
 ├── rotas_form.php
+
 ├── leituras.php
+
 ├── limites.php
+
 ├── simulador.php
+
 ├── relatorios.php
+
 ├── esqueceu_senha.php
+
 ├── proteger.php
+
 ├── conexao.php
+
 ├── logout.php
+
 ├── banco_sa_ferrorama.sql
+
 └── assets/
+
     ├── css/
+    
     ├── img/
+    
     └── ...
 
 ## 10. Objetivo final
