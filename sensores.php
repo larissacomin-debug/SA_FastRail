@@ -122,10 +122,6 @@ function obterUnidade($modelo)
 
             </div>
 
-            <p class="subtitulo">
-                FerroRama - monitoramento em tempo real
-            </p>
-
             <nav class="filtros">
 
                 <a

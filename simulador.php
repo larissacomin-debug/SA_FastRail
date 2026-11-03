@@ -143,9 +143,16 @@ $sensores = $conexao->query("
         rel="stylesheet"
         href="assets/css/simulador.css">
 
+        <link rel="stylesheet" href="assets/css/barra-superior.css">
+
 </head>
 
 <body>
+
+<div class="barra-superior">
+    <a href="dashboard.php" class="btn-voltar">‹</a>
+    <h1>Nome da Tela</h1>
+</div>
 
     <div class="tela">
 

@@ -247,6 +247,7 @@ $totalFuncionarios = count($funcionarios);
 </head>
 
 <body>
+
     <div class="tela">
         <header class="cabecalho">
             <button type="button" class="btn-voltar" aria-label="Voltar para o dashboard" onclick="window.location.href='dashboard.php'">
@@ -254,7 +255,6 @@ $totalFuncionarios = count($funcionarios);
             </button>
             <div class="cabecalho-texto">
                 <h1>Funcionários</h1>
-                <p>Gerenciamento dos funcionários da empresa</p>
             </div>
         </header>
 

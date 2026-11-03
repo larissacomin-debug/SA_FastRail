@@ -16,6 +16,9 @@ $total_rotas = $resultado ? $resultado->num_rows : 0;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerenciamento de Rotas</title>
     <link rel="stylesheet" href="assets/css/rotas.css">
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 
 <body>

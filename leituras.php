@@ -82,6 +82,10 @@ $sensores = $conexao->query("
         rel="stylesheet"
         href="assets/css/leituras.css">
 
+        <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
 </head>
 
 <body>
@@ -93,9 +97,12 @@ $sensores = $conexao->query("
             <div class="cabecalho">
 
                 <button
+                    type="button"
                     class="btn-voltar"
                     onclick="window.location.href='dashboard.php'">
-                    &larr;
+
+                    <i class="bi bi-chevron-left"></i>
+
                 </button>
 
                 <h1>Leituras dos sensores</h1>

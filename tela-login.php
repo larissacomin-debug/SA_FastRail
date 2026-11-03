@@ -12,9 +12,16 @@ require 'conexao.php';
     <title>Login</title>
     <link rel="stylesheet" href="tela-login.css" />
     <link rel="stylesheet" href="tela-login.js" />
+    <link rel="stylesheet" href="assets/css/barra-superior.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   </head>
   <body>
+
+  <div class="barra-superior">
+    <a href="dashboard.php" class="btn-voltar">‹</a>
+    <h1>Nome da Tela</h1>
+</div>
+
     <div class="container">
       <div class="logo">
         <img

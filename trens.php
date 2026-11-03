@@ -47,15 +47,20 @@ $total_trens = $resultado ? $resultado->num_rows : 0;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerenciamento de Trens</title>
     <link rel="stylesheet" href="assets/css/trens.css">
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 
 <body>
+
     <main class="container">
         <header class="cabecalho">
-            <a href="dashboard.php" class="voltar">&#8249;</a>
+            <a href="dashboard.php" class="voltar">
+                <i class="bi bi-chevron-left"></i>
+            </a>
             <div>
                 <h1>Gerenciamento de Trens</h1>
-                <p>Cadastre, consulte e gerencie os trens do sistema.</p>
             </div>
         </header>
 
