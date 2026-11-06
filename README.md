@@ -152,7 +152,11 @@ A IA foi utilizada para entender erros, sugerir melhorias no código e auxiliar 
 
 Todo o conteúdo sugerido pela IA foi conferido e adaptado pela equipe antes de ser usado no projeto.
 
-## 9. Estrutura principal do projeto
+## 9. Roteiro de Testes
+
+![Uploading image.png…]()
+
+## 10. Estrutura principal do projeto
 
 Alguns dos principais arquivos utilizados são:
 
@@ -181,7 +185,7 @@ SA_FastRail/
     ├── img/
     └── ...
 
-## 10. Limitações Conhecidas
+## 11. Limitações Conhecidas
 
 Não implementamos dois tipos de acesso(funcionário, gestor e cliente) por ser muito trabalhoso e pela falta de organização da equipe.
 
@@ -189,6 +193,6 @@ Não fizemos a parte de compra de passagens(pelo cliente) pela dificuldade de fa
 
 Não foi implementada a tela de carregamento para priorizar as demais telas necessárias.
 
-## 11. Objetivo final
+## 12. Objetivo final
 
 O objetivo do FastRail é facilitar o acompanhamento de trens, sensores, leituras e rotas em um só sistema, deixando as informações mais organizadas e fáceis de consultar.
