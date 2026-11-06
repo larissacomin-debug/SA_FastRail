@@ -46,7 +46,7 @@ O arquivo "conexao.php" deve estar configurado de acordo com o MySQL da máquina
 
 ### 3.4 Abrir o sistema
 
-Depois de iniciar o Apache e MySQL abra: http://localhost/SA_FastRail
+Depois de iniciar o Apache e MySQL abra: localhost:8080/SA_FastRail/index.php
 
 ## 4. Usuários de Teste
 
