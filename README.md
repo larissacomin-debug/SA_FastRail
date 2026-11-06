@@ -50,42 +50,41 @@ Depois de iniciar o Apache e MySQL abra: http://localhost/SA_FastRail
 
 ## 4. Usuários de Teste
 
-No banco que foi enviado não existem usuários de teste fixos cadastrados. 
-Por isso antes da avaliação devem ser criados os usuários de teste em "cadastre-se".
+E-mail: professor@gmail.com
+Senha: prof12345
 
 
 ## 5. Telas do Sistema
 
 O sistema foi dividido em várias telas, cada uma com uma função específica. 
 A equipe também dividiu o desenvolvimento das telas entre os integrantes.
+1. Login: tela de entrada no sistema, onde o usuário informa seus dados de acesso.
 
-1. Login — Matheus: tela de entrada no sistema, onde o usuário informa seus dados de acesso.
+2. Cadastro: permite cadastrar novos usuários.
 
-2. Cadastro — Arthur: permite cadastrar novos usuários.
+3. Recuperar Senha: permite alterar a senha caso o usuário tenha esquecido.
 
-3. Recuperar Senha — Matheus: permite alterar a senha caso o usuário tenha esquecido.
+4. Trens: mostra os trens cadastrados e permite gerenciar suas informações.
 
-4. Trens — Larissa: mostra os trens cadastrados e permite gerenciar suas informações.
+5. Remover Trens: realiza a exclusão de trens, com validações para evitar problemas com sensores vinculados.
 
-5. Remover Trens — Matheus: realiza a exclusão de trens, com validações para evitar problemas com sensores vinculados.
+6. Adicionar Trem: permite cadastrar novos trens no sistema.
 
-6. Adicionar Trem — Larissa: permite cadastrar novos trens no sistema.
+7. Sensores: apresenta os sensores cadastrados e suas informações.
 
-7. Sensores — Arthur: apresenta os sensores cadastrados e suas informações.
+8. Editar Sensor: permite alterar os dados de um sensor existente.
 
-8. Editar Sensor — Vinícius: permite alterar os dados de um sensor existente.
+9. Leituras: mostra os dados coletados pelos sensores e permite consultar as leituras.
 
-9. Leituras — Larissa: mostra os dados coletados pelos sensores e permite consultar as leituras.
+10. Relatórios: organiza informações do sistema para facilitar a consulta.
 
-10. Relatórios — Larissa: organiza informações do sistema para facilitar a consulta.
+11. Funcionários: permite visualizar e gerenciar os funcionários cadastrados.
 
-11. Funcionários — Arthur: permite visualizar e gerenciar os funcionários cadastrados.
+12. Rotas: apresenta as rotas cadastradas, com informações de origem, destino, distância e status.
 
-12. Rotas — Larissa: apresenta as rotas cadastradas, com informações de origem, destino, distância e status.
+13. Adicionar Rota: permite cadastrar novas rotas.
 
-13. Adicionar Rota — Larissa: permite cadastrar novas rotas.
-
-14. Editar Rota — Arthur: permite alterar as informações de uma rota já cadastrada.
+14. Editar Rota: permite alterar as informações de uma rota já cadastrada.
 
 ## 6. Decisões tomadas durante o projeto
 
@@ -182,6 +181,14 @@ SA_FastRail/
     ├── img/
     └── ...
 
-## 10. Objetivo final
+## 10. Limitações Conhecidas
+
+Não implementamos dois tipos de acesso(funcionário, gestor e cliente) por ser muito trabalhoso e pela falta de organização da equipe.
+
+Não fizemos a parte de compra de passagens(pelo cliente) pela dificuldade de fazer.
+
+Não foi implementada a tela de carregamento para priorizar as demais telas necessárias.
+
+## 11. Objetivo final
 
 O objetivo do FastRail é facilitar o acompanhamento de trens, sensores, leituras e rotas em um só sistema, deixando as informações mais organizadas e fáceis de consultar.
