@@ -154,7 +154,7 @@ Todo o conteúdo sugerido pela IA foi conferido e adaptado pela equipe antes de 
 
 ## 9. Roteiro de Testes
 
-![Uploading image.png…]()
+<img width="753" height="586" alt="Roteiro de Testes" src="https://github.com/user-attachments/assets/6711267b-12f4-4acc-8d02-32c00ccebc29" />
 
 ## 10. Estrutura principal do projeto
 
