@@ -1,0 +1,192 @@
+/* =====================================================
+   FastRail - estilos compartilhados por todas as telas
+   Identidade: fundo claro + vermelho escuro
+   ===================================================== */
+
+:root {
+    --vermelho: #7A1118;
+    --vermelho-escuro: #5f0d13;
+    --vermelho-hover: #991B1B;
+    --vermelho-claro: #f8eeee;
+    --vermelho-borda: #f0d4d6;
+    --alerta: #b4232f;
+
+    --branco: #ffffff;
+    --cinza-fundo: #f2f2f2;
+    --cinza-secao: #f5f5f5;
+    --cinza-borda: #dddddd;
+    --texto: #333333;
+    --texto-forte: #222222;
+    --texto-medio: #555555;
+    --texto-suave: #777777;
+
+    --verde-fundo: #e1f4e5;
+    --verde-texto: #217a32;
+    --laranja-fundo: #fff0d9;
+    --laranja-texto: #a85d00;
+    --neutro-fundo: #eeeeee;
+    --neutro-texto: #555555;
+}
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background: var(--branco);
+    color: var(--texto);
+    font-family: Arial, sans-serif;
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+}
+
+img {
+    max-width: 100%;
+}
+
+/* ---------- Cabeçalho padrão das telas internas ---------- */
+
+.cabecalho {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+.cabecalho > div {
+    min-width: 0;
+    flex: 1;
+}
+
+.cabecalho h1 {
+    color: var(--vermelho);
+    font-size: 32px;
+    line-height: 1.15;
+}
+
+.cabecalho p {
+    margin-top: 5px;
+    color: var(--texto-suave);
+    font-size: 14px;
+}
+
+.btn-voltar {
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--vermelho);
+    font-size: 28px;
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-voltar:hover {
+    background: var(--vermelho-claro);
+}
+
+/* ---------- Mensagens ---------- */
+
+.mensagem {
+    width: 100%;
+    margin-bottom: 18px;
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.4;
+    text-align: center;
+}
+
+.mensagem.sucesso {
+    border: 1px solid #8bc596;
+    background: var(--verde-fundo);
+    color: var(--verde-texto);
+}
+
+.mensagem.erro {
+    border: 1px solid var(--vermelho);
+    background: var(--vermelho-claro);
+    color: var(--vermelho);
+}
+
+.mensagem p + p {
+    margin-top: 5px;
+}
+
+/* ---------- Etiquetas de status ---------- */
+
+.status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.status.ativo,
+.status.ativa {
+    background: var(--verde-fundo);
+    color: var(--verde-texto);
+}
+
+.status.manutencao {
+    background: var(--laranja-fundo);
+    color: var(--laranja-texto);
+}
+
+.status.parado,
+.status.inativa {
+    background: var(--neutro-fundo);
+    color: var(--neutro-texto);
+}
+
+/* ---------- Rodapé ---------- */
+
+.rodape {
+    padding: 25px 0 10px;
+    color: var(--texto-suave);
+    font-size: 13px;
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .cabecalho {
+        gap: 8px;
+        margin-bottom: 22px;
+    }
+
+    .cabecalho h1 {
+        font-size: 26px;
+    }
+
+    .cabecalho p {
+        font-size: 13px;
+    }
+
+    .btn-voltar {
+        width: 34px;
+        height: 34px;
+        font-size: 25px;
+    }
+}
+
+@media (max-width: 380px) {
+    .cabecalho h1 {
+        font-size: 23px;
+    }
+}

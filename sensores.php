@@ -1,100 +1,51 @@
 <?php
+require_once 'proteger.php';
+require_once 'limites.php';
 
-require 'proteger.php';
-require 'conexao.php';
-
+// Filtro por tipo (só aceita os tipos cadastrados no sistema)
 $tipo = $_GET['tipo'] ?? '';
+
+if (!isset(TIPOS_SENSOR[$tipo])) {
+    $tipo = '';
+}
 
 $sql = "SELECT
             s.idSensor,
             s.modelo,
             s.posicao,
-            s.registros,
             s.idTrem,
-            s.idTrilho,
-            t.modelo AS modelo_trem,
             tr.localizacao,
             (
                 SELECT d.valor_coletado
                 FROM dados_sensor d
                 WHERE d.idSensor = s.idSensor
-                ORDER BY d.data_hora DESC
+                ORDER BY d.data_hora DESC, d.idDados_sensor DESC
                 LIMIT 1
             ) AS ultima_leitura
-        FROM Sensor s
-        INNER JOIN Trens t
-            ON t.idTrem = s.idTrem
-        LEFT JOIN trilho tr
-            ON tr.idTrilho = s.idTrilho";
+        FROM sensor s
+        INNER JOIN trens t ON t.idTrem = s.idTrem
+        LEFT JOIN trilho tr ON tr.idTrilho = s.idTrilho
+        WHERE (? = '' OR s.modelo = ?)
+        ORDER BY s.idSensor DESC";
 
-if ($tipo !== '') {
-    $sql .= " WHERE s.registros = ?";
-}
+$stmt = $conexao->prepare($sql);
+$stmt->bind_param("ss", $tipo, $tipo);
+$stmt->execute();
+$sensores = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+$stmt->close();
 
-$sql .= " ORDER BY s.idSensor DESC";
-
-if ($tipo !== '') {
-    $stmt = $conexao->prepare($sql);
-    $stmt->bind_param("s", $tipo);
-    $stmt->execute();
-    $resultado = $stmt->get_result();
-} else {
-    $resultado = $conexao->query($sql);
-}
-
-$sensores = [];
-
-if ($resultado) {
-    while ($sensor = $resultado->fetch_assoc()) {
-        $sensores[] = $sensor;
-    }
-}
-
-function obterUnidade($modelo)
-{
-    $modelo = strtolower(trim($modelo));
-
-    switch ($modelo) {
-        case 'temp-100':
-            return '°C';
-
-        case 'vel-200':
-            return 'km/h';
-
-        case 'press-400':
-            return 'bar';
-
-        case 'vib-300':
-            return 'mm/s';
-
-        default:
-            return '';
-    }
-}
-
+$totalSensores = count($sensores);
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
-    <title>Sensores - FerroRama</title>
-
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
-    <link
-        rel="stylesheet"
-        href="assets/css/sensores.css?v=2.0">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensores - FastRail</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="assets/css/sensores.css">
 </head>
 
 <body>
@@ -104,216 +55,123 @@ function obterUnidade($modelo)
         <header class="topo">
 
             <div class="cabecalho">
-
-                <button
-                    type="button"
-                    class="btn-voltar"
-                    onclick="window.location.href='dashboard.php'">
-
+                <a href="dashboard.php" class="btn-voltar" title="Voltar">
                     <i class="bi bi-chevron-left"></i>
+                </a>
 
-                </button>
+                <div>
+                    <h1>Sensores</h1>
+                </div>
 
-                <h1>Sensores</h1>
-
-                <span class="qtd">
-                    <?= count($sensores) ?> sensores
-                </span>
-
+                <span class="qtd"><?= $totalSensores ?> <?= $totalSensores === 1 ? 'sensor' : 'sensores' ?></span>
             </div>
 
             <nav class="filtros">
+                <a href="sensores.php" class="filtro <?= $tipo === '' ? 'ativo' : '' ?>">Todos</a>
 
-                <a
-                    href="sensores.php"
-                    class="filtro <?= $tipo === '' ? 'ativo' : '' ?>">
-                    Todos
-                </a>
-
-                <a
-                    href="sensores.php?tipo=Temperatura"
-                    class="filtro <?= $tipo === 'Temperatura' ? 'ativo' : '' ?>">
-                    Temperatura
-                </a>
-
-                <a
-                    href="sensores.php?tipo=Velocidade"
-                    class="filtro <?= $tipo === 'Velocidade' ? 'ativo' : '' ?>">
-                    Velocidade
-                </a>
-
-                <a
-                    href="sensores.php?tipo=Pressão"
-                    class="filtro <?= $tipo === 'Pressão' ? 'ativo' : '' ?>">
-                    Pressão
-                </a>
-
-                <a
-                    href="sensores.php?tipo=Vibração"
-                    class="filtro <?= $tipo === 'Vibração' ? 'ativo' : '' ?>">
-                    Vibração
-                </a>
-
+                <?php foreach (array_keys(TIPOS_SENSOR) as $opcao): ?>
+                    <a href="sensores.php?tipo=<?= urlencode($opcao) ?>" class="filtro <?= $tipo === $opcao ? 'ativo' : '' ?>">
+                        <?= e($opcao) ?>
+                    </a>
+                <?php endforeach; ?>
             </nav>
 
         </header>
 
         <main class="area">
 
-            <h2 class="secao">
-                SENSORES CADASTRADOS
-            </h2>
+            <h2 class="secao">SENSORES CADASTRADOS</h2>
 
             <div class="cards">
 
                 <?php foreach ($sensores as $sensor): ?>
+                    <?php
+                    $temLeitura = $sensor['ultima_leitura'] !== null;
+                    $emAlerta = $temLeitura && count(classificarLeitura($sensor['modelo'], $sensor['ultima_leitura'])) > 0;
+                    ?>
 
                     <article class="card">
 
                         <div class="card-topo">
-
                             <div>
-
-                                <div class="sensor">
-                                    SEN-<?= sprintf('%03d', $sensor['idSensor']) ?>
-                                </div>
-
-                                <div class="tipo">
-                                    <?= htmlspecialchars($sensor['registros']) ?>
-                                </div>
-
+                                <div class="sensor"><?= codigoSensor($sensor['idSensor']) ?></div>
+                                <div class="tipo"><?= e($sensor['modelo']) ?></div>
                             </div>
 
-                            <span class="status">
-                                Ativo
-                            </span>
-
+                            <?php if (!$temLeitura): ?>
+                                <span class="status-sensor">Sem leitura</span>
+                            <?php elseif ($emAlerta): ?>
+                                <span class="status-sensor alerta">Alerta</span>
+                            <?php else: ?>
+                                <span class="status-sensor">Ativo</span>
+                            <?php endif; ?>
                         </div>
 
                         <div class="info">
-
                             <span>
                                 <i class="bi bi-train-front"></i>
-                                Trem-<?= sprintf('%02d', $sensor['idTrem']) ?>
+                                Trem-<?= codigoTrem($sensor['idTrem']) ?>
                             </span>
 
                             <span>
                                 <i class="bi bi-geo-alt"></i>
-
-                                <?php if (!empty($sensor['localizacao'])): ?>
-
-                                    <?= htmlspecialchars($sensor['localizacao']) ?>
-
-                                <?php else: ?>
-
-                                    Localização não definida
-
-                                <?php endif; ?>
-
+                                <?= $sensor['localizacao'] ? e($sensor['localizacao']) : 'Localização não definida' ?>
                             </span>
-
                         </div>
 
                         <div class="info">
-
                             <span>
                                 <i class="bi bi-signpost"></i>
-
-                                Posição:
-
-                                <?php if (!empty($sensor['posicao'])): ?>
-
-                                    <?= htmlspecialchars($sensor['posicao']) ?>
-
-                                <?php else: ?>
-
-                                    Não definida
-
-                                <?php endif; ?>
-
+                                Posição: <?= $sensor['posicao'] ? e($sensor['posicao']) : 'Não definida' ?>
                             </span>
-
                         </div>
 
                         <div class="leitura">
+                            <strong>Última leitura</strong>
 
-                            <strong>
-                                Última leitura
-                            </strong>
-
-                            <span class="valor">
-
-                                <?php if ($sensor['ultima_leitura'] !== null): ?>
-
-                                    <?= number_format(
-                                        (float) $sensor['ultima_leitura'],
-                                        2,
-                                        ',',
-                                        '.'
-                                    ) ?>
-
-                                    <?= obterUnidade($sensor['modelo']) ?>
-
+                            <span class="valor <?= $emAlerta ? 'acima' : '' ?>">
+                                <?php if ($temLeitura): ?>
+                                    <?= formatarNumero($sensor['ultima_leitura']) ?>
+                                    <?= unidadeSensor($sensor['modelo']) ?>
                                 <?php else: ?>
-
                                     Sem leitura
-
                                 <?php endif; ?>
-
                             </span>
-
                         </div>
 
-                        <div class="barra">
-
-                            <div class="preenchimento"></div>
-
+                        <div class="barra" title="Leitura em relação ao limite do sensor">
+                            <div class="preenchimento <?= $emAlerta ? 'acima' : '' ?>" style="width: <?= percentualLimite($sensor['modelo'], $sensor['ultima_leitura']) ?>%"></div>
                         </div>
 
                         <div class="acoes-card">
+                            <a href="leituras.php?idSensor=<?= (int) $sensor['idSensor'] ?>" class="btn-editar">
+                                <i class="bi bi-clipboard-data"></i>
+                                Leituras
+                            </a>
 
-                            <button
-                                type="button"
-                                class="btn-editar"
-                                onclick="window.location.href='editar_sensor.php?id=<?= (int) $sensor['idSensor'] ?>'">
-
+                            <a href="editar_sensor.php?id=<?= (int) $sensor['idSensor'] ?>" class="btn-editar">
                                 <i class="bi bi-pencil"></i>
                                 Editar
+                            </a>
 
-                            </button>
-
-                            <button
-                                type="button"
-                                class="btn-remover"
-                                onclick="if (confirm('Você deseja excluir o sensor?')) window.location.href='remover_sensor.php?id=<?= (int) $sensor['idSensor'] ?>';">
-
-                                <i class="bi bi-trash"></i>
-                                Remover
-
-                            </button>
-
+                            <form method="POST" action="remover_sensor.php" onsubmit="return confirm('Você deseja excluir o sensor? As leituras dele também serão removidas.');">
+                                <input type="hidden" name="id" value="<?= (int) $sensor['idSensor'] ?>">
+                                <button type="submit" class="btn-remover">
+                                    <i class="bi bi-trash"></i>
+                                    Remover
+                                </button>
+                            </form>
                         </div>
 
                     </article>
-
                 <?php endforeach; ?>
 
-                <?php if (empty($sensores)): ?>
-
+                <?php if ($totalSensores === 0): ?>
                     <div class="sem-dados">
-
                         <i class="bi bi-broadcast"></i>
-
-                        <p>
-                            Nenhum sensor encontrado para este filtro.
-                        </p>
-
-                        <a href="adicionar_sensor.php">
-                            Adicionar primeiro sensor
-                        </a>
-
+                        <p>Nenhum sensor encontrado para este filtro.</p>
+                        <a href="adicionar_sensor.php">Adicionar sensor</a>
                     </div>
-
                 <?php endif; ?>
 
             </div>
@@ -321,17 +179,10 @@ function obterUnidade($modelo)
         </main>
 
         <footer class="botoes">
-
-            <button
-                type="button"
-                class="btn-principal"
-                onclick="window.location.href='adicionar_sensor.php'">
-
+            <a href="adicionar_sensor.php" class="btn-principal">
                 <i class="bi bi-plus-lg"></i>
                 Adicionar Sensor
-
-            </button>
-
+            </a>
         </footer>
 
     </div>

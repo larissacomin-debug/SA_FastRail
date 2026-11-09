@@ -1,75 +1,64 @@
 <?php
-require 'proteger.php';
-require 'conexao.php';
+require_once 'proteger.php';
 
-$id = intval($_GET['id'] ?? $_POST['id'] ?? 0);
-
-if ($id <= 0) {
-    echo "<script>alert('Trem não encontrado.'); window.location.href='trens.php';</script>";
-    exit;
-}
+$id = (int) ($_GET['id'] ?? $_POST['id'] ?? 0);
 
 $stmt = $conexao->prepare("SELECT idTrem, modelo, tipo_abastecimento, tipo_carga, estado_atual FROM trens WHERE idTrem = ?");
 $stmt->bind_param("i", $id);
 $stmt->execute();
-
-$resultado = $stmt->get_result();
-$trem = $resultado->fetch_assoc();
-
+$trem = $stmt->get_result()->fetch_assoc();
 $stmt->close();
 
 if (!$trem) {
-    echo "<script>alert('Trem não encontrado.'); window.location.href='trens.php';</script>";
-    exit;
+    alertaERedirecionar('Trem não encontrado.', 'trens.php');
 }
 
-$stmt = $conexao->prepare("SELECT COUNT(*) AS total FROM Sensor WHERE idTrem = ?");
+$stmt = $conexao->prepare("SELECT COUNT(*) AS total FROM sensor WHERE idTrem = ?");
 $stmt->bind_param("i", $id);
 $stmt->execute();
-
-$resultado_sensores = $stmt->get_result();
-$dados_sensores = $resultado_sensores->fetch_assoc();
-$total_sensores = $dados_sensores['total'];
-
+$total_sensores = (int) $stmt->get_result()->fetch_assoc()['total'];
 $stmt->close();
+
+$alerta = '';
+$justificativa = '';
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $justificativa = trim($_POST['justificativa'] ?? '');
+    $confirmar_id = (int) ($_POST['confirmar_id'] ?? 0);
     $confirmar_sensores = $_POST['confirmar_sensores'] ?? '';
 
-    if (empty($justificativa)) {
-        echo "<script>alert('Digite a justificativa da remoção.');</script>";
+    if ($justificativa === '') {
+        $alerta = 'Digite o motivo da remoção.';
+    } elseif ($confirmar_id !== $id) {
+        $alerta = 'O ID digitado não corresponde ao trem selecionado.';
     } elseif ($total_sensores > 0 && $confirmar_sensores !== 'sim') {
-        echo "<script>alert('Este trem possui sensores vinculados. Confirme novamente que deseja excluir o trem e os sensores vinculados.'); window.location.href='remover_trem.php?id=$id';</script>";
-        exit;
+        $alerta = 'Este trem possui sensores vinculados. Confirme que deseja excluir o trem e os sensores vinculados.';
     } else {
+        // Os sensores, leituras e manutenções do trem são removidos
+        // junto pelo banco (ON DELETE CASCADE)
         $stmt = $conexao->prepare("DELETE FROM trens WHERE idTrem = ?");
         $stmt->bind_param("i", $id);
+        $removeu = $stmt->execute();
+        $stmt->close();
 
-        if ($stmt->execute()) {
-            echo "<script>alert('Trem removido com sucesso!')</script>";
-            header('Location: trens.php');
-            exit;
-        } else {
-            echo "<script>alert('Erro ao remover o trem. Tente novamente.');</script>";
-            header('Location: trens.php');
-            exit;
+        if ($removeu) {
+            alertaERedirecionar('Trem removido com sucesso!', 'trens.php');
         }
 
-        $stmt->close();
+        $alerta = 'Erro ao remover o trem. Tente novamente.';
     }
 }
 ?>
-
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Remover Trem</title>
+    <title>Remover Trem - FastRail</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/base.css">
     <link rel="stylesheet" href="assets/css/remover_trem.css">
-    
 </head>
 
 <body>
@@ -77,8 +66,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <main class="container">
 
         <header class="cabecalho">
-            <a href="trens.php" class="voltar">&#8249;</a>
-            <h1>Remover Trem</h1>
+            <a href="trens.php" class="btn-voltar" title="Voltar">
+                <i class="bi bi-chevron-left"></i>
+            </a>
+            <div>
+                <h1>Remover Trem</h1>
+            </div>
         </header>
 
         <div class="aviso">
@@ -90,11 +83,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <div class="aviso-sensores">
                 <strong>Atenção!</strong>
                 <p>
-                    Este trem possui <?php echo $total_sensores; ?>
-                    <?php echo $total_sensores == 1 ? 'sensor vinculado' : 'sensores vinculados'; ?>.
-                </p>
-                <p>
-                    Ao excluir o trem, os sensores vinculados também serão excluídos.
+                    Este trem possui <?= $total_sensores ?>
+                    <?= $total_sensores === 1 ? 'sensor vinculado' : 'sensores vinculados' ?>.
+                    Ao excluir o trem, os sensores vinculados e suas leituras também serão excluídos.
                 </p>
             </div>
         <?php endif; ?>
@@ -106,77 +97,55 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <div class="topo-info">
                     <div>
                         <span>ID do trem</span>
-                        <strong><?php echo htmlspecialchars($trem['idTrem']); ?></strong>
+                        <strong><?= (int) $trem['idTrem'] ?></strong>
                     </div>
 
-                    <span class="status">
+                    <span class="status-trem">
                         <span></span>
-                        <?php echo htmlspecialchars($trem['estado_atual']); ?>
+                        <?= e(textoEstadoTrem($trem['estado_atual'])) ?>
                     </span>
                 </div>
 
                 <div class="informacao">
                     <span>Modelo</span>
-                    <strong><?php echo htmlspecialchars($trem['modelo']); ?></strong>
+                    <strong><?= e($trem['modelo']) ?></strong>
                 </div>
 
                 <div class="informacao">
                     <span>Abastecimento</span>
-                    <strong><?php echo htmlspecialchars($trem['tipo_abastecimento']); ?></strong>
+                    <strong><?= e($trem['tipo_abastecimento']) ?></strong>
                 </div>
 
                 <div class="informacao">
                     <span>Carga</span>
-                    <strong><?php echo htmlspecialchars($trem['tipo_carga']); ?></strong>
+                    <strong><?= e($trem['tipo_carga']) ?></strong>
                 </div>
 
                 <div class="informacao">
                     <span>Estado atual</span>
-                    <strong><?php echo htmlspecialchars($trem['estado_atual']); ?></strong>
+                    <strong><?= e(textoEstadoTrem($trem['estado_atual'])) ?></strong>
                 </div>
 
             </div>
 
-            <form method="POST" class="formulario" onsubmit="return confirmarRemocao();">
+            <form method="POST" class="formulario" id="formRemover" data-sensores="<?= $total_sensores ?>">
 
-                <input type="hidden" name="id" value="<?php echo $trem['idTrem']; ?>">
-
-                <?php if ($total_sensores > 0): ?>
-                    <input type="hidden" name="confirmar_sensores" id="confirmar_sensores" value="">
-
-                <?php endif; ?>
+                <input type="hidden" name="id" value="<?= (int) $trem['idTrem'] ?>">
+                <input type="hidden" name="confirmar_sensores" id="confirmar_sensores" value="">
 
                 <div class="campo">
                     <label for="justificativa">Motivo da Remoção</label>
-
-                    <textarea
-                        id="justificativa"
-                        name="justificativa"
-                        placeholder="Digite o motivo da remoção..."
-                        required></textarea>
+                    <textarea id="justificativa" name="justificativa" placeholder="Digite o motivo da remoção..." required><?= e($justificativa) ?></textarea>
                 </div>
 
                 <div class="campo">
-                    <label for="id">Digite o ID do trem para remover</label>
-
-                    <input
-                        type="number"
-                        id="id"
-                        name="id"
-                        value="<?php echo $trem['idTrem']; ?>"
-                        required>
+                    <label for="confirmar_id">Digite o ID do trem para remover</label>
+                    <input type="number" id="confirmar_id" name="confirmar_id" min="1" placeholder="ID <?= (int) $trem['idTrem'] ?>" required>
                 </div>
 
                 <div class="acoes">
-
-                    <a href="trens.php" class="btn-cancelar">
-                        Cancelar
-                    </a>
-
-                    <button type="submit" class="btn-remover">
-                        Remover trem
-                    </button>
-
+                    <a href="trens.php" class="btn-cancelar">Cancelar</a>
+                    <button type="submit" class="btn-remover">Remover trem</button>
                 </div>
 
             </form>
@@ -186,25 +155,28 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     </main>
 
     <script>
-        function confirmarRemocao() {
-            <?php if ($total_sensores > 0): ?>
+        document.getElementById('formRemover').addEventListener('submit', function (evento) {
+            const sensores = Number(this.dataset.sensores);
+
+            if (sensores > 0) {
                 const confirmar = confirm(
-                    'Este trem possui <?php echo $total_sensores; ?> sensor(es) vinculado(s).\n\n' +
+                    'Este trem possui ' + sensores + ' sensor(es) vinculado(s).\n\n' +
                     'Se você continuar, o trem e todos os sensores vinculados serão excluídos.\n\n' +
                     'Tem certeza que deseja continuar?'
                 );
 
                 if (!confirmar) {
-                    return false;
+                    evento.preventDefault();
+                    return;
                 }
 
                 document.getElementById('confirmar_sensores').value = 'sim';
-            <?php endif; ?>
-
-            return true;
-        }
+            } else if (!confirm('Tem certeza que deseja remover este trem?')) {
+                evento.preventDefault();
+            }
+        });
     </script>
-
+    <?= scriptAlerta($alerta) ?>
 </body>
 
 </html>

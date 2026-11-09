@@ -1,14 +1,7 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
+/* Relatórios */
 
 body {
-    min-height: 100vh;
-    background: #ffffff;
-    color: #222222;
+    color: var(--texto-forte);
 }
 
 .tela {
@@ -19,43 +12,12 @@ body {
     padding: 25px 30px 35px;
 }
 
-.cabecalho {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 25px;
-}
-
-.btn-voltar {
-    width: 38px;
-    height: 38px;
-    border: none;
-    background: transparent;
-    color: #111111;
-    font-size: 30px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.cabecalho h1 {
-    color: #7A1118;
-    font-size: 32px;
-}
-
-.cabecalho p {
-    margin-top: 5px;
-    color: #666666;
-    font-size: 14px;
-}
-
 .filtros {
     width: 100%;
     padding: 20px;
     border: 1px solid #dddddd;
     border-radius: 15px;
-    background: #ffffff;
+    background: var(--branco);
 }
 
 .filtros form {
@@ -94,17 +56,17 @@ body {
     width: 100%;
     height: 38px;
     padding: 0 12px;
-    border: 1px solid #7A1118;
+    border: 1px solid var(--vermelho);
     border-radius: 8px;
     outline: none;
-    background: #f2f2f2;
+    background: var(--cinza-fundo);
     color: #333333;
     font-size: 12px;
 }
 
 .data input:focus,
 .campo select:focus {
-    border-color: #7A1118;
+    background: var(--branco);
 }
 
 .separador {
@@ -115,17 +77,17 @@ body {
 .btn-gerar {
     width: 145px;
     height: 38px;
-    border: 1px solid #7A1118;
+    border: 1px solid var(--vermelho);
     border-radius: 20px;
-    background: #7A1118;
-    color: #ffffff;
+    background: var(--vermelho);
+    color: var(--branco);
     font-size: 14px;
     font-weight: bold;
     cursor: pointer;
 }
 
 .btn-gerar:hover {
-    background: #5f0d13;
+    background: var(--vermelho-escuro);
 }
 
 .resultado {
@@ -153,9 +115,9 @@ body {
 
 .quantidade {
     padding: 6px 12px;
-    border: 1px solid #7A1118;
+    border: 1px solid var(--vermelho);
     border-radius: 15px;
-    color: #7A1118;
+    color: var(--vermelho);
     font-size: 11px;
     font-weight: bold;
 }
@@ -175,9 +137,9 @@ table {
 
 thead th {
     padding: 7px 10px;
-    border: 1px solid #ffffff;
-    background: #7A1118;
-    color: #ffffff;
+    border: 1px solid var(--branco);
+    background: var(--vermelho);
+    color: var(--branco);
     font-size: 12px;
     font-weight: normal;
     text-align: center;
@@ -185,8 +147,8 @@ thead th {
 
 tbody td {
     padding: 7px 10px;
-    border: 2px solid #ffffff;
-    background: #f2f2f2;
+    border: 2px solid var(--branco);
+    background: var(--cinza-fundo);
     color: #444444;
     font-size: 11px;
     text-align: center;
@@ -213,7 +175,7 @@ tbody tr:hover td {
     width: 90px;
     border: none;
     background: transparent;
-    color: #7A1118;
+    color: var(--vermelho);
     cursor: pointer;
     display: flex;
     flex-direction: column;
@@ -231,7 +193,7 @@ tbody tr:hover td {
 }
 
 .acao:hover {
-    color: #5f0d13;
+    color: var(--vermelho-escuro);
 }
 
 @media (max-width: 850px) {
@@ -260,18 +222,6 @@ tbody tr:hover td {
 @media (max-width: 600px) {
     .tela {
         padding: 15px;
-    }
-
-    .cabecalho {
-        margin-bottom: 20px;
-    }
-
-    .cabecalho h1 {
-        font-size: 27px;
-    }
-
-    .cabecalho p {
-        font-size: 12px;
     }
 
     .filtros {
@@ -317,14 +267,6 @@ tbody tr:hover td {
 }
 
 @media (max-width: 380px) {
-    .cabecalho h1 {
-        font-size: 24px;
-    }
-
-    .cabecalho p {
-        font-size: 11px;
-    }
-
     .filtros {
         padding: 12px;
     }
@@ -335,10 +277,6 @@ tbody tr:hover td {
 }
 
 @media print {
-    body {
-        background: #ffffff;
-    }
-
     .tela {
         max-width: none;
         padding: 0;
@@ -349,7 +287,8 @@ tbody tr:hover td {
     }
 
     .filtros,
-    .acoes {
+    .acoes,
+    .btn-voltar {
         display: none;
     }
 
@@ -373,7 +312,7 @@ tbody tr:hover td {
     }
 
     tbody td {
-        background: #f2f2f2 !important;
+        background: var(--cinza-fundo) !important;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
     }

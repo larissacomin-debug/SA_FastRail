@@ -1,58 +1,28 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
-
-body {
-    min-height: 100vh;
-    background: #ffffff;
-    color: #3b0000;
-}
+/* Formulário de sensor (adicionar e editar) */
 
 .tela {
     width: 100%;
     min-height: 100vh;
     padding: 45px 5%;
-    background: #ffffff;
-}
-
-.cabecalho {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.btn-voltar {
-    border: none;
-    background: none;
-    color: #7A1118;
-    font-size: 38px;
-    cursor: pointer;
-    line-height: 1;
-    padding: 0;
 }
 
 .cabecalho h1 {
-    color: #7A1118;
     font-size: 36px;
 }
 
 .conteudo {
     width: 100%;
     max-width: 650px;
-    margin: 35px auto 0;
+    margin: 0 auto;
 }
 
-.mensagem {
+.aviso {
     width: 100%;
-    padding: 12px 15px;
     margin-bottom: 18px;
-    border: 2px solid #7A1118;
+    padding: 12px 15px;
+    border: 2px solid var(--vermelho);
     border-radius: 10px;
-    background: #ffffff;
-    color: #333333;
+    color: var(--texto);
     text-align: center;
     font-size: 16px;
     line-height: 21px;
@@ -60,9 +30,9 @@ body {
 
 .formulario {
     width: 100%;
-    padding: 28px 30px;
-    background: #7A1118;
+    padding: 30px 32px;
     border-radius: 12px;
+    background: var(--vermelho);
 }
 
 .campo {
@@ -71,13 +41,9 @@ body {
     margin-bottom: 20px;
 }
 
-.campo:last-of-type {
-    margin-bottom: 0;
-}
-
 .campo label {
     margin-bottom: 8px;
-    color: #ffffff;
+    color: var(--branco);
     font-size: 18px;
     font-weight: bold;
 }
@@ -87,22 +53,22 @@ body {
     width: 100%;
     min-height: 48px;
     padding: 8px 12px;
-    border: none;
+    border: 2px solid transparent;
     border-radius: 4px;
-    background: #eeeeee;
-    color: #333333;
-    font-size: 16px;
     outline: none;
-}
-
-.campo input:focus,
-.campo select:focus {
-    background: #ffffff;
-    border: 2px solid #ffcccc;
+    background: #eeeeee;
+    color: var(--texto);
+    font-size: 16px;
 }
 
 .campo select {
     cursor: pointer;
+}
+
+.campo input:focus,
+.campo select:focus {
+    border-color: #ffcccc;
+    background: var(--branco);
 }
 
 .botoes {
@@ -110,45 +76,44 @@ body {
     justify-content: flex-end;
     align-items: center;
     gap: 20px;
-    width: 100%;
     margin-top: 25px;
 }
 
 .btn {
+    width: 220px;
     height: 48px;
-    border: none;
+    border: 2px solid var(--branco);
     border-radius: 11px;
-    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
     font-size: 16px;
     font-weight: bold;
+    text-decoration: none;
     cursor: pointer;
     transition: 0.2s;
 }
 
 .cancelar {
-    width: 190px;
-    background: #a30000;
+    background: transparent;
+    color: var(--branco);
+}
+
+.cancelar:hover {
+    background: rgba(255, 255, 255, 0.12);
 }
 
 .salvar {
-    width: 220px;
-    background: #a30000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
+    background: var(--branco);
+    color: var(--vermelho);
 }
 
-.btn:hover {
-    background: #5f0d13;
-}
-
-.btn i {
-    font-size: 18px;
+.salvar:hover {
+    background: var(--vermelho-claro);
 }
 
 @media (max-width: 900px) {
-
     .tela {
         padding: 35px 5%;
     }
@@ -156,38 +121,21 @@ body {
     .cabecalho h1 {
         font-size: 32px;
     }
-
-    .conteudo {
-        max-width: 600px;
-    }
 }
 
 @media (max-width: 600px) {
-
     .tela {
         padding: 25px 18px;
-    }
-
-    .cabecalho {
-        gap: 7px;
-    }
-
-    .btn-voltar {
-        font-size: 32px;
     }
 
     .cabecalho h1 {
         font-size: 27px;
     }
 
-    .conteudo {
-        margin-top: 28px;
-    }
-
-    .mensagem {
+    .aviso {
+        padding: 9px 12px;
         font-size: 15px;
         line-height: 19px;
-        padding: 9px 12px;
     }
 
     .formulario {
@@ -200,36 +148,28 @@ body {
     }
 
     .campo label {
-        font-size: 16px;
         margin-bottom: 7px;
+        font-size: 16px;
     }
 
     .campo input,
     .campo select {
         min-height: 45px;
-        font-size: 16px;
     }
 
     .botoes {
-        flex-direction: column;
+        flex-direction: column-reverse;
         gap: 10px;
     }
 
-    .cancelar,
-    .salvar {
+    .btn {
         width: 100%;
-        max-width: none;
     }
 }
 
 @media (max-width: 380px) {
-
     .tela {
         padding: 20px 12px;
-    }
-
-    .btn-voltar {
-        font-size: 29px;
     }
 
     .cabecalho h1 {

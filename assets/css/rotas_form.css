@@ -1,15 +1,4 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
-
-body {
-    min-height: 100vh;
-    background: white;
-    color: #333;
-}
+/* Formulário de rota (adicionar e editar) */
 
 .container {
     width: 100%;
@@ -18,34 +7,9 @@ body {
     padding: 35px 5%;
 }
 
-.cabecalho {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    margin-bottom: 40px;
-}
-
-.voltar {
-    text-decoration: none;
-    color: #8B1E2D;
-    font-size: 45px;
-    line-height: 1;
-}
-
-.cabecalho h1 {
-    color: #8B1E2D;
-    font-size: 32px;
-    margin-bottom: 5px;
-}
-
-.cabecalho p {
-    color: #777;
-    font-size: 14px;
-}
-
 .form-card {
-    background: #f5f5f5;
-    border: 2px solid #8B1E2D;
+    background: var(--cinza-secao);
+    border: 2px solid var(--vermelho);
     border-radius: 25px;
     padding: 30px;
 }
@@ -60,8 +24,8 @@ body {
 .icone-form {
     width: 55px;
     height: 55px;
-    background: #f5e5e7;
-    color: #8B1E2D;
+    background: var(--vermelho-claro);
+    color: var(--vermelho);
     border-radius: 15px;
     display: flex;
     align-items: center;
@@ -70,7 +34,7 @@ body {
 }
 
 .titulo-form h2 {
-    color: #8B1E2D;
+    color: var(--vermelho);
     font-size: 23px;
     margin-bottom: 5px;
 }
@@ -107,9 +71,9 @@ body {
     width: 100%;
     height: 45px;
     padding: 0 13px;
-    border: 1px solid #8B1E2D;
+    border: 1px solid var(--vermelho);
     border-radius: 10px;
-    background: white;
+    background: var(--branco);
     outline: none;
     font-size: 14px;
     color: #333;
@@ -117,7 +81,7 @@ body {
 
 .campo input:focus,
 .campo select:focus {
-    border: 2px solid #8B1E2D;
+    border: 2px solid var(--vermelho);
 }
 
 .input-unidade {
@@ -154,47 +118,28 @@ body {
 }
 
 .btn-cancelar {
-    background: white;
-    color: #8B1E2D;
-    border: 2px solid #8B1E2D;
+    background: var(--branco);
+    color: var(--vermelho);
+    border: 2px solid var(--vermelho);
 }
 
 .btn-cancelar:hover {
-    background: #f5e5e7;
+    background: var(--vermelho-claro);
 }
 
 .btn-salvar {
-    background: #8B1E2D;
-    color: white;
-    border: 2px solid #8B1E2D;
+    background: var(--vermelho);
+    color: var(--branco);
+    border: 2px solid var(--vermelho);
 }
 
 .btn-salvar:hover {
-    background: #A92A3B;
-}
-
-footer {
-    text-align: center;
-    color: #888;
-    font-size: 13px;
-    padding: 25px 0 10px;
+    background: var(--vermelho-escuro);
 }
 
 @media (max-width: 600px) {
     .container {
         padding: 25px 4%;
-    }
-
-    .cabecalho {
-        gap: 12px;
-    }
-
-    .cabecalho h1 {
-        font-size: 25px;
-    }
-
-    .voltar {
-        font-size: 38px;
     }
 
     .form-card {

@@ -1,25 +1,21 @@
 <?php
-require 'proteger.php';
-require 'conexao.php';
+require_once 'proteger.php';
 
-$id = intval($_GET['id'] ?? $_POST['id'] ?? 0);
+// Só aceita remoção enviada pelo formulário (POST)
+$id = (int) ($_POST['id'] ?? 0);
 
-if ($id <= 0) {
-    echo "<script>alert('Sensor não encontrado.'); window.location.href='sensores.php';</script>";
-    exit;
+if ($_SERVER['REQUEST_METHOD'] !== 'POST' || $id <= 0) {
+    alertaERedirecionar('Sensor não encontrado.', 'sensores.php');
 }
 
+// As leituras do sensor são removidas junto (ON DELETE CASCADE)
 $stmt = $conexao->prepare("DELETE FROM sensor WHERE idSensor = ?");
 $stmt->bind_param("i", $id);
+$removeu = $stmt->execute() && $stmt->affected_rows > 0;
+$stmt->close();
 
-if ($stmt->execute()) {
-    echo "<script>alert('Sensor removido com sucesso!'); window.location.href='sensores.php';</script>";
-    $stmt->close();
-    header('Location: sensores.php');
-    exit;
-} else {
-    echo "<script>alert('Erro ao remover o sensor. Tente novamente.');</script>";
-    $stmt->close();
-    header('Location: sensores.php');
-    exit;
+if ($removeu) {
+    alertaERedirecionar('Sensor removido com sucesso!', 'sensores.php');
 }
+
+alertaERedirecionar('Erro ao remover o sensor. Tente novamente.', 'sensores.php');

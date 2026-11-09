@@ -36,13 +36,14 @@ Para executar o projeto localmente, é necessário ter um ambiente com PHP, Apac
 ### 3.2 Criar/Importar o banco
 1. Abrir o navegador
 2. Acesse o phpMyAdmin
-3. Crie um banco chamado "banco_sa_ferrorama"
-4. Entre no banco criado, clique na opção importar e selecione o arquivo "banco_sa_ferrorama.sql"
-5. Execute a importação.
+3. Clique na opção importar e selecione o arquivo "banco_sa_ferrorama.sql"
+4. Execute a importação. O próprio arquivo cria o banco "banco_sa_ferrorama", as tabelas e alguns dados iniciais (usuário de teste, trens, trilhos e rotas).
 
-### 3.3 Execute a importação
+Atenção: importar o arquivo novamente apaga as tabelas e recria tudo do zero.
 
-O arquivo "conexao.php" deve estar configurado de acordo com o MySQL da máquina.
+### 3.3 Configurar a conexão
+
+O arquivo "conexao.php" deve estar configurado de acordo com o MySQL da máquina (por padrão: usuário "root" sem senha).
 
 ### 3.4 Abrir o sistema
 
@@ -160,30 +161,37 @@ Todo o conteúdo sugerido pela IA foi conferido e adaptado pela equipe antes de 
 
 Alguns dos principais arquivos utilizados são:
 
+```
 SA_FastRail/
-├── index.php
+├── index.php              (login)
 ├── cadastrar.php
+├── esqueceu_senha.php
 ├── dashboard.php
-├── funcionarios.php
 ├── trens.php
+├── remover_trem.php
 ├── sensores.php
 ├── adicionar_sensor.php
+├── editar_sensor.php
+├── sensor_formulario.php  (formulário usado por adicionar/editar sensor)
+├── sensor_dados.php       (validação do formulário de sensor)
 ├── remover_sensor.php
-├── rotas.php
-├── rotas_form.php
 ├── leituras.php
-├── limites.php
 ├── simulador.php
 ├── relatorios.php
-├── esqueceu_senha.php
+├── funcionarios.php
+├── rotas.php
+├── rotas_form.php
+├── limites.php            (tipos de sensor, limites e geração de leituras)
+├── funcoes.php            (funções usadas em várias telas)
 ├── proteger.php
 ├── conexao.php
 ├── logout.php
 ├── banco_sa_ferrorama.sql
 └── assets/
-    ├── css/
-    ├── img/
-    └── ...
+    ├── css/   (base.css com as cores e estilos comuns + um arquivo por tela)
+    ├── js/    (máscaras, filtros de lista, modal e limpeza dos campos de login)
+    └── img/
+```
 
 ## 11. Limitações Conhecidas
 

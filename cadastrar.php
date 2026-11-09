@@ -1,5 +1,6 @@
 <?php
-require 'conexao.php';
+require_once 'conexao.php';
+require_once 'funcoes.php';
 
 $mensagem = "";
 
@@ -9,62 +10,64 @@ $telefone = '';
 $email = '';
 $data_nascimento = '';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $nomePessoa = trim($_POST['nomePessoa'] ?? '');
     $cpf = trim($_POST['cpf'] ?? '');
     $telefone = trim($_POST['telefone'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $data_nascimento = trim($_POST['data_nascimento'] ?? '');
-    $password = $_POST['password'] ?? '';
+    $senha = $_POST['senha'] ?? '';
 
-    if (empty($nomePessoa) || empty($cpf) || empty($telefone) || empty($email) || empty($data_nascimento) || empty($password)) {
+    if ($nomePessoa === '' || $cpf === '' || $telefone === '' || $email === '' || $data_nascimento === '' || $senha === '') {
         $mensagem = "Preencha todos os campos!";
-    } elseif (strlen($cpf) < 14) {
+    } elseif (strlen(preg_replace('/\D/', '', $cpf)) !== 11) {
         $mensagem = "O CPF deve ter 11 dígitos (000.000.000-00).";
-    } elseif (strlen($telefone) < 14) {
-        $mensagem = "O Telefone deve incluir o DDD (00) 00000-0000.";
+    } elseif (strlen(preg_replace('/\D/', '', $telefone)) < 10) {
+        $mensagem = "O telefone deve incluir o DDD (00) 00000-0000.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $mensagem = "Digite um e-mail válido.";
+    } elseif ($data_nascimento > date('Y-m-d')) {
+        $mensagem = "A data de nascimento não pode ser no futuro.";
+    } elseif (strlen($senha) < 6) {
+        $mensagem = "A senha deve ter pelo menos 6 caracteres.";
     } else {
-        $senha_hash = password_hash($password, PASSWORD_DEFAULT);
+        $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
 
-        $sql = "INSERT INTO pessoa (nomePessoa, cpf, telefone, email, data_nascimento, senha) VALUES (?, ?, ?, ?, ?, ?)";
-        $stmt = $conexao->prepare($sql);
+        $stmt = $conexao->prepare("INSERT INTO pessoa (nomePessoa, cpf, telefone, email, data_nascimento, senha) VALUES (?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("ssssss", $nomePessoa, $cpf, $telefone, $email, $data_nascimento, $senha_hash);
 
         if ($stmt->execute()) {
             $stmt->close();
-            header("Location: index.php");
+            header("Location: index.php?cadastro=1");
             exit;
-        } else {
-            if ($conexao->errno == 1062) {
-                $mensagem = "Este CPF ou e-mail já está cadastrado.";
-            } else {
-                $mensagem = "Erro ao cadastrar no banco de dados. Tente novamente.";
-            }
-
-            $stmt->close();
         }
+
+        $mensagem = $stmt->errno === 1062
+            ? "Este CPF ou e-mail já está cadastrado."
+            : "Erro ao cadastrar no banco de dados. Tente novamente.";
+
+        $stmt->close();
     }
 }
-?>
 
-<!doctype html>
+// Na primeira visita os campos começam bloqueados (evita o preenchimento
+// automático do navegador). Depois de um erro, os dados digitados ficam.
+$bloquear = $_SERVER["REQUEST_METHOD"] !== "POST" ? 'readonly' : '';
+?>
+<!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
     <title>Cadastro - FastRail</title>
+    <link rel="stylesheet" href="assets/css/base.css">
     <link rel="stylesheet" href="assets/css/cadastrar.css">
 </head>
 
 <body>
 
-    <div class="tela">
+    <main class="tela">
 
         <div class="container">
 
@@ -72,230 +75,59 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <img src="assets/img/Logo.png" alt="FastRail">
             </div>
 
-            <div class="cabecalho">
+            <div class="topo">
                 <h1>Criar conta</h1>
                 <p>Preencha os dados para realizar seu cadastro.</p>
             </div>
 
-            <?php if (!empty($mensagem)): ?>
-                <div class="alerta">
-                    <?= htmlspecialchars($mensagem) ?>
-                </div>
+            <?php if ($mensagem !== ''): ?>
+                <div class="mensagem erro"><?= e($mensagem) ?></div>
             <?php endif; ?>
 
-            <form action="" method="POST" id="formCadastro" autocomplete="off">
+            <form method="POST" id="formCadastro" autocomplete="off">
 
                 <div class="grupo">
-                    <input
-                        type="text"
-                        id="nomePessoa"
-                        name="nomePessoa"
-                        placeholder=" "
-                        value="<?= htmlspecialchars($nomePessoa) ?>"
-                        autocomplete="off"
-                        required>
+                    <input type="text" id="nomePessoa" name="nomePessoa" maxlength="100" placeholder=" " value="<?= e($nomePessoa) ?>" autocomplete="off" required>
                     <label for="nomePessoa">Nome</label>
                 </div>
 
                 <div class="grupo">
-                    <input
-                        type="text"
-                        id="cpf"
-                        name="cpf"
-                        maxlength="14"
-                        placeholder=" "
-                        value="<?= htmlspecialchars($cpf) ?>"
-                        autocomplete="off"
-                        readonly
-                        required>
+                    <input type="text" id="cpf" name="cpf" maxlength="14" inputmode="numeric" data-mascara="cpf" placeholder=" " value="<?= e($cpf) ?>" autocomplete="off" <?= $bloquear ?> required>
                     <label for="cpf">CPF</label>
                 </div>
 
                 <div class="grupo">
-                    <input
-                        type="tel"
-                        id="telefone"
-                        name="telefone"
-                        maxlength="15"
-                        placeholder=" "
-                        value="<?= htmlspecialchars($telefone) ?>"
-                        autocomplete="off"
-                        readonly
-                        required>
+                    <input type="tel" id="telefone" name="telefone" maxlength="15" data-mascara="telefone" placeholder=" " value="<?= e($telefone) ?>" autocomplete="off" <?= $bloquear ?> required>
                     <label for="telefone">Telefone</label>
                 </div>
 
                 <div class="grupo">
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        placeholder=" "
-                        value="<?= htmlspecialchars($email) ?>"
-                        autocomplete="new-password"
-                        autocapitalize="none"
-                        spellcheck="false"
-                        readonly
-                        required>
+                    <input type="email" id="email" name="email" maxlength="100" placeholder=" " value="<?= e($email) ?>" autocomplete="off" autocapitalize="none" spellcheck="false" <?= $bloquear ?> required>
                     <label for="email">E-mail</label>
                 </div>
 
                 <div class="grupo data">
-                    <input
-                        type="date"
-                        id="data_nascimento"
-                        name="data_nascimento"
-                        value="<?= htmlspecialchars($data_nascimento) ?>"
-                        autocomplete="off"
-                        readonly
-                        required>
+                    <input type="date" id="data_nascimento" name="data_nascimento" max="<?= date('Y-m-d') ?>" value="<?= e($data_nascimento) ?>" required>
                     <label for="data_nascimento">Data de Nascimento</label>
                 </div>
 
                 <div class="grupo">
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        placeholder=" "
-                        autocomplete="new-password"
-                        readonly
-                        required>
-                    <label for="password">Senha</label>
+                    <input type="password" id="senha" name="senha" minlength="6" placeholder=" " autocomplete="new-password" readonly required>
+                    <label for="senha">Senha (mínimo 6 caracteres)</label>
                 </div>
 
-                <button type="submit" class="botao-login">
-                    Cadastrar
-                </button>
+                <button type="submit" class="botao-login">Cadastrar</button>
 
-                <button
-                    type="button"
-                    class="botao-login botao-secundario"
-                    onclick="window.location.href='index.php'">
-                    Já tenho conta / Voltar
-                </button>
+                <a href="index.php" class="botao-login botao-secundario">Já tenho conta / Voltar</a>
 
             </form>
 
         </div>
 
-    </div>
+    </main>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('formCadastro');
-            const inputNome = document.getElementById('nomePessoa');
-            const inputCPF = document.getElementById('cpf');
-            const inputTelefone = document.getElementById('telefone');
-            const inputEmail = document.getElementById('email');
-            const inputData = document.getElementById('data_nascimento');
-            const inputPassword = document.getElementById('password');
-
-            const campos = [
-                inputNome,
-                inputCPF,
-                inputTelefone,
-                inputEmail,
-                inputData,
-                inputPassword
-            ];
-
-            campos.forEach(function(campo) {
-                campo.addEventListener('focus', function() {
-                    campo.removeAttribute('readonly');
-                });
-            });
-
-            function limparCampos() {
-                inputNome.value = '';
-                inputCPF.value = '';
-                inputTelefone.value = '';
-                inputEmail.value = '';
-                inputData.value = '';
-                inputPassword.value = '';
-            }
-
-            window.addEventListener('pageshow', function() {
-                limparCampos();
-
-                campos.forEach(function(campo) {
-                    campo.setAttribute('readonly', 'readonly');
-                });
-            });
-
-            inputCPF.addEventListener('input', function(e) {
-                let value = e.target.value.replace(/\D/g, '');
-
-                if (value.length > 11) {
-                    value = value.slice(0, 11);
-                }
-
-                value = value.replace(/(\d{3})(\d)/, '$1.$2');
-                value = value.replace(/(\d{3})(\d)/, '$1.$2');
-                value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-
-                e.target.value = value;
-            });
-
-            inputTelefone.addEventListener('input', function(e) {
-                let value = e.target.value.replace(/\D/g, '');
-
-                if (value.length > 11) {
-                    value = value.slice(0, 11);
-                }
-
-                if (value.length > 10) {
-                    value = value.replace(/^(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
-                } else if (value.length > 5) {
-                    value = value.replace(/^(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
-                } else if (value.length > 2) {
-                    value = value.replace(/^(\d{2})(\d{0,5})/, '($1) $2');
-                } else if (value.length > 0) {
-                    value = value.replace(/^(\d*)/, '($1');
-                }
-
-                e.target.value = value;
-            });
-
-            form.addEventListener('submit', function(e) {
-                const nomeVal = inputNome.value.trim();
-                const cpfVal = inputCPF.value.trim();
-                const telVal = inputTelefone.value.trim();
-                const emailVal = inputEmail.value.trim();
-                const dataVal = inputData.value.trim();
-                const passVal = inputPassword.value.trim();
-
-                if (!nomeVal || !cpfVal || !telVal || !emailVal || !dataVal || !passVal) {
-                    e.preventDefault();
-                    alert('Preencha todos os campos.');
-                    return;
-                }
-
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-                if (!emailRegex.test(emailVal)) {
-                    e.preventDefault();
-                    alert('Insira um e-mail válido.');
-                    return;
-                }
-
-                if (cpfVal.length < 14) {
-                    e.preventDefault();
-                    alert('O CPF deve ser preenchido por completo.');
-                    return;
-                }
-
-                if (telVal.length < 14) {
-                    e.preventDefault();
-                    alert('O telefone deve ser preenchido com o DDD e número completo.');
-                    return;
-                }
-
-                inputPassword.removeAttribute('readonly');
-            });
-        });
-    </script>
-
+    <script src="assets/js/campos-limpos.js"></script>
+    <script src="assets/js/mascaras.js"></script>
 </body>
 
 </html>

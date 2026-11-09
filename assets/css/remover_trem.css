@@ -1,51 +1,18 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
-
-.btn-voltar {
-    width: 38px;
-    height: 38px;
-    border: none;
-    background: transparent;
-    color: #7A1118;
-    font-size: 28px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-body {
-    min-height: 100vh;
-    background: white;
-    color: white;
-}
+/* Remover trem */
 
 .container {
     width: 100%;
+    max-width: 1250px;
     min-height: 100vh;
+    margin: 0 auto;
     padding: 30px 2.3%;
 }
 
 .cabecalho {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 65px;
-}
-
-.voltar {
-    text-decoration: none;
-    color: #111;
-    font-size: 42px;
-    line-height: 1;
+    margin-bottom: 50px;
 }
 
 .cabecalho h1 {
-    color: #5b0000;
     font-size: 36px;
 }
 
@@ -53,26 +20,46 @@ body {
     width: 55%;
     max-width: 425px;
     margin: 0 auto 30px;
-    padding: 4px 15px;
-    border: 2px solid #ff0000;
+    padding: 8px 15px;
+    border: 2px solid var(--vermelho);
     border-radius: 12px;
-    color: #111;
+    color: #111111;
     text-align: center;
     font-size: 18px;
     line-height: 1.2;
 }
 
+.aviso-sensores {
+    max-width: 600px;
+    margin: 0 auto 30px;
+    padding: 12px 16px;
+    border: 1px solid #e0b45c;
+    border-radius: 12px;
+    background: var(--laranja-fundo);
+    color: var(--laranja-texto);
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.aviso-sensores strong {
+    display: block;
+    margin-bottom: 4px;
+}
+
 .area-remocao {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
     align-items: start;
+    gap: 12px;
 }
 
 .informacoes-trem {
-    background: #800000;
     min-height: 350px;
     padding: 12px 16px;
+    border-radius: 10px;
+    background: var(--vermelho);
+    color: var(--branco);
 }
 
 .topo-info {
@@ -82,50 +69,39 @@ body {
     margin-bottom: 20px;
 }
 
-.topo-info div {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.topo-info span:first-child,
-.informacao span {
-    font-size: 14px;
-}
-
-.topo-info strong {
-    font-size: 14px;
-    font-weight: normal;
-}
-
-.status {
-    background: #eee;
-    color: #222;
-    border-radius: 15px;
-    padding: 3px 18px;
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    gap: 7px;
-}
-
-.status span {
-    width: 7px;
-    height: 7px;
-    background: #d00000;
-    border-radius: 50%;
-}
-
+.topo-info div,
 .informacao {
     display: flex;
     flex-direction: column;
-    margin-bottom: 18px;
     gap: 2px;
+    font-size: 14px;
 }
 
+.informacao {
+    margin-bottom: 18px;
+}
+
+.topo-info strong,
 .informacao strong {
-    font-size: 14px;
     font-weight: normal;
+}
+
+.status-trem {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 3px 18px;
+    border-radius: 15px;
+    background: #eeeeee;
+    color: var(--texto-forte);
+    font-size: 12px;
+}
+
+.status-trem span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #d00000;
 }
 
 .formulario {
@@ -135,30 +111,38 @@ body {
 }
 
 .campo {
-    background: #800000;
     padding: 11px 14px 15px;
+    border-radius: 10px;
+    background: var(--vermelho);
+    color: var(--branco);
 }
 
 .campo label {
     display: block;
+    margin-bottom: 10px;
     font-size: 14px;
     font-weight: bold;
-    margin-bottom: 10px;
 }
 
 .campo textarea,
 .campo input {
     width: 100%;
-    border: none;
-    outline: none;
-    background: #ddd;
-    color: #222;
     padding: 7px;
+    border: none;
+    border-radius: 4px;
+    outline: none;
+    background: #dddddd;
+    color: var(--texto-forte);
     font-size: 14px;
 }
 
+.campo textarea:focus,
+.campo input:focus {
+    background: var(--branco);
+}
+
 .campo textarea {
-    height: 45px;
+    height: 60px;
     resize: vertical;
 }
 
@@ -173,29 +157,32 @@ body {
 .btn-remover {
     width: 140px;
     height: 40px;
-    border: none;
+    border: 1px solid var(--vermelho);
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    text-decoration: none;
     font-size: 14px;
+    text-decoration: none;
     cursor: pointer;
 }
 
 .btn-cancelar {
-    background: #b40000;
-    color: white;
+    background: var(--branco);
+    color: var(--vermelho);
+}
+
+.btn-cancelar:hover {
+    background: var(--vermelho-claro);
 }
 
 .btn-remover {
-    background: #b40000;
-    color: white;
+    background: var(--vermelho);
+    color: var(--branco);
 }
 
-.btn-cancelar:hover,
 .btn-remover:hover {
-    background: #900000;
+    background: var(--vermelho-escuro);
 }
 
 @media (max-width: 800px) {
@@ -204,7 +191,7 @@ body {
     }
 
     .cabecalho {
-        margin-bottom: 45px;
+        margin-bottom: 35px;
     }
 
     .cabecalho h1 {
@@ -213,7 +200,6 @@ body {
 
     .aviso {
         width: 100%;
-        max-width: 425px;
         font-size: 16px;
     }
 
@@ -235,31 +221,19 @@ body {
         padding: 20px 4%;
     }
 
-    .cabecalho {
-        margin-bottom: 35px;
-    }
-
-    .voltar {
-        font-size: 36px;
-    }
-
     .cabecalho h1 {
         font-size: 25px;
     }
 
     .aviso {
         margin-bottom: 20px;
-        font-size: 15px;
         padding: 8px 10px;
+        font-size: 15px;
     }
 
     .topo-info {
         align-items: flex-start;
         gap: 10px;
-    }
-
-    .status {
-        padding: 3px 12px;
     }
 
     .acoes {

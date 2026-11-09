@@ -1,134 +1,86 @@
 <?php
-require 'proteger.php';
-require 'conexao.php';
+require_once 'proteger.php';
 
-$sql = "SELECT idRota, nome_rota, origem, destino, distancia, status FROM rotas ORDER BY idRota DESC";
-$resultado = $conexao->query($sql);
+const STATUS_ROTA = ['Ativa' => 'ativa', 'Inativa' => 'inativa', 'Manutenção' => 'manutencao'];
 
-$total_rotas = $resultado ? $resultado->num_rows : 0;
+$resultado = $conexao->query("SELECT idRota, nome_rota, origem, destino, distancia, status FROM rotas ORDER BY idRota DESC");
+$rotas = $resultado ? $resultado->fetch_all(MYSQLI_ASSOC) : [];
+$total_rotas = count($rotas);
 ?>
-
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerenciamento de Rotas</title>
+    <title>Gerenciamento de Rotas - FastRail</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/base.css">
     <link rel="stylesheet" href="assets/css/rotas.css">
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 
 <body>
 
-<main class="container">
+    <main class="container">
 
-    <header class="cabecalho">
-        <a href="dashboard.php" class="voltar">&#8249;</a>
-
-        <div>
-            <h1>Gerenciamento de Rotas</h1>
-        </div>
-    </header>
-
-    <section class="secao">
-
-        <div class="titulo-secao">
-
+        <header class="cabecalho">
+            <a href="dashboard.php" class="btn-voltar" title="Voltar">
+                <i class="bi bi-chevron-left"></i>
+            </a>
             <div>
-                <h2>Rotas cadastradas</h2>
-                <p>Consulte as rotas disponíveis para os trens.</p>
+                <h1>Gerenciamento de Rotas</h1>
+            </div>
+        </header>
+
+        <section class="secao">
+
+            <div class="titulo-secao">
+                <div>
+                    <h2>Rotas cadastradas</h2>
+                    <p>Consulte as rotas disponíveis para os trens.</p>
+                </div>
+
+                <span class="contador"><?= $total_rotas ?> <?= $total_rotas === 1 ? 'rota' : 'rotas' ?></span>
             </div>
 
-            <span class="contador">
-                <?php echo $total_rotas; ?>
-                <?php echo $total_rotas == 1 ? 'rota' : 'rotas'; ?>
-            </span>
+            <div class="filtros">
+                <div class="campo-busca">
+                    <i class="bi bi-search"></i>
+                    <input type="text" id="buscarRota" data-busca=".rota-card" placeholder="Buscar por rota, origem ou destino...">
+                </div>
 
-        </div>
-
-        <div class="filtros">
-
-            <div class="campo-busca">
-                <span>⌕</span>
-
-                <input
-                    type="text"
-                    id="buscarRota"
-                    placeholder="Buscar por rota, origem ou destino..."
-                >
+                <select id="filtroStatus" data-filtro-status=".rota-card">
+                    <option value="">Todos os status</option>
+                    <?php foreach (STATUS_ROTA as $status => $classe): ?>
+                        <option value="<?= $classe ?>"><?= e($status) ?></option>
+                    <?php endforeach; ?>
+                </select>
             </div>
 
-            <select id="filtroStatus">
-                <option value="">Todos os status</option>
-                <option value="Ativa">Ativa</option>
-                <option value="Inativa">Inativa</option>
-                <option value="Manutenção">Manutenção</option>
-            </select>
+            <div class="lista-rotas">
 
-        </div>
+                <?php foreach ($rotas as $rota): ?>
+                    <?php $classe_status = STATUS_ROTA[$rota['status']] ?? ''; ?>
 
-        <div class="lista-rotas">
-
-            <?php if ($total_rotas > 0): ?>
-
-                <?php while ($rota = $resultado->fetch_assoc()): ?>
-
-                    <article
-                        class="rota-card"
-                        data-status="<?php echo strtolower($rota['status']); ?>"
-                    >
+                    <article class="rota-card" data-status="<?= $classe_status ?>">
 
                         <div class="rota-topo">
-
-                            <div class="icone-rota">
-                                ⇄
-                            </div>
+                            <div class="icone-rota">⇄</div>
 
                             <div class="nome-rota">
-
-                                <span>
-                                    ID: <?php echo htmlspecialchars($rota['idRota']); ?>
-                                </span>
-
-                                <h3>
-                                    <?php echo htmlspecialchars($rota['nome_rota']); ?>
-                                </h3>
-
+                                <span>ID: <?= (int) $rota['idRota'] ?></span>
+                                <h3><?= e($rota['nome_rota']) ?></h3>
                             </div>
 
-                            <?php
-                            $classe_status = '';
-
-                            if ($rota['status'] === 'Ativa') {
-                                $classe_status = 'ativa';
-                            } elseif ($rota['status'] === 'Inativa') {
-                                $classe_status = 'inativa';
-                            } elseif ($rota['status'] === 'Manutenção') {
-                                $classe_status = 'manutencao';
-                            }
-                            ?>
-
-                            <span class="status <?php echo $classe_status; ?>">
-                                <?php echo htmlspecialchars($rota['status']); ?>
-                            </span>
-
+                            <span class="status <?= $classe_status ?>"><?= e($rota['status']) ?></span>
                         </div>
 
                         <div class="rota-conteudo">
 
                             <div class="trajeto">
-
                                 <div class="local">
-
                                     <span>Origem</span>
-
-                                    <strong>
-                                        <?php echo htmlspecialchars($rota['origem']); ?>
-                                    </strong>
-
+                                    <strong><?= e($rota['origem']) ?></strong>
                                 </div>
 
                                 <div class="linha-rota">
@@ -136,111 +88,50 @@ $total_rotas = $resultado ? $resultado->num_rows : 0;
                                 </div>
 
                                 <div class="local">
-
                                     <span>Destino</span>
-
-                                    <strong>
-                                        <?php echo htmlspecialchars($rota['destino']); ?>
-                                    </strong>
-
+                                    <strong><?= e($rota['destino']) ?></strong>
                                 </div>
 
                                 <div class="distancia">
-
                                     <span>Distância</span>
-
-                                    <strong>
-                                        <?php echo number_format($rota['distancia'], 2, ',', '.'); ?> km
-                                    </strong>
-
+                                    <strong><?= formatarNumero($rota['distancia']) ?> km</strong>
                                 </div>
-
                             </div>
 
                             <div class="imagem-rota">
-                                <img
-                                    src="assets/img/rota-norte.sul.png"
-                                    alt="Mapa da rota"
-                                >
+                                <img src="assets/img/rota-norte.sul.png" alt="Mapa da rota">
                             </div>
 
                         </div>
 
                         <div class="acoes-rota">
-
-                            <a
-                                href="rotas_form.php?id=<?php echo $rota['idRota']; ?>"
-                                class="btn-editar"
-                            >
-                                Editar
-                            </a>
-
+                            <a href="rotas_form.php?id=<?= (int) $rota['idRota'] ?>" class="btn-editar">Editar</a>
                         </div>
 
                     </article>
+                <?php endforeach; ?>
 
-                <?php endwhile; ?>
+                <?php if ($total_rotas === 0): ?>
+                    <div class="sem-rotas">
+                        <div>⇄</div>
+                        <h3>Nenhuma rota cadastrada</h3>
+                        <p>Cadastre uma nova rota utilizando o botão abaixo.</p>
+                    </div>
+                <?php endif; ?>
 
-            <?php else: ?>
+                <p class="sem-rotas" id="semResultado" hidden>Nenhuma rota encontrada para este filtro.</p>
 
-                <div class="sem-rotas">
+            </div>
 
-                    <div>⇄</div>
+            <a href="rotas_form.php" class="btn-adicionar">+ Adicionar nova rota</a>
 
-                    <h3>Nenhuma rota cadastrada</h3>
+        </section>
 
-                    <p>
-                        Cadastre uma nova rota utilizando o botão abaixo.
-                    </p>
+        <footer class="rodape">FastRail © 2026 - Sistema de Monitoramento Ferroviário</footer>
 
-                </div>
+    </main>
 
-            <?php endif; ?>
-
-        </div>
-
-        <a href="rotas_form.php" class="btn-adicionar">
-            + Adicionar nova rota
-        </a>
-
-    </section>
-
-    <footer>
-        FastRail © 2026 - Sistema de Monitoramento Ferroviário
-    </footer>
-
-</main>
-
-<script>
-const busca = document.getElementById('buscarRota');
-const filtroStatus = document.getElementById('filtroStatus');
-const rotas = document.querySelectorAll('.rota-card');
-
-function filtrarRotas() {
-
-    const texto = busca.value.toLowerCase();
-    const status = filtroStatus.value.toLowerCase();
-
-    rotas.forEach(function(rota) {
-
-        const conteudo = rota.textContent.toLowerCase();
-        const statusRota = rota.dataset.status;
-
-        const correspondeTexto = conteudo.includes(texto);
-        const correspondeStatus = status === '' || statusRota === status;
-
-        if (correspondeTexto && correspondeStatus) {
-            rota.style.display = '';
-        } else {
-            rota.style.display = 'none';
-        }
-
-    });
-}
-
-busca.addEventListener('input', filtrarRotas);
-filtroStatus.addEventListener('change', filtrarRotas);
-</script>
-
+    <script src="assets/js/filtro-lista.js"></script>
 </body>
+
 </html>

@@ -1,14 +1,7 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
+/* Tela de recuperação de senha */
 
 body {
-    min-height: 100vh;
-    background: #ffffff;
-    color: #222222;
+    color: var(--texto-forte);
 }
 
 .tela {
@@ -23,51 +16,35 @@ body {
     width: 100%;
     max-width: 460px;
     padding: 35px;
-    border: 1px solid #7A1118;
+    border: 1px solid var(--vermelho);
     border-radius: 20px;
-    background: #f2f2f2;
+    background: var(--cinza-fundo);
 }
 
 .logo {
-    text-align: center;
     margin-bottom: 20px;
+    text-align: center;
 }
 
 .logo img {
     width: 220px;
-    max-width: 100%;
-    height: auto;
 }
 
-.cabecalho {
-    text-align: center;
+.topo {
     margin-bottom: 25px;
+    text-align: center;
 }
 
-.cabecalho h1 {
+.topo h1 {
     margin-bottom: 8px;
-    color: #7A1118;
+    color: var(--vermelho);
     font-size: 26px;
 }
 
-.cabecalho p {
+.topo p {
     color: #666666;
     font-size: 14px;
     line-height: 1.5;
-}
-
-.mensagem {
-    padding: 12px;
-    margin-bottom: 18px;
-    border-radius: 8px;
-    text-align: center;
-    font-size: 13px;
-}
-
-.mensagem.erro {
-    border: 1px solid #c9a0a0;
-    background: #f8eeee;
-    color: #7A1118;
 }
 
 .grupo {
@@ -89,36 +66,36 @@ body {
     border: 1px solid #bbbbbb;
     border-radius: 8px;
     outline: none;
-    background: #ffffff;
-    color: #222222;
+    background: var(--branco);
+    color: var(--texto-forte);
     font-size: 14px;
 }
 
 .grupo input:focus {
-    border-color: #7A1118;
+    border-color: var(--vermelho);
 }
 
 .botao {
     width: 100%;
     height: 45px;
     margin-top: 5px;
-    border: 1px solid #7A1118;
+    border: 1px solid var(--vermelho);
     border-radius: 8px;
-    background: #7A1118;
-    color: #ffffff;
+    background: var(--vermelho);
+    color: var(--branco);
     font-size: 14px;
     font-weight: bold;
     cursor: pointer;
 }
 
 .botao:hover {
-    background: #5f0d13;
+    background: var(--vermelho-escuro);
 }
 
 .voltar {
     display: block;
     margin-top: 20px;
-    color: #7A1118;
+    color: var(--vermelho);
     text-align: center;
     text-decoration: none;
     font-size: 13px;
@@ -143,11 +120,11 @@ body {
         width: 190px;
     }
 
-    .cabecalho h1 {
+    .topo h1 {
         font-size: 23px;
     }
 
-    .cabecalho p {
+    .topo p {
         font-size: 13px;
     }
 }
@@ -157,7 +134,7 @@ body {
         padding: 22px 16px;
     }
 
-    .cabecalho h1 {
+    .topo h1 {
         font-size: 21px;
     }
 
