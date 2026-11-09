@@ -87,193 +87,176 @@ $stmt->close();
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Relatórios - FastRail</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="assets/css/base.css">
-    <link rel="stylesheet" href="assets/css/relatorios.css">
+    <?php headHtml('Relatórios'); ?>
 </head>
 
 <body>
 
-    <div class="tela">
+    <main class="container-xl py-4 px-3 px-md-4">
 
-        <header class="cabecalho">
-            <a href="dashboard.php" class="btn-voltar" title="Voltar">
-                <i class="bi bi-chevron-left"></i>
-            </a>
-            <div>
-                <h1>Relatórios</h1>
-                <p>Consulte informações do sistema por período.</p>
-            </div>
-        </header>
+        <?php tituloPagina('Relatórios', 'dashboard.php', 'Consulte informações do sistema por período.'); ?>
 
-        <main>
+        <form method="GET" action="relatorios.php" class="card-fr bg-white p-3 p-md-4 row g-3 align-items-end mx-0 mb-4 nao-imprimir">
 
-            <section class="filtros">
-                <form method="GET" action="relatorios.php">
-
-                    <div class="campo">
-                        <label for="data_inicio">Informe o período do relatório:</label>
-
-                        <div class="periodo">
-                            <div class="data">
-                                <span>De</span>
-                                <input type="date" id="data_inicio" name="data_inicio" value="<?= e($dataInicio) ?>" required>
-                            </div>
-
-                            <span class="separador">até</span>
-
-                            <div class="data">
-                                <span>Até</span>
-                                <input type="date" id="data_fim" name="data_fim" value="<?= e($dataFim) ?>" required>
-                            </div>
+            <div class="col-lg-6">
+                <span class="form-label small d-block">Informe o período do relatório:</span>
+                <div class="row g-2 align-items-center">
+                    <div class="col-sm">
+                        <div class="input-group">
+                            <label class="input-group-text small rotulo-data" for="data_inicio">De</label>
+                            <input type="date" class="form-control border-primary" id="data_inicio" name="data_inicio" value="<?= e($dataInicio) ?>" required>
                         </div>
                     </div>
-
-                    <div class="campo">
-                        <label for="tipo">Selecione o tipo de relatório:</label>
-                        <select id="tipo" name="tipo">
-                            <option value="sensor" <?= $tipoRelatorio === 'sensor' ? 'selected' : '' ?>>Por sensor</option>
-                            <option value="trem" <?= $tipoRelatorio === 'trem' ? 'selected' : '' ?>>Por trem</option>
-                            <option value="manutencao" <?= $tipoRelatorio === 'manutencao' ? 'selected' : '' ?>>Manutenções</option>
-                        </select>
+                    <div class="col-sm">
+                        <div class="input-group">
+                            <label class="input-group-text small rotulo-data" for="data_fim">Até</label>
+                            <input type="date" class="form-control border-primary" id="data_fim" name="data_fim" value="<?= e($dataFim) ?>" required>
+                        </div>
                     </div>
-
-                    <button type="submit" class="btn-gerar">Gerar</button>
-
-                </form>
-            </section>
-
-            <section class="resultado">
-
-                <div class="resultado-topo">
-                    <div>
-                        <h2><?= $tiposRelatorio[$tipoRelatorio] ?></h2>
-                        <p>Período: <?= formatarData($dataInicio) ?> até <?= formatarData($dataFim) ?></p>
-                    </div>
-
-                    <span class="quantidade"><?= count($dados) ?> <?= count($dados) === 1 ? 'registro' : 'registros' ?></span>
                 </div>
+            </div>
 
-                <div class="tabela-container">
+            <div class="col-sm-8 col-lg-4">
+                <label for="tipo" class="form-label small">Selecione o tipo de relatório:</label>
+                <select id="tipo" name="tipo" class="form-select border-primary">
+                    <option value="sensor" <?= $tipoRelatorio === 'sensor' ? 'selected' : '' ?>>Por sensor</option>
+                    <option value="trem" <?= $tipoRelatorio === 'trem' ? 'selected' : '' ?>>Por trem</option>
+                    <option value="manutencao" <?= $tipoRelatorio === 'manutencao' ? 'selected' : '' ?>>Manutenções</option>
+                </select>
+            </div>
 
-                    <?php if ($tipoRelatorio === 'sensor'): ?>
+            <div class="col-sm-4 col-lg-2 d-grid">
+                <button type="submit" class="btn btn-primary rounded-pill">Gerar</button>
+            </div>
 
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Tipo de sensor</th>
-                                    <th>Última manutenção</th>
-                                    <th>Data de importação</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($dados as $linha): ?>
-                                    <tr>
-                                        <td><?= codigoSensor($linha['idSensor']) ?></td>
-                                        <td><?= e($linha['modelo']) ?></td>
-                                        <td><?= formatarData($linha['ultima_manutencao']) ?></td>
-                                        <td><?= formatarDataHora($linha['data_importacao']) ?></td>
-                                    </tr>
-                                <?php endforeach; ?>
+        </form>
 
-                                <?php if (empty($dados)): ?>
-                                    <tr>
-                                        <td colspan="4" class="sem-dados">Nenhum sensor cadastrado.</td>
-                                    </tr>
-                                <?php endif; ?>
-                            </tbody>
-                        </table>
+        <section>
 
-                    <?php elseif ($tipoRelatorio === 'trem'): ?>
-
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Modelo</th>
-                                    <th>Abastecimento</th>
-                                    <th>Carga</th>
-                                    <th>Sensores</th>
-                                    <th>Última leitura</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($dados as $linha): ?>
-                                    <tr>
-                                        <td>TREM-<?= codigoTrem($linha['idTrem']) ?></td>
-                                        <td><?= e($linha['modelo']) ?></td>
-                                        <td><?= e($linha['tipo_abastecimento']) ?></td>
-                                        <td><?= e($linha['tipo_carga']) ?></td>
-                                        <td><?= (int) $linha['quantidade_sensores'] ?></td>
-                                        <td><?= formatarDataHora($linha['ultima_leitura']) ?></td>
-                                    </tr>
-                                <?php endforeach; ?>
-
-                                <?php if (empty($dados)): ?>
-                                    <tr>
-                                        <td colspan="6" class="sem-dados">Nenhum trem encontrado.</td>
-                                    </tr>
-                                <?php endif; ?>
-                            </tbody>
-                        </table>
-
-                    <?php else: ?>
-
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Trem</th>
-                                    <th>Sensor</th>
-                                    <th>Motivo</th>
-                                    <th>Data</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($dados as $linha): ?>
-                                    <tr>
-                                        <td>MAN-<?= sprintf('%03d', $linha['idManutencao']) ?></td>
-                                        <td>TREM-<?= codigoTrem($linha['idTrem']) ?></td>
-                                        <td><?= $linha['modelo_sensor'] ? e($linha['modelo_sensor']) : '-' ?></td>
-                                        <td><?= e($linha['motivo']) ?></td>
-                                        <td><?= formatarDataHora($linha['dataHora']) ?></td>
-                                    </tr>
-                                <?php endforeach; ?>
-
-                                <?php if (empty($dados)): ?>
-                                    <tr>
-                                        <td colspan="5" class="sem-dados">Nenhuma manutenção encontrada no período.</td>
-                                    </tr>
-                                <?php endif; ?>
-                            </tbody>
-                        </table>
-
-                    <?php endif; ?>
-
+            <div class="d-flex justify-content-between align-items-start gap-2 mb-3">
+                <div>
+                    <h2 class="h5 fw-bold mb-1"><?= $tiposRelatorio[$tipoRelatorio] ?></h2>
+                    <p class="text-secondary small mb-0">Período: <?= formatarData($dataInicio) ?> até <?= formatarData($dataFim) ?></p>
                 </div>
+                <span class="etiqueta etiqueta-contorno"><?= count($dados) ?> <?= count($dados) === 1 ? 'registro' : 'registros' ?></span>
+            </div>
 
-            </section>
+            <div class="tabela-fr table-responsive">
 
-        </main>
+                <?php if ($tipoRelatorio === 'sensor'): ?>
 
-        <footer class="acoes">
-            <button type="button" onclick="window.print()" class="acao" title="Escolha &quot;Salvar como PDF&quot; na janela de impressão">
-                <i class="bi bi-file-earmark-pdf"></i>
-                <span>Salvar em PDF</span>
+                    <table class="table table-striped table-hover align-middle text-center">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Tipo de sensor</th>
+                                <th>Última manutenção</th>
+                                <th>Data de importação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($dados as $linha): ?>
+                                <tr>
+                                    <td><?= codigoSensor($linha['idSensor']) ?></td>
+                                    <td><?= e($linha['modelo']) ?></td>
+                                    <td><?= formatarData($linha['ultima_manutencao']) ?></td>
+                                    <td><?= formatarDataHora($linha['data_importacao']) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+
+                            <?php if (empty($dados)): ?>
+                                <tr>
+                                    <td colspan="4" class="text-secondary py-4">Nenhum sensor cadastrado.</td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+
+                <?php elseif ($tipoRelatorio === 'trem'): ?>
+
+                    <table class="table table-striped table-hover align-middle text-center">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Modelo</th>
+                                <th>Abastecimento</th>
+                                <th>Carga</th>
+                                <th>Sensores</th>
+                                <th>Última leitura</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($dados as $linha): ?>
+                                <tr>
+                                    <td>TREM-<?= codigoTrem($linha['idTrem']) ?></td>
+                                    <td><?= e($linha['modelo']) ?></td>
+                                    <td><?= e($linha['tipo_abastecimento']) ?></td>
+                                    <td><?= e($linha['tipo_carga']) ?></td>
+                                    <td><?= (int) $linha['quantidade_sensores'] ?></td>
+                                    <td><?= formatarDataHora($linha['ultima_leitura']) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+
+                            <?php if (empty($dados)): ?>
+                                <tr>
+                                    <td colspan="6" class="text-secondary py-4">Nenhum trem encontrado.</td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+
+                <?php else: ?>
+
+                    <table class="table table-striped table-hover align-middle text-center">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Trem</th>
+                                <th>Sensor</th>
+                                <th>Motivo</th>
+                                <th>Data</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($dados as $linha): ?>
+                                <tr>
+                                    <td>MAN-<?= sprintf('%03d', $linha['idManutencao']) ?></td>
+                                    <td>TREM-<?= codigoTrem($linha['idTrem']) ?></td>
+                                    <td><?= $linha['modelo_sensor'] ? e($linha['modelo_sensor']) : '-' ?></td>
+                                    <td><?= e($linha['motivo']) ?></td>
+                                    <td><?= formatarDataHora($linha['dataHora']) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+
+                            <?php if (empty($dados)): ?>
+                                <tr>
+                                    <td colspan="5" class="text-secondary py-4">Nenhuma manutenção encontrada no período.</td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+
+                <?php endif; ?>
+
+            </div>
+
+        </section>
+
+        <div class="d-flex justify-content-center gap-5 mt-4 nao-imprimir">
+            <button type="button" onclick="window.print()" class="btn btn-link text-decoration-none d-flex flex-column align-items-center" title="Escolha &quot;Salvar como PDF&quot; na janela de impressão">
+                <i class="bi bi-file-earmark-pdf fs-3"></i>
+                <span class="small fw-bold">Salvar em PDF</span>
             </button>
 
-            <button type="button" onclick="window.print()" class="acao">
-                <i class="bi bi-printer"></i>
-                <span>Imprimir</span>
+            <button type="button" onclick="window.print()" class="btn btn-link text-decoration-none d-flex flex-column align-items-center">
+                <i class="bi bi-printer fs-3"></i>
+                <span class="small fw-bold">Imprimir</span>
             </button>
-        </footer>
+        </div>
 
-    </div>
+    </main>
 
+    <?php scriptsHtml(); ?>
 </body>
 
 </html>

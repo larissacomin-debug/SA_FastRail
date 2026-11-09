@@ -90,3 +90,64 @@ function classeEstadoTrem($estado)
 {
     return CLASSES_ESTADO_TREM[$estado] ?? '';
 }
+
+// ---------- Partes de HTML repetidas em todas as telas ----------
+
+// Conteúdo do <head>: Bootstrap, ícones e o tema do FastRail
+function headHtml($titulo)
+{
+    ?>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= e($titulo) ?> - FastRail</title>
+    <link rel="icon" href="assets/img/Logo.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/fastrail.css">
+    <?php
+}
+
+// Cabeçalho das telas internas: botão voltar + título (+ subtítulo e conteúdo extra à direita)
+function tituloPagina($titulo, $voltarPara, $subtitulo = '', $extra = '')
+{
+    ?>
+    <header class="titulo-pagina">
+        <a href="<?= e($voltarPara) ?>" class="btn-voltar nao-imprimir" title="Voltar" aria-label="Voltar">
+            <i class="bi bi-chevron-left"></i>
+        </a>
+        <div class="flex-grow-1 min-w-0">
+            <h1><?= e($titulo) ?></h1>
+            <?php if ($subtitulo !== ''): ?>
+                <p><?= e($subtitulo) ?></p>
+            <?php endif; ?>
+        </div>
+        <?= $extra ?>
+    </header>
+    <?php
+}
+
+// Scripts do Bootstrap (modal, alertas que fecham, etc.)
+function scriptsHtml()
+{
+    echo '<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>' . "\n";
+}
+
+function rodapeHtml()
+{
+    echo '<footer class="rodape">FastRail © 2026 - Sistema de Monitoramento Ferroviário</footer>' . "\n";
+}
+
+// Mensagem de sucesso/erro no padrão do Bootstrap
+function mensagemHtml($mensagem, $tipo = 'erro')
+{
+    if ($mensagem === '') {
+        return;
+    }
+
+    $classe = $tipo === 'sucesso' ? 'alert-success' : 'alert-danger';
+
+    echo '<div class="alert ' . $classe . ' alert-dismissible fade show" role="alert">'
+        . e($mensagem)
+        . '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>'
+        . '</div>';
+}

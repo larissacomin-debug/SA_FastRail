@@ -58,76 +58,73 @@ $bloquear = $_SERVER["REQUEST_METHOD"] !== "POST" ? 'readonly' : '';
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro - FastRail</title>
-    <link rel="stylesheet" href="assets/css/base.css">
-    <link rel="stylesheet" href="assets/css/cadastrar.css">
+    <?php headHtml('Cadastro'); ?>
 </head>
 
 <body>
 
-    <main class="tela">
+    <main class="tela-acesso">
+        <div class="caixa-acesso">
 
-        <div class="container">
+            <img src="assets/img/Logo.png" alt="FastRail" class="logo">
 
-            <div class="logo">
-                <img src="assets/img/Logo.png" alt="FastRail">
-            </div>
-
-            <div class="topo">
+            <div class="text-center mb-4">
                 <h1>Criar conta</h1>
-                <p>Preencha os dados para realizar seu cadastro.</p>
+                <p class="text-secondary small mb-0">Preencha os dados para realizar seu cadastro.</p>
             </div>
 
-            <?php if ($mensagem !== ''): ?>
-                <div class="mensagem erro"><?= e($mensagem) ?></div>
-            <?php endif; ?>
+            <?php mensagemHtml($mensagem); ?>
 
             <form method="POST" id="formCadastro" autocomplete="off">
 
-                <div class="grupo">
-                    <input type="text" id="nomePessoa" name="nomePessoa" maxlength="100" placeholder=" " value="<?= e($nomePessoa) ?>" autocomplete="off" required>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control campo-fr" id="nomePessoa" name="nomePessoa" maxlength="100" placeholder=" " value="<?= e($nomePessoa) ?>" autocomplete="off" required>
                     <label for="nomePessoa">Nome</label>
                 </div>
 
-                <div class="grupo">
-                    <input type="text" id="cpf" name="cpf" maxlength="14" inputmode="numeric" data-mascara="cpf" placeholder=" " value="<?= e($cpf) ?>" autocomplete="off" <?= $bloquear ?> required>
-                    <label for="cpf">CPF</label>
+                <div class="row g-3 mb-3">
+                    <div class="col-sm-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control campo-fr" id="cpf" name="cpf" maxlength="14" inputmode="numeric" data-mascara="cpf" placeholder=" " value="<?= e($cpf) ?>" autocomplete="off" <?= $bloquear ?> required>
+                            <label for="cpf">CPF</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-floating">
+                            <input type="tel" class="form-control campo-fr" id="telefone" name="telefone" maxlength="15" data-mascara="telefone" placeholder=" " value="<?= e($telefone) ?>" autocomplete="off" <?= $bloquear ?> required>
+                            <label for="telefone">Telefone</label>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="grupo">
-                    <input type="tel" id="telefone" name="telefone" maxlength="15" data-mascara="telefone" placeholder=" " value="<?= e($telefone) ?>" autocomplete="off" <?= $bloquear ?> required>
-                    <label for="telefone">Telefone</label>
-                </div>
-
-                <div class="grupo">
-                    <input type="email" id="email" name="email" maxlength="100" placeholder=" " value="<?= e($email) ?>" autocomplete="off" autocapitalize="none" spellcheck="false" <?= $bloquear ?> required>
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control campo-fr" id="email" name="email" maxlength="100" placeholder=" " value="<?= e($email) ?>" autocomplete="off" autocapitalize="none" spellcheck="false" <?= $bloquear ?> required>
                     <label for="email">E-mail</label>
                 </div>
 
-                <div class="grupo data">
-                    <input type="date" id="data_nascimento" name="data_nascimento" max="<?= date('Y-m-d') ?>" value="<?= e($data_nascimento) ?>" required>
-                    <label for="data_nascimento">Data de Nascimento</label>
+                <div class="form-floating mb-3">
+                    <input type="date" class="form-control campo-fr" id="data_nascimento" name="data_nascimento" max="<?= date('Y-m-d') ?>" value="<?= e($data_nascimento) ?>" required>
+                    <label for="data_nascimento">Data de nascimento</label>
                 </div>
 
-                <div class="grupo">
-                    <input type="password" id="senha" name="senha" minlength="6" placeholder=" " autocomplete="new-password" readonly required>
+                <div class="form-floating mb-4">
+                    <input type="password" class="form-control campo-fr" id="senha" name="senha" minlength="6" placeholder=" " autocomplete="new-password" readonly required>
                     <label for="senha">Senha (mínimo 6 caracteres)</label>
                 </div>
 
-                <button type="submit" class="botao-login">Cadastrar</button>
-
-                <a href="index.php" class="botao-login botao-secundario">Já tenho conta / Voltar</a>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary btn-pill">Cadastrar</button>
+                    <a href="index.php" class="btn btn-outline-primary btn-pill">Já tenho conta / Voltar</a>
+                </div>
 
             </form>
 
         </div>
-
     </main>
 
     <script src="assets/js/campos-limpos.js"></script>
     <script src="assets/js/mascaras.js"></script>
+    <?php scriptsHtml(); ?>
 </body>
 
 </html>

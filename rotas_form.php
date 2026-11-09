@@ -69,35 +69,28 @@ $titulo = $modo_edicao ? 'Editar Rota' : 'Adicionar Rota';
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $titulo ?> - FastRail</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="assets/css/base.css">
-    <link rel="stylesheet" href="assets/css/rotas_form.css">
+    <?php headHtml($titulo); ?>
 </head>
 
 <body>
 
-    <main class="container">
+    <main class="container py-4 px-3 px-md-4" style="max-width: 1000px;">
 
-        <header class="cabecalho">
-            <a href="rotas.php" class="btn-voltar" title="Voltar">
-                <i class="bi bi-chevron-left"></i>
-            </a>
-            <div>
-                <h1><?= $titulo ?></h1>
-                <p><?= $modo_edicao ? 'Altere as informações da rota cadastrada.' : 'Preencha as informações para cadastrar uma nova rota.' ?></p>
-            </div>
-        </header>
+        <?php
+        tituloPagina(
+            $titulo,
+            'rotas.php',
+            $modo_edicao ? 'Altere as informações da rota cadastrada.' : 'Preencha as informações para cadastrar uma nova rota.'
+        );
+        ?>
 
-        <section class="form-card">
+        <section class="secao-fr">
 
-            <div class="titulo-form">
-                <div class="icone-form">⇄</div>
+            <div class="d-flex align-items-center gap-3 mb-4">
+                <span class="icone-quadrado">⇄</span>
                 <div>
-                    <h2>Informações da rota</h2>
-                    <p><?= $modo_edicao ? 'Edite os dados abaixo.' : 'Informe os dados da nova rota.' ?></p>
+                    <h2 class="mb-1">Informações da rota</h2>
+                    <p class="text-secondary small mb-0"><?= $modo_edicao ? 'Edite os dados abaixo.' : 'Informe os dados da nova rota.' ?></p>
                 </div>
             </div>
 
@@ -105,34 +98,34 @@ $titulo = $modo_edicao ? 'Editar Rota' : 'Adicionar Rota';
 
                 <input type="hidden" name="id" value="<?= $id ?>">
 
-                <div class="grid-form">
+                <div class="row g-3">
 
-                    <div class="campo campo-completo">
-                        <label for="nome_rota">Nome da rota</label>
-                        <input type="text" id="nome_rota" name="nome_rota" maxlength="100" placeholder="Ex: Rota Norte - Sul" value="<?= e($rota['nome_rota']) ?>" required>
+                    <div class="col-12">
+                        <label for="nome_rota" class="form-label small">Nome da rota</label>
+                        <input type="text" class="form-control border-primary" id="nome_rota" name="nome_rota" maxlength="100" placeholder="Ex: Rota Norte - Sul" value="<?= e($rota['nome_rota']) ?>" required>
                     </div>
 
-                    <div class="campo">
-                        <label for="origem">Origem</label>
-                        <input type="text" id="origem" name="origem" maxlength="100" placeholder="Ex: Estação Central" value="<?= e($rota['origem']) ?>" required>
+                    <div class="col-md-6">
+                        <label for="origem" class="form-label small">Origem</label>
+                        <input type="text" class="form-control border-primary" id="origem" name="origem" maxlength="100" placeholder="Ex: Estação Central" value="<?= e($rota['origem']) ?>" required>
                     </div>
 
-                    <div class="campo">
-                        <label for="destino">Destino</label>
-                        <input type="text" id="destino" name="destino" maxlength="100" placeholder="Ex: Estação Norte" value="<?= e($rota['destino']) ?>" required>
+                    <div class="col-md-6">
+                        <label for="destino" class="form-label small">Destino</label>
+                        <input type="text" class="form-control border-primary" id="destino" name="destino" maxlength="100" placeholder="Ex: Estação Norte" value="<?= e($rota['destino']) ?>" required>
                     </div>
 
-                    <div class="campo">
-                        <label for="distancia">Distância da rota</label>
-                        <div class="input-unidade">
-                            <input type="number" id="distancia" name="distancia" step="0.01" min="0.01" placeholder="Ex: 25.50" value="<?= e($rota['distancia']) ?>" required>
-                            <span>km</span>
+                    <div class="col-md-6">
+                        <label for="distancia" class="form-label small">Distância da rota</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control border-primary" id="distancia" name="distancia" step="0.01" min="0.01" placeholder="Ex: 25.50" value="<?= e($rota['distancia']) ?>" required>
+                            <span class="input-group-text border-primary">km</span>
                         </div>
                     </div>
 
-                    <div class="campo">
-                        <label for="status">Status da rota</label>
-                        <select id="status" name="status" required>
+                    <div class="col-md-6">
+                        <label for="status" class="form-label small">Status da rota</label>
+                        <select id="status" name="status" class="form-select border-primary" required>
                             <?php foreach ($statusRota as $status): ?>
                                 <option value="<?= e($status) ?>" <?= $rota['status'] === $status ? 'selected' : '' ?>><?= e($status) ?></option>
                             <?php endforeach; ?>
@@ -141,19 +134,20 @@ $titulo = $modo_edicao ? 'Editar Rota' : 'Adicionar Rota';
 
                 </div>
 
-                <div class="acoes">
-                    <a href="rotas.php" class="btn-cancelar">Cancelar</a>
-                    <button type="submit" class="btn-salvar"><?= $modo_edicao ? 'Salvar alterações' : '+ Cadastrar rota' ?></button>
+                <div class="d-flex flex-column-reverse flex-sm-row justify-content-end gap-2 mt-4">
+                    <a href="rotas.php" class="btn btn-outline-primary px-4">Cancelar</a>
+                    <button type="submit" class="btn btn-primary px-4"><?= $modo_edicao ? 'Salvar alterações' : '+ Cadastrar rota' ?></button>
                 </div>
 
             </form>
 
         </section>
 
-        <footer class="rodape">FastRail © 2026 - Sistema de Monitoramento Ferroviário</footer>
+        <?php rodapeHtml(); ?>
 
     </main>
 
+    <?php scriptsHtml(); ?>
     <?= scriptAlerta($alerta) ?>
 </body>
 

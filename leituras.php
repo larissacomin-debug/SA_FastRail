@@ -34,116 +34,101 @@ $sensores = $resultado ? $resultado->fetch_all(MYSQLI_ASSOC) : [];
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leituras dos sensores - FastRail</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="assets/css/base.css">
-    <link rel="stylesheet" href="assets/css/leituras.css">
+    <?php headHtml('Leituras dos sensores'); ?>
 </head>
 
 <body>
 
-    <div class="tela">
+    <main class="container-xxl py-4 px-3 px-md-4">
 
-        <header class="cabecalho">
-            <a href="dashboard.php" class="btn-voltar" title="Voltar">
-                <i class="bi bi-chevron-left"></i>
-            </a>
-            <div>
-                <h1>Leituras dos sensores</h1>
-                <p>Histórico dos valores coletados pelos sensores (últimas 200 leituras)</p>
+        <?php
+        tituloPagina(
+            'Leituras dos sensores',
+            'dashboard.php',
+            'Histórico dos valores coletados pelos sensores (últimas 200 leituras)',
+            '<a href="simulador.php" class="btn btn-outline-primary d-none d-sm-inline-block"><i class="bi bi-cpu"></i> Gerar leituras</a>'
+        );
+        ?>
+
+        <form method="GET" class="secao-fr row g-3 align-items-end mx-0 mb-4">
+
+            <div class="col-md-6 col-lg-7">
+                <label for="idSensor" class="form-label small">Filtrar por sensor</label>
+                <select id="idSensor" name="idSensor" class="form-select border-primary">
+                    <option value="0">Todos os sensores</option>
+                    <?php foreach ($sensores as $sensor): ?>
+                        <option value="<?= (int) $sensor['idSensor'] ?>" <?= $idSensor === (int) $sensor['idSensor'] ? 'selected' : '' ?>>
+                            <?= codigoSensor($sensor['idSensor']) ?> - <?= e($sensor['modelo']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
             </div>
-            <a href="simulador.php" class="btn-secundario">
-                <i class="bi bi-cpu"></i> Gerar leituras
-            </a>
-        </header>
 
-        <main class="conteudo">
-
-            <form method="GET" class="filtros">
-
-                <div class="campo">
-                    <label for="idSensor">Filtrar por sensor</label>
-                    <select id="idSensor" name="idSensor">
-                        <option value="0">Todos os sensores</option>
-                        <?php foreach ($sensores as $sensor): ?>
-                            <option value="<?= (int) $sensor['idSensor'] ?>" <?= $idSensor === (int) $sensor['idSensor'] ? 'selected' : '' ?>>
-                                <?= codigoSensor($sensor['idSensor']) ?> - <?= e($sensor['modelo']) ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
+            <div class="col-md-6 col-lg-5">
+                <div class="form-check border border-primary rounded bg-white py-2 ps-5 pe-3 mb-0">
+                    <input class="form-check-input" type="checkbox" name="somente_falha" id="somente_falha" <?= $somenteFalha ? 'checked' : '' ?>>
+                    <label class="form-check-label small" for="somente_falha">Mostrar somente leituras com falha</label>
                 </div>
+            </div>
 
-                <div class="campo checkbox">
-                    <label>
-                        <input type="checkbox" name="somente_falha" <?= $somenteFalha ? 'checked' : '' ?>>
-                        Mostrar somente leituras com falha
-                    </label>
-                </div>
+            <div class="col-12 d-flex flex-column flex-sm-row justify-content-end gap-2">
+                <a href="leituras.php" class="btn btn-outline-primary px-4">Limpar</a>
+                <button type="submit" class="btn btn-primary px-4">Filtrar</button>
+            </div>
 
-                <div class="acoes">
-                    <button type="submit" class="btn-principal">Filtrar</button>
-                    <a href="leituras.php" class="btn-secundario">Limpar</a>
-                </div>
+        </form>
 
-            </form>
+        <?php if (empty($leituras)): ?>
 
-            <?php if (empty($leituras)): ?>
+            <div class="vazio-fr">
+                <i class="bi bi-clipboard-data"></i>
+                <p>Nenhuma leitura encontrada.</p>
+                <a href="simulador.php" class="btn btn-primary">Gerar leituras</a>
+            </div>
 
-                <div class="vazio">
-                    <p>Nenhuma leitura encontrada.</p>
-                    <a href="simulador.php">Gerar leituras</a>
-                </div>
+        <?php else: ?>
 
-            <?php else: ?>
-
-                <div class="tabela-container">
-                    <table>
-                        <thead>
+            <div class="tabela-fr table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Data e hora</th>
+                            <th>Sensor</th>
+                            <th>Tipo</th>
+                            <th>Trem</th>
+                            <th>Valor</th>
+                            <th>Situação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($leituras as $leitura): ?>
+                            <?php $falhas = classificarLeitura($leitura['modelo'], $leitura['valor_coletado']); ?>
                             <tr>
-                                <th>Data e hora</th>
-                                <th>Sensor</th>
-                                <th>Tipo</th>
-                                <th>Trem</th>
-                                <th>Valor</th>
-                                <th>Situação</th>
+                                <td><?= formatarDataHora($leitura['data_hora']) ?></td>
+                                <td><?= codigoSensor($leitura['idSensor']) ?></td>
+                                <td><?= e($leitura['modelo']) ?></td>
+                                <td>Trem-<?= codigoTrem($leitura['idTrem']) ?></td>
+                                <td class="<?= $falhas ? 'valor-acima' : '' ?>">
+                                    <?= formatarNumero($leitura['valor_coletado']) ?> <?= unidadeSensor($leitura['modelo']) ?>
+                                </td>
+                                <td>
+                                    <?php if (!$falhas): ?>
+                                        <span class="etiqueta etiqueta-ativo">Normal</span>
+                                    <?php else: ?>
+                                        <span class="etiqueta etiqueta-alerta" title="<?= e(implode(', ', $falhas)) ?>"><?= count($falhas) ?> alerta(s)</span>
+                                    <?php endif; ?>
+                                </td>
                             </tr>
-                        </thead>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
 
-                        <tbody>
-                            <?php foreach ($leituras as $leitura): ?>
-                                <?php $falhas = classificarLeitura($leitura['modelo'], $leitura['valor_coletado']); ?>
-                                <tr>
-                                    <td><?= formatarDataHora($leitura['data_hora']) ?></td>
-                                    <td><?= codigoSensor($leitura['idSensor']) ?></td>
-                                    <td><?= e($leitura['modelo']) ?></td>
-                                    <td>Trem-<?= codigoTrem($leitura['idTrem']) ?></td>
-                                    <td class="<?= $falhas ? 'acima' : '' ?>">
-                                        <?= formatarNumero($leitura['valor_coletado']) ?>
-                                        <?= unidadeSensor($leitura['modelo']) ?>
-                                    </td>
-                                    <td>
-                                        <?php if (!$falhas): ?>
-                                            <span class="etiqueta etiqueta-ativo">Normal</span>
-                                        <?php else: ?>
-                                            <span class="etiqueta etiqueta-manutencao" title="<?= e(implode(', ', $falhas)) ?>">
-                                                <?= count($falhas) ?> alerta(s)
-                                            </span>
-                                        <?php endif; ?>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
+        <?php endif; ?>
 
-            <?php endif; ?>
+    </main>
 
-        </main>
-
-    </div>
-
+    <?php scriptsHtml(); ?>
 </body>
 
 </html>

@@ -49,57 +49,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Esqueceu a senha - FastRail</title>
-    <link rel="stylesheet" href="assets/css/base.css">
-    <link rel="stylesheet" href="assets/css/esqueceu_senha.css">
+    <?php headHtml('Esqueceu a senha'); ?>
 </head>
 
 <body>
 
-    <main class="tela">
-        <div class="caixa">
+    <main class="tela-acesso">
+        <div class="caixa-acesso card-fr p-4 p-sm-5">
 
-            <div class="logo">
-                <img src="assets/img/Logo.png" alt="FastRail">
-            </div>
+            <img src="assets/img/Logo.png" alt="FastRail" class="logo" style="max-width: 220px;">
 
-            <div class="topo">
+            <div class="text-center mb-4">
                 <h1>Esqueceu a senha?</h1>
-                <p>Digite seu e-mail e cadastre uma nova senha.</p>
+                <p class="text-secondary small mb-0">Digite seu e-mail e cadastre uma nova senha.</p>
             </div>
 
-            <?php if ($mensagem !== ''): ?>
-                <div class="mensagem erro"><?= e($mensagem) ?></div>
-            <?php endif; ?>
+            <?php mensagemHtml($mensagem); ?>
 
             <form method="POST">
 
-                <div class="grupo">
-                    <label for="email">E-mail</label>
-                    <input type="email" id="email" name="email" placeholder="Digite seu e-mail" value="<?= e($email) ?>" required>
+                <div class="mb-3">
+                    <label for="email" class="form-label small">E-mail</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Digite seu e-mail" value="<?= e($email) ?>" required>
                 </div>
 
-                <div class="grupo">
-                    <label for="nova_senha">Nova senha</label>
-                    <input type="password" id="nova_senha" name="nova_senha" minlength="6" placeholder="Digite sua nova senha" autocomplete="new-password" required>
+                <div class="mb-3">
+                    <label for="nova_senha" class="form-label small">Nova senha</label>
+                    <input type="password" class="form-control" id="nova_senha" name="nova_senha" minlength="6" placeholder="Digite sua nova senha" autocomplete="new-password" required>
                 </div>
 
-                <div class="grupo">
-                    <label for="confirmar_senha">Confirmar nova senha</label>
-                    <input type="password" id="confirmar_senha" name="confirmar_senha" minlength="6" placeholder="Digite a senha novamente" autocomplete="new-password" required>
+                <div class="mb-4">
+                    <label for="confirmar_senha" class="form-label small">Confirmar nova senha</label>
+                    <input type="password" class="form-control" id="confirmar_senha" name="confirmar_senha" minlength="6" placeholder="Digite a senha novamente" autocomplete="new-password" required>
                 </div>
 
-                <button type="submit" class="botao">Alterar senha</button>
+                <button type="submit" class="btn btn-primary w-100">Alterar senha</button>
 
             </form>
 
-            <a href="index.php" class="voltar">Voltar para o login</a>
+            <p class="text-center mt-4 mb-0">
+                <a href="index.php" class="fw-bold small text-decoration-none">Voltar para o login</a>
+            </p>
 
         </div>
     </main>
 
+    <?php scriptsHtml(); ?>
 </body>
 
 </html>

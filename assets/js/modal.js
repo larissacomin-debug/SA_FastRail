@@ -1,42 +1,21 @@
-// Abre/fecha o modal de cadastro de funcionário
-const modal = document.getElementById('modalFuncionario');
+// Modal de cadastro/edição de funcionário (Bootstrap)
+const elementoModal = document.getElementById('modalFuncionario');
+const modalFuncionario = new bootstrap.Modal(elementoModal);
 
-function abrirModal() {
-    modal.classList.add('ativo');
-    modal.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('modal-aberto');
+// Abre sozinho no modo edição ou quando o formulário voltou com erro
+if (elementoModal.dataset.abrir === '1') {
+    modalFuncionario.show();
 
-    const primeiroCampo = modal.querySelector('input:not([type="hidden"])');
+    // Ao fechar, recarrega a página para limpar o formulário
+    elementoModal.addEventListener('hidden.bs.modal', function () {
+        window.location.href = 'funcionarios.php';
+    });
+}
+
+elementoModal.addEventListener('shown.bs.modal', function () {
+    const primeiroCampo = elementoModal.querySelector('input:not([type="hidden"])');
+
     if (primeiroCampo) {
-        setTimeout(function () { primeiroCampo.focus(); }, 100);
-    }
-}
-
-// Fechar recarrega a página para limpar o formulário (e sair do modo edição)
-function fecharModal() {
-    window.location.href = 'funcionarios.php';
-}
-
-document.querySelectorAll('[data-abrir-modal]').forEach(function (botao) {
-    botao.addEventListener('click', abrirModal);
-});
-
-document.querySelectorAll('[data-fechar-modal]').forEach(function (botao) {
-    botao.addEventListener('click', fecharModal);
-});
-
-modal.addEventListener('click', function (evento) {
-    if (evento.target === modal) {
-        fecharModal();
+        primeiroCampo.focus();
     }
 });
-
-document.addEventListener('keydown', function (evento) {
-    if (evento.key === 'Escape' && modal.classList.contains('ativo')) {
-        fecharModal();
-    }
-});
-
-if (modal.classList.contains('ativo')) {
-    abrirModal();
-}

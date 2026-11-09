@@ -78,124 +78,117 @@ $alertaPrincipal = $criticasRecentes[0] ?? null;
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Geral - FastRail</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="assets/css/base.css">
-    <link rel="stylesheet" href="assets/css/dashboard.css">
+    <?php headHtml('Dashboard Geral'); ?>
 </head>
 
 <body>
 
-    <main class="page">
+    <main class="container-xl py-4 px-3 px-md-4">
 
-        <header class="cabecalho">
-            <div>
+        <header class="titulo-pagina">
+            <div class="flex-grow-1 min-w-0">
                 <h1>Dashboard Geral</h1>
                 <p>Olá, <?= e($_SESSION['usuario_nome'] ?? 'usuário') ?>!</p>
             </div>
 
-            <a href="logout.php" class="btn-sair" onclick="return confirm('Deseja sair do sistema?');">
+            <a href="logout.php" class="btn btn-outline-primary rounded-pill" onclick="return confirm('Deseja sair do sistema?');">
                 <i class="bi bi-box-arrow-right"></i>
-                <span>Sair</span>
+                <span class="d-none d-sm-inline">Sair</span>
             </a>
         </header>
 
-        <div class="columns">
+        <div class="row g-4 g-lg-5">
 
-            <section class="col">
+            <section class="col-lg-6">
 
-                <h2 class="section-title">Estado da Frota</h2>
+                <h2 class="titulo-secao-dash mb-3">Estado da Frota</h2>
 
-                <div class="frota-grid">
-                    <div class="frota-card">
-                        <span class="num"><?= $trensPorEstado['operacao'] ?></span>
-                        <span class="label">Ativos</span>
+                <div class="row g-2 mb-4">
+                    <div class="col-4">
+                        <div class="frota-card">
+                            <span class="num"><?= $trensPorEstado['operacao'] ?></span>
+                            <span class="label">Ativos</span>
+                        </div>
                     </div>
-
-                    <div class="frota-card">
-                        <span class="num"><?= $trensPorEstado['manutencao'] ?></span>
-                        <span class="label">Manutenção</span>
+                    <div class="col-4">
+                        <div class="frota-card">
+                            <span class="num"><?= $trensPorEstado['manutencao'] ?></span>
+                            <span class="label">Manutenção</span>
+                        </div>
                     </div>
-
-                    <div class="frota-card">
-                        <span class="num"><?= $trensPorEstado['parado'] ?></span>
-                        <span class="label">Parados</span>
+                    <div class="col-4">
+                        <div class="frota-card">
+                            <span class="num"><?= $trensPorEstado['parado'] ?></span>
+                            <span class="label">Parados</span>
+                        </div>
                     </div>
                 </div>
 
-                <h2 class="section-title destaque">Indicadores em Destaque</h2>
+                <h2 class="titulo-secao-dash destaque mb-3">Indicadores em Destaque</h2>
 
-                <div class="indicadores-grid">
-                    <div class="indicador-card">
-                        <div class="val">
-                            <?= formatarNumero($velocidadeMedia, 0) ?>
-                            <span class="unit">km/h</span>
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="indicador-card">
+                            <div class="val"><?= formatarNumero($velocidadeMedia, 0) ?> <span class="unit">km/h</span></div>
+                            <div class="label">Velocidade Média</div>
                         </div>
-                        <div class="label">Velocidade Média</div>
                     </div>
-
-                    <div class="indicador-card">
-                        <div class="val"><?= $alertasAtivos ?></div>
-                        <div class="label">Alertas ativos</div>
-                    </div>
-
-                    <div class="indicador-card">
-                        <div class="val"><?= $leiturasCriticas ?></div>
-                        <div class="label">Leituras Críticas</div>
-                    </div>
-
-                    <div class="indicador-card">
-                        <div class="val">
-                            <?= formatarNumero($eficienciaGeral, 0) ?>
-                            <span class="unit">%</span>
+                    <div class="col-6">
+                        <div class="indicador-card">
+                            <div class="val"><?= $alertasAtivos ?></div>
+                            <div class="label">Alertas ativos</div>
                         </div>
-                        <div class="label">Eficiência geral</div>
+                    </div>
+                    <div class="col-6">
+                        <div class="indicador-card">
+                            <div class="val"><?= $leiturasCriticas ?></div>
+                            <div class="label">Leituras Críticas</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="indicador-card">
+                            <div class="val"><?= formatarNumero($eficienciaGeral, 0) ?> <span class="unit">%</span></div>
+                            <div class="label">Eficiência geral</div>
+                        </div>
                     </div>
                 </div>
 
             </section>
 
-            <section class="col">
+            <section class="col-lg-6">
 
-                <h2 class="section-title">Alertas</h2>
+                <h2 class="titulo-secao-dash mb-3">Alertas</h2>
 
-                <div class="alerta-box">
+                <div class="alerta-box mb-4">
                     <?php if ($alertaPrincipal): ?>
-                        <div class="title">
-                            <?= e($alertaPrincipal['modelo']) ?> - Trem <?= codigoTrem($alertaPrincipal['idTrem']) ?>
-                        </div>
-                        <div class="subtitle">
+                        <div><?= e($alertaPrincipal['modelo']) ?> - Trem <?= codigoTrem($alertaPrincipal['idTrem']) ?></div>
+                        <div class="small">
                             <?= formatarNumero($alertaPrincipal['valor_coletado']) ?>
                             <?= unidadeSensor($alertaPrincipal['modelo']) ?>
                             (<?= codigoSensor($alertaPrincipal['idSensor']) ?>)
                         </div>
                     <?php else: ?>
-                        <div class="title">Nenhum alerta ativo</div>
-                        <div class="subtitle">Todas as leituras estão dentro dos limites</div>
+                        <div>Nenhum alerta ativo</div>
+                        <div class="small">Todas as leituras estão dentro dos limites</div>
                     <?php endif; ?>
                 </div>
 
-                <h2 class="section-title">Sensores</h2>
+                <h2 class="titulo-secao-dash mb-3">Sensores</h2>
 
                 <div class="sensores-box">
-                    <div class="title">Sensores com leitura crítica</div>
+                    <div class="fw-bold fs-5 text-center mb-2">Sensores com leitura crítica</div>
 
                     <?php if ($criticasRecentes): ?>
                         <?php foreach ($criticasRecentes as $leitura): ?>
-                            <div class="sensor-row">
-                                <span class="name"><?= e($leitura['modelo']) ?> T<?= codigoTrem($leitura['idTrem']) ?></span>
-                                <span class="value">
-                                    <?= formatarNumero($leitura['valor_coletado']) ?>
-                                    <?= unidadeSensor($leitura['modelo']) ?>
-                                </span>
+                            <div class="linha">
+                                <span><?= e($leitura['modelo']) ?> T<?= codigoTrem($leitura['idTrem']) ?></span>
+                                <span class="valor"><?= formatarNumero($leitura['valor_coletado']) ?> <?= unidadeSensor($leitura['modelo']) ?></span>
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <div class="sensor-row">
-                            <span class="name">Nenhuma leitura crítica</span>
-                            <span class="value normal">Normal</span>
+                        <div class="linha">
+                            <span>Nenhuma leitura crítica</span>
+                            <span class="valor text-success">Normal</span>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -204,45 +197,21 @@ $alertaPrincipal = $criticasRecentes[0] ?? null;
 
         </div>
 
-        <nav class="bottom-nav">
-            <a href="trens.php" class="nav-item">
-                <i class="bi bi-train-front"></i>
-                <span>Trens</span>
-            </a>
-
-            <a href="sensores.php" class="nav-item">
-                <i class="bi bi-bell"></i>
-                <span>Sensores</span>
-            </a>
-
-            <a href="leituras.php" class="nav-item">
-                <i class="bi bi-clipboard-data"></i>
-                <span>Leituras</span>
-            </a>
-
-            <a href="simulador.php" class="nav-item">
-                <i class="bi bi-cpu"></i>
-                <span>Simulador</span>
-            </a>
-
-            <a href="relatorios.php" class="nav-item">
-                <i class="bi bi-file-earmark-text"></i>
-                <span>Relatórios</span>
-            </a>
-
-            <a href="funcionarios.php" class="nav-item">
-                <i class="bi bi-person"></i>
-                <span>Funcionários</span>
-            </a>
-
-            <a href="rotas.php" class="nav-item">
-                <i class="bi bi-bus-front-fill"></i>
-                <span>Rotas</span>
-            </a>
+        <nav class="nav-fr mt-5">
+            <div class="row g-1 row-cols-3 row-cols-sm-4 row-cols-md-7">
+                <div class="col"><a href="trens.php"><i class="bi bi-train-front"></i>Trens</a></div>
+                <div class="col"><a href="sensores.php"><i class="bi bi-bell"></i>Sensores</a></div>
+                <div class="col"><a href="leituras.php"><i class="bi bi-clipboard-data"></i>Leituras</a></div>
+                <div class="col"><a href="simulador.php"><i class="bi bi-cpu"></i>Simulador</a></div>
+                <div class="col"><a href="relatorios.php"><i class="bi bi-file-earmark-text"></i>Relatórios</a></div>
+                <div class="col"><a href="funcionarios.php"><i class="bi bi-person"></i>Funcionários</a></div>
+                <div class="col"><a href="rotas.php"><i class="bi bi-bus-front-fill"></i>Rotas</a></div>
+            </div>
         </nav>
 
     </main>
 
+    <?php scriptsHtml(); ?>
 </body>
 
 </html>

@@ -103,8 +103,8 @@ Utilizamos Bootstrap para ajudar na responsividade e fazer o sistema funcionar m
 4. Organização do código
 Separamos HTML, CSS e PHP para deixar o código mais organizado e facilitar futuras alterações.
 
-5. CSS separado
-Criamos arquivos CSS separados para algumas telas, evitando deixar todo o código visual em um único arquivo.
+5. CSS com Bootstrap
+As telas usam o Bootstrap 5 para o layout responsivo. As cores e os componentes próprios do FastRail ficam em um único arquivo de tema (assets/css/fastrail.css).
 
 6. Identidade visual
 Escolhemos fundo claro e vermelho escuro para manter o padrão visual do FastRail e facilitar a leitura.
@@ -188,7 +188,7 @@ SA_FastRail/
 ├── logout.php
 ├── banco_sa_ferrorama.sql
 └── assets/
-    ├── css/   (base.css com as cores e estilos comuns + um arquivo por tela)
+    ├── css/   (fastrail.css: tema do FastRail sobre o Bootstrap 5)
     ├── js/    (máscaras, filtros de lista, modal e limpeza dos campos de login)
     └── img/
 ```

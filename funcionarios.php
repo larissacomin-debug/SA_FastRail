@@ -175,192 +175,178 @@ $editando = $editarId > 0;
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funcionários - FastRail</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="assets/css/base.css">
-    <link rel="stylesheet" href="assets/css/funcionarios.css">
+    <?php headHtml('Funcionários'); ?>
 </head>
 
 <body>
 
-    <div class="tela">
+    <main class="container-xl py-4 px-3 px-md-4">
 
-        <header class="cabecalho">
-            <a href="dashboard.php" class="btn-voltar" title="Voltar">
-                <i class="bi bi-chevron-left"></i>
-            </a>
-            <div>
-                <h1>Funcionários</h1>
-            </div>
-        </header>
+        <?php tituloPagina('Funcionários', 'dashboard.php'); ?>
 
-        <?php if ($mensagem !== '' && !$abrirModal): ?>
-            <div class="mensagem <?= $tipoMensagem ?>" role="alert">
-                <span><?= e($mensagem) ?></span>
-                <button type="button" aria-label="Fechar mensagem" onclick="this.parentElement.remove()">
-                    <i class="bi bi-x"></i>
-                </button>
-            </div>
-        <?php endif; ?>
+        <?php if (!$abrirModal) mensagemHtml($mensagem, $tipoMensagem); ?>
 
-        <section class="barra-busca">
-            <form method="GET" action="funcionarios.php" class="busca">
-                <label for="busca">Informe o nome do funcionário</label>
-                <div class="campo-busca">
-                    <input type="search" id="busca" name="busca" value="<?= e($busca) ?>" placeholder="Pesquisar funcionário" autocomplete="off">
-                    <button type="submit" aria-label="Pesquisar">
+        <section class="row g-3 align-items-end mb-4">
+            <form method="GET" action="funcionarios.php" class="col-md">
+                <label for="busca" class="form-label small fw-normal">Informe o nome do funcionário</label>
+                <div class="input-group">
+                    <input type="search" class="form-control border-primary rounded-start-pill bg-light" id="busca" name="busca" value="<?= e($busca) ?>" placeholder="Pesquisar funcionário" autocomplete="off">
+                    <button type="submit" class="btn btn-outline-primary rounded-end-pill px-3" aria-label="Pesquisar">
                         <i class="bi bi-search"></i>
                     </button>
                 </div>
             </form>
 
-            <button type="button" class="btn-adicionar" data-abrir-modal>
-                <i class="bi bi-person-plus"></i>
-                <span>Adicionar Funcionário</span>
-            </button>
+            <div class="col-md-auto d-grid">
+                <button type="button" class="btn btn-primary rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#modalFuncionario">
+                    <i class="bi bi-person-plus"></i> Adicionar Funcionário
+                </button>
+            </div>
         </section>
 
-        <main>
-            <div class="titulo-lista">
-                <h2>Funcionários cadastrados</h2>
-                <span><?= $totalFuncionarios ?> <?= $totalFuncionarios === 1 ? 'funcionário encontrado' : 'funcionários encontrados' ?></span>
-            </div>
+        <div class="mb-3">
+            <h2 class="h6 fw-bold mb-1">Funcionários cadastrados</h2>
+            <span class="text-secondary small"><?= $totalFuncionarios ?> <?= $totalFuncionarios === 1 ? 'funcionário encontrado' : 'funcionários encontrados' ?></span>
+        </div>
 
-            <div class="lista-funcionarios">
-                <?php foreach ($funcionarios as $funcionario): ?>
-                    <article class="funcionario">
-                        <div class="icone-funcionario">
-                            <i class="bi bi-person"></i>
+        <div class="d-flex flex-column gap-3">
+            <?php foreach ($funcionarios as $funcionario): ?>
+                <article class="card-fr p-3">
+                    <div class="row g-3 align-items-center">
+
+                        <div class="col-auto">
+                            <span class="icone-quadrado border border-2 border-primary bg-white" style="width: 64px; height: 64px; font-size: 2rem;">
+                                <i class="bi bi-person"></i>
+                            </span>
                         </div>
 
-                        <div class="dados">
-                            <div class="nome-status">
-                                <h3><?= e($funcionario['nomePessoa']) ?></h3>
-                                <span class="status-funcionario"><span></span>Ativo</span>
+                        <div class="col min-w-0">
+                            <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+                                <h3 class="h6 fw-bold mb-0 text-break"><?= e($funcionario['nomePessoa']) ?></h3>
+                                <span class="etiqueta etiqueta-contorno"><i class="bi bi-circle-fill text-success" style="font-size: 0.5rem;"></i> Ativo</span>
                             </div>
 
-                            <div class="informacoes">
-                                <div><strong>CPF:</strong> <?= e($funcionario['cpf']) ?></div>
-                                <div><strong>Telefone:</strong> <?= e($funcionario['telefone']) ?></div>
-                                <div><strong>E-mail:</strong> <?= e($funcionario['email']) ?></div>
-                                <div><strong>Nascimento:</strong> <?= formatarData($funcionario['data_nascimento']) ?></div>
+                            <div class="row g-1 small text-secondary">
+                                <div class="col-sm-6 text-break"><strong class="text-body">CPF:</strong> <?= e($funcionario['cpf']) ?></div>
+                                <div class="col-sm-6 text-break"><strong class="text-body">Telefone:</strong> <?= e($funcionario['telefone']) ?></div>
+                                <div class="col-sm-6 text-break"><strong class="text-body">E-mail:</strong> <?= e($funcionario['email']) ?></div>
+                                <div class="col-sm-6 text-break"><strong class="text-body">Nascimento:</strong> <?= formatarData($funcionario['data_nascimento']) ?></div>
                             </div>
                         </div>
 
-                        <div class="acoes">
-                            <a href="funcionarios.php?editar=<?= (int) $funcionario['idPessoa'] ?>" class="btn-editar">
-                                <i class="bi bi-pencil"></i>
-                                <span>Editar</span>
-                            </a>
+                        <div class="col-12 col-md-auto">
+                            <div class="d-flex flex-md-column gap-2">
+                                <a href="funcionarios.php?editar=<?= (int) $funcionario['idPessoa'] ?>" class="btn btn-sm btn-outline-primary flex-fill">
+                                    <i class="bi bi-pencil"></i> Editar
+                                </a>
 
-                            <?php if ((int) $funcionario['idPessoa'] !== (int) $_SESSION['usuario_id']): ?>
-                                <form method="POST" onsubmit="return confirm('Você deseja excluir este funcionário?');">
-                                    <input type="hidden" name="acao" value="remover">
-                                    <input type="hidden" name="idPessoa" value="<?= (int) $funcionario['idPessoa'] ?>">
-                                    <button type="submit" class="btn-remover">
-                                        <i class="bi bi-trash"></i>
-                                        <span>Remover</span>
-                                    </button>
-                                </form>
-                            <?php endif; ?>
+                                <?php if ((int) $funcionario['idPessoa'] !== (int) $_SESSION['usuario_id']): ?>
+                                    <form method="POST" class="flex-fill d-grid" onsubmit="return confirm('Você deseja excluir este funcionário?');">
+                                        <input type="hidden" name="acao" value="remover">
+                                        <input type="hidden" name="idPessoa" value="<?= (int) $funcionario['idPessoa'] ?>">
+                                        <button type="submit" class="btn btn-sm btn-primary">
+                                            <i class="bi bi-trash"></i> Remover
+                                        </button>
+                                    </form>
+                                <?php endif; ?>
+                            </div>
                         </div>
-                    </article>
-                <?php endforeach; ?>
 
-                <?php if ($totalFuncionarios === 0): ?>
-                    <div class="sem-dados">
-                        <i class="bi bi-people"></i>
-                        <h3>Nenhum funcionário encontrado</h3>
-
-                        <?php if ($busca !== ''): ?>
-                            <p>Tente pesquisar outro nome, CPF ou e-mail.</p>
-                            <a href="funcionarios.php">Limpar pesquisa</a>
-                        <?php else: ?>
-                            <p>Adicione um funcionário para começar.</p>
-                            <button type="button" data-abrir-modal>Adicionar Funcionário</button>
-                        <?php endif; ?>
                     </div>
-                <?php endif; ?>
-            </div>
-        </main>
+                </article>
+            <?php endforeach; ?>
 
-    </div>
+            <?php if ($totalFuncionarios === 0): ?>
+                <div class="vazio-fr">
+                    <i class="bi bi-people"></i>
+                    <h3 class="h6 fw-bold">Nenhum funcionário encontrado</h3>
 
-    <div class="modal <?= $abrirModal ? 'ativo' : '' ?>" id="modalFuncionario" aria-hidden="<?= $abrirModal ? 'false' : 'true' ?>">
-        <div class="modal-conteudo" role="dialog" aria-modal="true" aria-labelledby="tituloModal">
-
-            <button type="button" class="fechar" aria-label="Fechar" data-fechar-modal>
-                <i class="bi bi-x-lg"></i>
-            </button>
-
-            <div class="modal-titulo">
-                <div class="modal-icone">
-                    <i class="bi <?= $editando ? 'bi-pencil' : 'bi-person-plus' ?>"></i>
+                    <?php if ($busca !== ''): ?>
+                        <p>Tente pesquisar outro nome, CPF ou e-mail.</p>
+                        <a href="funcionarios.php" class="btn btn-sm btn-outline-primary rounded-pill">Limpar pesquisa</a>
+                    <?php else: ?>
+                        <p>Adicione um funcionário para começar.</p>
+                        <button type="button" class="btn btn-sm btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#modalFuncionario">Adicionar Funcionário</button>
+                    <?php endif; ?>
                 </div>
-                <div>
-                    <h2 id="tituloModal"><?= $editando ? 'Editar Funcionário' : 'Adicionar Funcionário' ?></h2>
-                    <p><?= $editando ? 'Altere os dados do funcionário.' : 'Preencha os dados para cadastrar um funcionário.' ?></p>
-                </div>
-            </div>
-
-            <?php if ($mensagem !== '' && $abrirModal && $tipoMensagem === 'erro'): ?>
-                <div class="mensagem erro"><?= e($mensagem) ?></div>
             <?php endif; ?>
+        </div>
 
-            <form method="POST" class="formulario" autocomplete="off">
-                <input type="hidden" name="acao" value="<?= $editando ? 'editar' : 'adicionar' ?>">
+    </main>
 
-                <?php if ($editando): ?>
-                    <input type="hidden" name="idPessoa" value="<?= $editarId ?>">
-                <?php endif; ?>
+    <div class="modal fade" id="modalFuncionario" tabindex="-1" aria-labelledby="tituloModal" aria-hidden="true" data-abrir="<?= $abrirModal ? '1' : '0' ?>">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content border-primary rounded-4">
 
-                <div class="campo">
-                    <label for="nome">Nome completo</label>
-                    <input type="text" id="nome" name="nome" value="<?= e($nome) ?>" placeholder="Digite o nome completo" maxlength="100" required>
+                <div class="modal-header border-0 pb-0">
+                    <span class="icone-quadrado me-3">
+                        <i class="bi <?= $editando ? 'bi-pencil' : 'bi-person-plus' ?>"></i>
+                    </span>
+                    <div>
+                        <h2 class="modal-title h5 fw-bold text-primary mb-0" id="tituloModal"><?= $editando ? 'Editar Funcionário' : 'Adicionar Funcionário' ?></h2>
+                        <p class="text-secondary small mb-0"><?= $editando ? 'Altere os dados do funcionário.' : 'Preencha os dados para cadastrar um funcionário.' ?></p>
+                    </div>
+                    <button type="button" class="btn-close ms-auto align-self-start" data-bs-dismiss="modal" aria-label="Fechar"></button>
                 </div>
 
-                <div class="duas-colunas">
-                    <div class="campo">
-                        <label for="cpf">CPF</label>
-                        <input type="text" id="cpf" name="cpf" maxlength="14" inputmode="numeric" data-mascara="cpf" value="<?= e($cpf) ?>" placeholder="000.000.000-00" required>
+                <form method="POST" autocomplete="off">
+                    <div class="modal-body">
+
+                        <?php if ($abrirModal) mensagemHtml($mensagem, $tipoMensagem); ?>
+
+                        <input type="hidden" name="acao" value="<?= $editando ? 'editar' : 'adicionar' ?>">
+
+                        <?php if ($editando): ?>
+                            <input type="hidden" name="idPessoa" value="<?= $editarId ?>">
+                        <?php endif; ?>
+
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label for="nome" class="form-label small">Nome completo</label>
+                                <input type="text" class="form-control border-primary" id="nome" name="nome" value="<?= e($nome) ?>" placeholder="Digite o nome completo" maxlength="100" required>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label for="cpf" class="form-label small">CPF</label>
+                                <input type="text" class="form-control border-primary" id="cpf" name="cpf" maxlength="14" inputmode="numeric" data-mascara="cpf" value="<?= e($cpf) ?>" placeholder="000.000.000-00" required>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label for="telefone" class="form-label small">Telefone</label>
+                                <input type="tel" class="form-control border-primary" id="telefone" name="telefone" maxlength="15" data-mascara="telefone" value="<?= e($telefone) ?>" placeholder="(00) 00000-0000" required>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="email" class="form-label small">E-mail</label>
+                                <input type="email" class="form-control border-primary" id="email" name="email" value="<?= e($email) ?>" placeholder="funcionario@email.com" maxlength="100" required>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label for="data_nascimento" class="form-label small">Data de nascimento</label>
+                                <input type="date" class="form-control border-primary" id="data_nascimento" name="data_nascimento" max="<?= date('Y-m-d') ?>" value="<?= e($dataNascimento) ?>" required>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label for="senha" class="form-label small"><?= $editando ? 'Nova senha' : 'Senha de acesso' ?></label>
+                                <input type="password" class="form-control border-primary" id="senha" name="senha" minlength="6" autocomplete="new-password" <?= $editando ? '' : 'required' ?> placeholder="<?= $editando ? 'Deixe vazio para manter' : 'Mínimo de 6 caracteres' ?>">
+                            </div>
+                        </div>
+
                     </div>
 
-                    <div class="campo">
-                        <label for="telefone">Telefone</label>
-                        <input type="tel" id="telefone" name="telefone" maxlength="15" data-mascara="telefone" value="<?= e($telefone) ?>" placeholder="(00) 00000-0000" required>
+                    <div class="d-flex flex-column-reverse flex-sm-row justify-content-end gap-2 px-3 pb-3">
+                        <button type="button" class="btn btn-outline-primary px-4" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="bi bi-check-lg"></i> <?= $editando ? 'Salvar alterações' : 'Cadastrar funcionário' ?>
+                        </button>
                     </div>
-                </div>
+                </form>
 
-                <div class="campo">
-                    <label for="email">E-mail</label>
-                    <input type="email" id="email" name="email" value="<?= e($email) ?>" placeholder="funcionario@email.com" maxlength="100" required>
-                </div>
-
-                <div class="duas-colunas">
-                    <div class="campo">
-                        <label for="data_nascimento">Data de nascimento</label>
-                        <input type="date" id="data_nascimento" name="data_nascimento" max="<?= date('Y-m-d') ?>" value="<?= e($dataNascimento) ?>" required>
-                    </div>
-
-                    <div class="campo">
-                        <label for="senha"><?= $editando ? 'Nova senha' : 'Senha de acesso' ?></label>
-                        <input type="password" id="senha" name="senha" minlength="6" autocomplete="new-password" <?= $editando ? '' : 'required' ?> placeholder="<?= $editando ? 'Deixe vazio para manter' : 'Mínimo de 6 caracteres' ?>">
-                    </div>
-                </div>
-
-                <div class="botoes-form">
-                    <button type="button" class="btn-cancelar" data-fechar-modal>Cancelar</button>
-                    <button type="submit" class="btn-salvar">
-                        <i class="bi bi-check-lg"></i>
-                        <span><?= $editando ? 'Salvar alterações' : 'Cadastrar funcionário' ?></span>
-                    </button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 
+    <?php scriptsHtml(); ?>
     <script src="assets/js/mascaras.js"></script>
     <script src="assets/js/modal.js"></script>
 </body>

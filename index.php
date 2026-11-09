@@ -60,53 +60,48 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - FastRail</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer">
-    <link rel="stylesheet" href="assets/css/base.css">
-    <link rel="stylesheet" href="assets/css/login.css">
+    <?php headHtml('Login'); ?>
 </head>
 
 <body>
 
-    <main class="container">
+    <main class="tela-acesso">
+        <div class="caixa-acesso">
 
-        <div class="logo">
-            <img src="assets/img/Logo.png" alt="FastRail">
+            <img src="assets/img/Logo.png" alt="FastRail" class="logo">
+
+            <?php mensagemHtml($mensagem, $tipoMensagem); ?>
+
+            <form method="POST" autocomplete="off" id="formLogin">
+
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control campo-fr" id="email" name="email" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder=" " readonly required>
+                    <label for="email"><i class="bi bi-person-circle"></i> E-mail</label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control campo-fr" id="senha" name="senha" autocomplete="new-password" placeholder=" " readonly required>
+                    <label for="senha"><i class="bi bi-key-fill"></i> Senha</label>
+                </div>
+
+                <p class="text-center mb-4">
+                    <a href="esqueceu_senha.php" class="text-decoration-none">Esqueceu a senha?</a>
+                </p>
+
+                <button type="submit" class="btn btn-primary btn-pill w-100">Entrar</button>
+
+                <p class="text-center text-secondary small mt-4 mb-0">
+                    Não tem uma conta?
+                    <a href="cadastrar.php" class="fw-bold text-decoration-none">Cadastre-se</a>
+                </p>
+
+            </form>
+
         </div>
-
-        <?php if ($mensagem !== ''): ?>
-            <p class="mensagem <?= $tipoMensagem ?>"><?= e($mensagem) ?></p>
-        <?php endif; ?>
-
-        <form method="POST" autocomplete="off" id="formLogin">
-
-            <div class="grupo">
-                <input type="email" id="email" name="email" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder=" " readonly required>
-                <label for="email"><i class="fa-solid fa-circle-user"></i> E-mail</label>
-            </div>
-
-            <div class="grupo">
-                <input type="password" id="senha" name="senha" autocomplete="new-password" placeholder=" " readonly required>
-                <label for="senha"><i class="fa-solid fa-key"></i> Senha</label>
-            </div>
-
-            <div class="esqueceu-senha">
-                <a href="esqueceu_senha.php">Esqueceu a senha?</a>
-            </div>
-
-            <button type="submit" class="botao-login">Entrar</button>
-
-            <p class="cadastrar">
-                Não tem uma conta? <a href="cadastrar.php">Cadastre-se</a>
-            </p>
-
-        </form>
-
     </main>
 
     <script src="assets/js/campos-limpos.js"></script>
+    <?php scriptsHtml(); ?>
 </body>
 
 </html>

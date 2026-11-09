@@ -53,104 +53,88 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Remover Trem - FastRail</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="assets/css/base.css">
-    <link rel="stylesheet" href="assets/css/remover_trem.css">
+    <?php headHtml('Remover Trem'); ?>
 </head>
 
 <body>
 
-    <main class="container">
+    <main class="container-xl py-4 px-3 px-md-4">
 
-        <header class="cabecalho">
-            <a href="trens.php" class="btn-voltar" title="Voltar">
-                <i class="bi bi-chevron-left"></i>
-            </a>
-            <div>
-                <h1>Remover Trem</h1>
-            </div>
-        </header>
+        <?php tituloPagina('Remover Trem', 'trens.php'); ?>
 
-        <div class="aviso">
-            Essa ação é irreversível. O trem<br>
-            será removido do sistema.
+        <div class="aviso-fr mx-auto mb-3" style="max-width: 440px;">
+            Essa ação é irreversível. O trem será removido do sistema.
         </div>
 
         <?php if ($total_sensores > 0): ?>
-            <div class="aviso-sensores">
+            <div class="alert alert-warning text-center mx-auto mb-4" style="max-width: 600px;">
                 <strong>Atenção!</strong>
-                <p>
-                    Este trem possui <?= $total_sensores ?>
-                    <?= $total_sensores === 1 ? 'sensor vinculado' : 'sensores vinculados' ?>.
-                    Ao excluir o trem, os sensores vinculados e suas leituras também serão excluídos.
-                </p>
+                Este trem possui <?= $total_sensores ?>
+                <?= $total_sensores === 1 ? 'sensor vinculado' : 'sensores vinculados' ?>.
+                Ao excluir o trem, os sensores vinculados e suas leituras também serão excluídos.
             </div>
         <?php endif; ?>
 
-        <section class="area-remocao">
+        <div class="row g-3">
 
-            <div class="informacoes-trem">
+            <section class="col-md-6">
+                <div class="painel-vermelho h-100">
 
-                <div class="topo-info">
-                    <div>
-                        <span>ID do trem</span>
-                        <strong><?= (int) $trem['idTrem'] ?></strong>
+                    <div class="d-flex justify-content-between align-items-start gap-2 mb-4">
+                        <div>
+                            <span class="rotulo">ID do trem</span>
+                            <strong><?= (int) $trem['idTrem'] ?></strong>
+                        </div>
+                        <span class="etiqueta etiqueta-<?= classeEstadoTrem($trem['estado_atual']) ?>">
+                            <?= e(textoEstadoTrem($trem['estado_atual'])) ?>
+                        </span>
                     </div>
 
-                    <span class="status-trem">
-                        <span></span>
-                        <?= e(textoEstadoTrem($trem['estado_atual'])) ?>
-                    </span>
+                    <div class="mb-3">
+                        <span class="rotulo">Modelo</span>
+                        <strong><?= e($trem['modelo']) ?></strong>
+                    </div>
+                    <div class="mb-3">
+                        <span class="rotulo">Abastecimento</span>
+                        <strong><?= e($trem['tipo_abastecimento']) ?></strong>
+                    </div>
+                    <div class="mb-3">
+                        <span class="rotulo">Carga</span>
+                        <strong><?= e($trem['tipo_carga']) ?></strong>
+                    </div>
+                    <div>
+                        <span class="rotulo">Estado atual</span>
+                        <strong><?= e(textoEstadoTrem($trem['estado_atual'])) ?></strong>
+                    </div>
+
                 </div>
+            </section>
 
-                <div class="informacao">
-                    <span>Modelo</span>
-                    <strong><?= e($trem['modelo']) ?></strong>
-                </div>
+            <section class="col-md-6">
+                <form method="POST" class="painel-vermelho h-100" id="formRemover" data-sensores="<?= $total_sensores ?>">
 
-                <div class="informacao">
-                    <span>Abastecimento</span>
-                    <strong><?= e($trem['tipo_abastecimento']) ?></strong>
-                </div>
+                    <input type="hidden" name="id" value="<?= (int) $trem['idTrem'] ?>">
+                    <input type="hidden" name="confirmar_sensores" id="confirmar_sensores" value="">
 
-                <div class="informacao">
-                    <span>Carga</span>
-                    <strong><?= e($trem['tipo_carga']) ?></strong>
-                </div>
+                    <div class="mb-3">
+                        <label for="justificativa" class="form-label">Motivo da Remoção</label>
+                        <textarea class="form-control" id="justificativa" name="justificativa" rows="3" placeholder="Digite o motivo da remoção..." required><?= e($justificativa) ?></textarea>
+                    </div>
 
-                <div class="informacao">
-                    <span>Estado atual</span>
-                    <strong><?= e(textoEstadoTrem($trem['estado_atual'])) ?></strong>
-                </div>
+                    <div class="mb-4">
+                        <label for="confirmar_id" class="form-label">Digite o ID do trem para remover</label>
+                        <input type="number" class="form-control" id="confirmar_id" name="confirmar_id" min="1" placeholder="ID <?= (int) $trem['idTrem'] ?>" required>
+                    </div>
 
-            </div>
+                    <div class="d-flex flex-column-reverse flex-sm-row justify-content-end gap-2">
+                        <a href="trens.php" class="btn btn-outline-light px-4">Cancelar</a>
+                        <button type="submit" class="btn btn-light px-4">Remover trem</button>
+                    </div>
 
-            <form method="POST" class="formulario" id="formRemover" data-sensores="<?= $total_sensores ?>">
+                </form>
+            </section>
 
-                <input type="hidden" name="id" value="<?= (int) $trem['idTrem'] ?>">
-                <input type="hidden" name="confirmar_sensores" id="confirmar_sensores" value="">
-
-                <div class="campo">
-                    <label for="justificativa">Motivo da Remoção</label>
-                    <textarea id="justificativa" name="justificativa" placeholder="Digite o motivo da remoção..." required><?= e($justificativa) ?></textarea>
-                </div>
-
-                <div class="campo">
-                    <label for="confirmar_id">Digite o ID do trem para remover</label>
-                    <input type="number" id="confirmar_id" name="confirmar_id" min="1" placeholder="ID <?= (int) $trem['idTrem'] ?>" required>
-                </div>
-
-                <div class="acoes">
-                    <a href="trens.php" class="btn-cancelar">Cancelar</a>
-                    <button type="submit" class="btn-remover">Remover trem</button>
-                </div>
-
-            </form>
-
-        </section>
+        </div>
 
     </main>
 
@@ -176,6 +160,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             }
         });
     </script>
+    <?php scriptsHtml(); ?>
     <?= scriptAlerta($alerta) ?>
 </body>
 

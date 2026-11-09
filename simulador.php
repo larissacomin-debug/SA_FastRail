@@ -40,64 +40,47 @@ $sensores = $resultado ? $resultado->fetch_all(MYSQLI_ASSOC) : [];
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulador - FastRail</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="assets/css/base.css">
-    <link rel="stylesheet" href="assets/css/leituras.css">
+    <?php headHtml('Simulador'); ?>
 </head>
 
 <body>
 
-    <div class="tela">
+    <main class="container-xl py-4 px-3 px-md-4">
 
-        <header class="cabecalho">
-            <a href="dashboard.php" class="btn-voltar" title="Voltar">
-                <i class="bi bi-chevron-left"></i>
-            </a>
-            <div>
-                <h1>Simulador</h1>
-                <p>Geração de valores fictícios para os sensores</p>
-            </div>
-        </header>
+        <?php tituloPagina('Simulador', 'dashboard.php', 'Geração de valores fictícios para os sensores'); ?>
 
-        <main class="conteudo-simulador">
+        <div class="mx-auto" style="max-width: 650px;">
 
             <?php if ($mensagem !== ''): ?>
-                <div class="mensagem sucesso">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <?= e($mensagem) ?>
-                    <a href="leituras.php?idSensor=<?= $idSensor ?>">Ver leituras</a>
+                    <a href="leituras.php?idSensor=<?= $idSensor ?>" class="alert-link">Ver leituras</a>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
                 </div>
             <?php endif; ?>
 
-            <?php if ($erros): ?>
-                <div class="mensagem erro">
-                    <?php foreach ($erros as $erro): ?>
-                        <p><?= e($erro) ?></p>
-                    <?php endforeach; ?>
-                </div>
-            <?php endif; ?>
+            <?php mensagemHtml(implode(' ', $erros)); ?>
 
             <?php if (empty($sensores)): ?>
 
-                <div class="vazio">
+                <div class="vazio-fr">
+                    <i class="bi bi-broadcast"></i>
                     <p>Nenhum sensor cadastrado. Cadastre um sensor para gerar leituras.</p>
-                    <a href="adicionar_sensor.php">Adicionar sensor</a>
+                    <a href="adicionar_sensor.php" class="btn btn-primary">Adicionar sensor</a>
                 </div>
 
             <?php else: ?>
 
-                <section class="card-form">
+                <section class="secao-fr">
 
-                    <h2>Gerar leituras</h2>
-                    <p>Selecione um sensor e informe quantos valores deseja gerar.</p>
+                    <h2 class="mb-1">Gerar leituras</h2>
+                    <p class="text-secondary small mb-4">Selecione um sensor e informe quantos valores deseja gerar.</p>
 
                     <form method="POST">
 
-                        <div class="campo">
-                            <label for="idSensor">Sensor</label>
-                            <select name="idSensor" id="idSensor" required>
+                        <div class="mb-3">
+                            <label for="idSensor" class="form-label small">Sensor</label>
+                            <select name="idSensor" id="idSensor" class="form-select border-primary" required>
                                 <option value="">Selecione um sensor</option>
                                 <?php foreach ($sensores as $sensor): ?>
                                     <option value="<?= (int) $sensor['idSensor'] ?>" <?= $idSensor === (int) $sensor['idSensor'] ? 'selected' : '' ?>>
@@ -107,13 +90,14 @@ $sensores = $resultado ? $resultado->fetch_all(MYSQLI_ASSOC) : [];
                             </select>
                         </div>
 
-                        <div class="campo">
-                            <label for="quantidade">Quantidade de leituras</label>
-                            <input type="number" name="quantidade" id="quantidade" min="1" max="200" value="<?= $quantidade ?>" required>
+                        <div class="mb-4">
+                            <label for="quantidade" class="form-label small">Quantidade de leituras</label>
+                            <input type="number" name="quantidade" id="quantidade" class="form-control border-primary" min="1" max="200" value="<?= $quantidade ?>" required>
+                            <div class="form-text">Entre 1 e 200. As leituras são registradas a cada 5 minutos, terminando agora.</div>
                         </div>
 
-                        <div class="acoes">
-                            <button type="submit" class="btn-principal">Gerar leituras</button>
+                        <div class="d-grid d-sm-flex justify-content-sm-end">
+                            <button type="submit" class="btn btn-primary px-4">Gerar leituras</button>
                         </div>
 
                     </form>
@@ -122,10 +106,11 @@ $sensores = $resultado ? $resultado->fetch_all(MYSQLI_ASSOC) : [];
 
             <?php endif; ?>
 
-        </main>
+        </div>
 
-    </div>
+    </main>
 
+    <?php scriptsHtml(); ?>
 </body>
 
 </html>
