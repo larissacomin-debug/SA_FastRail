@@ -2,15 +2,21 @@
 
 ## 1. Identificação do projeto
 
-**Projeto**: FastRail
+**Projeto**: Sistema de Monitoramento Ferroviario
 
 **Nome do projeto:** SA-Ferrorama
 
-**Tipo:** Sistema de monitoramento ferroviário
-
 **Equipe:** Arthur N., Larissa, Matheus P. e Vinicius.
 
-## 2. Tecnologias utilizadas
+**Turma:** TTDES M6
+
+## 2. O que o sistema faz
+
+O projeto FastRail é um sistema criado para facilitar o monitoramento e o gerenciamento de trens e ferrovias. Por meio dele, é possível cadastrar e consultar trens, sensores, funcionários e rotas, além de acompanhar as informações coletadas pelos sensores, como temperatura, velocidade, pressão e vibração.
+
+O sistema também permite visualizar alertas quando alguma leitura está fora dos limites esperados, consultar o histórico de informações e gerar relatórios. Dessa forma, o FastRail ajuda a manter o controle dos trens e facilita a identificação de possíveis problemas, tornando o monitoramento mais organizado e prático.
+
+## 3. Tecnologias utilizadas
 
 - HTML
 - CSS
@@ -22,9 +28,9 @@
 - XAMPP para executar o servidor local
 - Git/GitHub para controle de versão
 
-## 3. Como instalar e executar
+## 4. Como instalar e executar
 
-### 3.1 Instalar o ambiente
+### 4.1 Instalar o ambiente
 
 Para executar o projeto localmente, é necessário ter um ambiente com PHP, Apache e MySQL. Durante o desenvolvimento foi utilizado o XAMPP.
 1. Instale o XAMPP.
@@ -33,7 +39,7 @@ Para executar o projeto localmente, é necessário ter um ambiente com PHP, Apac
 4. Inicie o MySQL.
 5. Coloque a pasta SA_FastRail dentro da pasta htdocs (Arquivos - Disco local(C:) - xampp - htdocs).
 
-### 3.2 Criar/Importar o banco
+### 4.2 Criar/Importar o banco
 1. Abrir o navegador
 2. Acesse o phpMyAdmin
 3. Clique na opção importar e selecione o arquivo "banco_sa_ferrorama.sql"
@@ -41,24 +47,25 @@ Para executar o projeto localmente, é necessário ter um ambiente com PHP, Apac
 
 Atenção: importar o arquivo novamente apaga as tabelas e recria tudo do zero.
 
-### 3.3 Configurar a conexão
+### 4.3 Configurar a conexão
 
 O arquivo "conexao.php" deve estar configurado de acordo com o MySQL da máquina (por padrão: usuário "root" sem senha).
 
-### 3.4 Abrir o sistema
+### 4.4 Abrir o sistema
 
 Depois de iniciar o Apache e MySQL abra: localhost:8080/SA_FastRail/index.php
 
-## 4. Usuários de Teste
+## 5. Usuários de Teste
 
 E-mail: professor@gmail.com
 Senha: prof12345
 
 
-## 5. Telas do Sistema
+## 6. Telas do Sistema
 
 O sistema foi dividido em várias telas, cada uma com uma função específica. 
 A equipe também dividiu o desenvolvimento das telas entre os integrantes.
+
 1. Login: tela de entrada no sistema, onde o usuário informa seus dados de acesso.
 
 2. Cadastro: permite cadastrar novos usuários.
@@ -87,7 +94,7 @@ A equipe também dividiu o desenvolvimento das telas entre os integrantes.
 
 14. Editar Rota: permite alterar as informações de uma rota já cadastrada.
 
-## 6. Decisões tomadas durante o projeto
+## 7. Decisões tomadas durante o projeto
 
 Durante o desenvolvimento, tomamos algumas decisões para deixar o sistema mais organizado, fácil de usar e de manter.
 
